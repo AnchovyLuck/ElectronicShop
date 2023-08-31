@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+
+<head>
+	<meta charset="EUC-KR">
+	<title></title>
+</head>
+
+<body>
+	<th th:fragment="column_link(fieldName, columnLabel)">
+		<a class="text-white link-underline link-underline-opacity-0"
+			th:href="@{'/users/page/' + ${currentPage} + '?sortField=' + ${fieldName} + '&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+			[[${columnLabel}]]
+		</a>
+		<span th:if="${sortField == fieldName}"
+			th:class="${sortDir == 'asc' ? 'fa-solid fa-sort-up' : 'fa-solid fa-sort-down'}"> </span>
+	</th>
+	<li>
+	<li th:fragment="pagination(pageNum, buttonLabel, position)"
+		th:class="${position == 'prev' ? (currentPage > 1 ? 'page-item' : 'page-item disabled') : 
+		(position == 'next' ? (currentPage < totalPages ? 'page-item' : 'page-item disabled') : '')}">
+		<a class="page-link" th:href="@{'/users/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + 
+			${keyword != null ? '&keyword=' + keyword : ''}}">[[${buttonLabel}]]
+		</a>
+	</li>
+	<li th:fragment="paginationItem()" th:class="${currentPage != i ? 'page-item' : 'page-item active'}"
+		th:each="i : ${#numbers.sequence(1, totalPages)}">
+		<a class="page-link"
+			th:href="@{'/users/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} 
+			+ ${keyword != null ? '&keyword=' + keyword : ''}}">[[${i}]]</a>
+	</li>
+</body>
+
+</html>
