@@ -28,6 +28,11 @@
 	min-width: 100px;
 }
 
+.user_login_form {
+	max-width: 350px;
+	margin: 0 auto;
+}
+
 @media screen and (min-width: 768px) and (max-width: 1024px) {
 	div.full_details {
 		display: block;
