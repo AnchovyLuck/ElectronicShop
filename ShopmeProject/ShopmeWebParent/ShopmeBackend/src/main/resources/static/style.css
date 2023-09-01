@@ -14,3 +14,37 @@
   padding: 15px 0;
   width: 50%;
 }
+
+@media screen and (max-width: 768px) {
+	div.full_details {
+		display: none;
+	}
+	div.less_details {
+		display: block;
+	}
+}
+
+.search_bar {
+	min-width: 100px;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+	div.full_details {
+		display: block;
+	}	
+	div.less_details {
+		display: none;
+	}
+	.hideable_column {
+		display: none;
+	}
+}
+
+@media screen and (min-width: 1024px) {
+	div.less_details {
+		display: none;
+	}
+	.hideable_column {
+		display: table-cell;
+	}
+}

@@ -7,7 +7,7 @@
 </head>
 
 <body>
-	<th th:fragment="column_link(fieldName, columnLabel)">
+	<th th:fragment="column_link(fieldName, columnLabel, removeTag)" th:remove="${removeTag}">
 		<a class="text-white link-underline link-underline-opacity-0"
 			th:href="@{'/users/page/' + ${currentPage} + '?sortField=' + ${fieldName} + '&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
 			[[${columnLabel}]]
@@ -16,8 +16,7 @@
 			th:class="${sortDir == 'asc' ? 'fa-solid fa-sort-up' : 'fa-solid fa-sort-down'}"> </span>
 	</th>
 	<li>
-	<li th:fragment="pagination(pageNum, buttonLabel, position)"
-		th:class="${position == 'prev' ? (currentPage > 1 ? 'page-item' : 'page-item disabled') : 
+	<li th:fragment="pagination(pageNum, buttonLabel, position)" th:class="${position == 'prev' ? (currentPage > 1 ? 'page-item' : 'page-item disabled') : 
 		(position == 'next' ? (currentPage < totalPages ? 'page-item' : 'page-item disabled') : '')}">
 		<a class="page-link" th:href="@{'/users/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + 
 			${keyword != null ? '&keyword=' + keyword : ''}}">[[${buttonLabel}]]
@@ -25,10 +24,59 @@
 	</li>
 	<li th:fragment="paginationItem()" th:class="${currentPage != i ? 'page-item' : 'page-item active'}"
 		th:each="i : ${#numbers.sequence(1, totalPages)}">
-		<a class="page-link"
-			th:href="@{'/users/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} 
+		<a class="page-link" th:href="@{'/users/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} 
 			+ ${keyword != null ? '&keyword=' + keyword : ''}}">[[${i}]]</a>
 	</li>
+	<div class="less_details" th:fragment="userListing(screenSize)" th:if="${screenSize == 'small'}">
+		<div th:each="user : ${listUsers}" class="row m-1">
+			<div class="col-4">
+				<span th:if="${user.photos == null}"><i
+						class="fa-solid fa-image-portrait fa-2xl icon-silver center"></i></span>
+				<img class="user_img" th:if="${user.photos != null}" th:src="@{${user.photosImagePath}}">
+			</div>
+			<div class="col-8">
+				<div>[[${user.fullName}]]</div>
+				<div>[[${user.roles}]]</div>
+				<div class="mt-2">
+					<a th:if="${user.enabled == true}" class="fa-solid fa-circle-check fa-xl icon-green me-2"
+						th:href="@{'/users/' + ${user.id} + '/enabled/false' }" title="Disable this user"></a>
+					<a th:if="${user.enabled == false}" class="fa-solid fa-circle-check fa-xl icon-dark me-2"
+						th:href="@{'/users/' + ${user.id} + '/enabled/true' }" title="Enable this user"></a>
+					<a class="fa-solid fa-pen-to-square fa-xl me-2" style="color: #335b0b;"
+						th:href="@{'/users/edit/' + ${user.id}}" title="Edit this user"></a>
+					<a class="fa-solid fa-trash fa-xl link-delete" style="color: #d80e0e;"
+						th:href="@{'/users/delete/' + ${user.id}}" th:userId="${user.id}" title="Delete this user"></a>
+				</div>
+			</div>
+			<div class="mb-2"></div>
+		</div>
+	</div>
+	<tbody th:fragment="userListing(screenSize)" th:if="${screenSize == 'other'}">
+		<tr th:each="user : ${listUsers}">
+			<td class="hideable_column">[[${user.id}]]</td>
+			<td>
+				<span th:if="${user.photos == null}"><i
+						class="fa-solid fa-image-portrait fa-2xl icon-silver center"></i></span>
+				<img class="user_img" th:if="${user.photos != null}" th:src="@{${user.photosImagePath}}">
+			</td>
+			<td class="hideable_column">[[${user.email}]]</td>
+			<td>[[${user.firstName}]]</td>
+			<td>[[${user.lastName}]]</td>
+			<td>[[${user.roles}]]</td>
+			<td>
+				<a th:if="${user.enabled == true}" class="fa-solid fa-circle-check fa-xl icon-green"
+					th:href="@{'/users/' + ${user.id} + '/enabled/false' }" title="Disable this user"></a>
+				<a th:if="${user.enabled == false}" class="fa-solid fa-circle-check fa-xl icon-dark"
+					th:href="@{'/users/' + ${user.id} + '/enabled/true' }" title="Enable this user"></a>
+			</td>
+			<td>
+				<a class="fa-solid fa-pen-to-square fa-xl" style="color: #335b0b;"
+					th:href="@{'/users/edit/' + ${user.id}}" title="Edit this user"></a>
+				<a class="fa-solid fa-trash fa-xl link-delete" style="color: #d80e0e;"
+					th:href="@{'/users/delete/' + ${user.id}}" th:userId="${user.id}" title="Delete this user"></a>
+			</td>
+		</tr>
+	</tbody>
 </body>
 
 </html>

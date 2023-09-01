@@ -49,8 +49,6 @@ public class User {
 		this.lastName = lastName;
 	}
 
-
-
 	@ManyToMany
 	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
@@ -118,7 +116,7 @@ public class User {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-	
+
 	public void addRole(Role role) {
 		this.roles.add(role);
 	}
@@ -128,12 +126,17 @@ public class User {
 		return "User [id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName
 				+ ", roles=" + roles + "]";
 	}
-	
+
 	@Transient
 	public String getPhotosImagePath() {
-		if (id == null || photos == null) return "/images/default-user.png";
-		
-		return "/user-photos/" + this.id + "/" + this.photos;
-	} 
+		if (id == null || photos == null)
+			return "/images/default-user.png";
 
+		return "/user-photos/" + this.id + "/" + this.photos;
+	}
+
+	@Transient
+	public String getFullName() {
+		return firstName + " " + lastName;
+	}
 }
