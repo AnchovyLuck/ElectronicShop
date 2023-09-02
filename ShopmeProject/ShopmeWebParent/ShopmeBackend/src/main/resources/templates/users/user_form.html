@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org/">
+
 <head th:replace="~{fragments :: header(${pageTitle})}"></head>
+
 <body>
 	<nav th:replace="~{navigation :: menu}"></nav>
 	<div class="ms-4">
@@ -93,33 +95,7 @@
 	<div th:replace="~{fragments :: footer}"></div>
 	</div>
 	<script async type="text/javascript">
-		$(document).ready(function () {
-			$("#buttonCancel").on("click", function () {
-				window.location = "[[@{/users}]]";
-			});
-
-			$("#fileImage").change(function() {
-				fileSize = this.files[0].size;
-
-				if (fileSize > 10485760) {
-					this.setCustomValidity("You must choose an image not exceeds 10MB!");
-					this.reportValidity();
-				} else {
-					this.setCustomValidity("");
-					showImageThumbnail(this);
-				}
-			});
-		});
-
-		function showImageThumbnail(fileInput) {
-			var file = fileInput.files[0];
-			var reader = new FileReader();
-			reader.onload = function (e) {
-				$("#thumbnail").attr("src", e.target.result);
-			};
-
-			reader.readAsDataURL(file);
-		}
+		moduleURL = "[[@{/users}]]";
 
 		function checkEmailUnique(form) {
 			url = "[[@{/users/check_email}]]";
@@ -149,5 +125,7 @@
 			$("#modalDialog").modal("show");
 		}
 	</script>
+	<script th:src="@{/js/common_form.js}"></script>
 </body>
+
 </html>

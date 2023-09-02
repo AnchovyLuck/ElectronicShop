@@ -35,11 +35,22 @@ public class WebSecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-		http.authorizeHttpRequests(authz -> authz.requestMatchers("/images/**", "/js/**", "/webjars/**", "/**").permitAll()
+		http.authorizeHttpRequests(authz -> authz.requestMatchers("/users/**").hasAuthority("Admin")
+				.requestMatchers("/categories/**").hasAnyAuthority("Admin", "Editor")
+				.requestMatchers("/brands/**").hasAnyAuthority("Admin", "Editor")
+				.requestMatchers("/products/**").hasAnyAuthority("Admin", "Salesperson", "Editor", "Shipper")
+				.requestMatchers("/customers/**").hasAnyAuthority("Admin", "Salesperson")
+				.requestMatchers("/shipping/**").hasAnyAuthority("Admin", "Salesperson")
+				.requestMatchers("/orders/**").hasAnyAuthority("Admin", "Salesperson", "Shipper")
+				.requestMatchers("/report/**").hasAnyAuthority("Admin", "Salesperson")
+				.requestMatchers("/articles/**").hasAnyAuthority("Admin", "Editor")
+				.requestMatchers("/menus/**").hasAnyAuthority("Admin", "Editor")
+				.requestMatchers("/settings/**").hasAuthority("Admin")
+				.requestMatchers("/images/**", "/js/**", "/webjars/**", "/**").permitAll()
 				.anyRequest().authenticated())
 				.formLogin(formLogin -> formLogin.loginPage("/login").usernameParameter("email").permitAll())
-				.authenticationProvider(authenticationProvider()).logout(logout -> logout.permitAll())
-				.rememberMe(remember -> remember.key("AbcDefgHijKlmnOpqrs_0123456789").tokenValiditySeconds(7 * 24 * 3600));
+				.authenticationProvider(authenticationProvider()).logout(logout -> logout.permitAll()).rememberMe(
+						remember -> remember.key("AbcDefgHijKlmnOpqrs_0123456789").tokenValiditySeconds(7 * 24 * 3600));
 
 		return http.build();
 	}
