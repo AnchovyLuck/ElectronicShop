@@ -34,12 +34,12 @@ public class WebSecurityConfig {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		
-		http.authorizeHttpRequests(authz -> authz.requestMatchers("/images/**", "/js/**", "/webjars/**").permitAll()
+
+		http.authorizeHttpRequests(authz -> authz.requestMatchers("/images/**", "/js/**", "/webjars/**", "/**").permitAll()
 				.anyRequest().authenticated())
 				.formLogin(formLogin -> formLogin.loginPage("/login").usernameParameter("email").permitAll())
-				.authenticationProvider(authenticationProvider())
-				.logout(logout -> logout.permitAll());
+				.authenticationProvider(authenticationProvider()).logout(logout -> logout.permitAll())
+				.rememberMe(remember -> remember.key("AbcDefgHijKlmnOpqrs_0123456789").tokenValiditySeconds(7 * 24 * 3600));
 
 		return http.build();
 	}

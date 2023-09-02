@@ -1,4 +1,4 @@
-package com.shopme.admin.user;
+package com.shopme.admin.user.export;
 
 import java.util.List;
 
@@ -6,6 +6,7 @@ import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 
+import com.shopme.admin.user.AbstractExporter;
 import com.shopme.common.entity.User;
 
 import java.io.IOException;
