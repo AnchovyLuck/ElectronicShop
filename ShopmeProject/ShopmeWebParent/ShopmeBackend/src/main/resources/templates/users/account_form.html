@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org/">
 
-<head th:replace="~{fragments :: header('Your Account Details')}"></head>
+<head th:replace="~{fragments/common.html :: header('Your Account Details')}"></head>
 
 <body>
-	<nav th:replace="~{navigation :: menu}"></nav>
+	<nav th:replace="~{fragments/navigation.html :: menu}"></nav>
 	<div class="container">
 		<form th:action="@{/account/update}" method="post" style="max-width: 700px; margin: 0 auto;" th:object="${user}"
 			enctype="multipart/form-data">
@@ -58,7 +58,7 @@
 					</div>
 				</div>
 				<div class="mb-3 row input-group text-start">
-					<label for="enabled" class="col-sm-2 col-form-label">Photos:</label>
+					<label for="enabled" class="col-sm-2 col-form-label">Photo:</label>
 					<div class="col-sm-10 text-start pt-2">
 						<input type="hidden" th:field="*{photos}">
 						<input type="file" id="fileImage" name="image" accept="image/png, image/jpeg" class="mb-2">
@@ -73,7 +73,7 @@
 			</div>
 		</form>
 	</div>
-	<div th:replace="~{fragments :: footer}"></div>
+	<div th:replace="~{fragments/common.html :: footer}"></div>
 	</div>
 	<script async type="text/javascript">
 		moduleURL = "[[@{/}]]";

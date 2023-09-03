@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org/" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
-<head th:replace="~{fragments :: header('Home - Shopme Admin')}"></head>
+<head th:replace="~{fragments/common.html :: header('Home - Shopme Admin')}"></head>
 
 <body>
 
-	<nav th:replace="~{navigation :: menu}"></nav>
+	<nav th:replace="~{fragments/navigation.html :: menu}"></nav>
 	<div class="ms-4">
 		<h2>Shopme Control Panel</h2>
 		Welcome <a class="link-underline link-underline-opacity-0" th:href="@{/account}" sec:authentication="principal.fullname"></a>
 		<span sec:authentication="principal.authorities"></span>
 	</div>
-	<div th:replace="~{fragments :: footer}"></div>
+	<div th:replace="~{fragments/common.html :: footer}"></div>
 
 </body>
 

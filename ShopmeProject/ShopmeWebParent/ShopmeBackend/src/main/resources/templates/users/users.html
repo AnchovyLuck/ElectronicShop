@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org/">
-<head th:replace="~{fragments :: header('Users - Shopme Admin')}"></head>
+<head th:replace="~{fragments/common.html :: header('Users - Shopme Admin')}"></head>
 <body>
-	<nav th:replace="~{navigation :: menu}"></nav>
+	<nav th:replace="~{fragments/navigation.html :: menu}"></nav>
 	<div class="ms-4">
 		<h2>Manage Users</h2>
 		<a th:href="@{/users/new}" class="fa-solid fa-user-plus fa-2xl icon-dark me-5"></a>
@@ -38,22 +38,22 @@
 		<table class="table table-hover">
 			<thead class="table-dark">
 				<th class="hideable_column">
-				<th th:replace="~{fragments :: column_link('id', 'User ID', 'tag')}"></th>
+				<th th:replace="~{fragments/common.html :: column_link('id', 'User ID', 'tag')}"></th>
 				</th>
 				<th>Photos</th>
 				<th class="hideable_column">
-				<th th:replace="~{fragments :: column_link('email', 'E-mail', 'tag')}"></th>
+				<th th:replace="~{fragments/common.html :: column_link('email', 'E-mail', 'tag')}"></th>
 				</th>
-				<th th:replace="~{fragments :: column_link('firstName', 'First Name', 'none')}"></th>
-				<th th:replace="~{fragments :: column_link('lastName', 'Last Name', 'none')}"></th>
+				<th th:replace="~{fragments/common.html :: column_link('firstName', 'First Name', 'none')}"></th>
+				<th th:replace="~{fragments/common.html :: column_link('lastName', 'Last Name', 'none')}"></th>
 				<th>Roles</th>
-				<th th:replace="~{fragments :: column_link('enabled', 'Enabled', 'none')}"></th>
+				<th th:replace="~{fragments/common.html :: column_link('enabled', 'Enabled', 'none')}"></th>
 				<th></th>
 			</thead>
-			<tbody th:replace="~{fragments :: userListing('other')}"></tbody>
+			<tbody th:replace="~{fragments/listing.html :: listing('other')}"></tbody>
 		</table>
 	</div>
-	<div th:replace="~{fragments :: userListing('small')}"></div>
+	<div th:replace="~{fragments/listing.html :: listing('small')}"></div>
 	<div class="text-center m-1" th:if="${totalItems > 0}">
 		<span>Showing users # [[${startCount}]] to [[${endCount}]] of [[${totalItems}]]</span>
 	</div>
@@ -62,11 +62,11 @@
 	</div>
 	<nav th:if="${totalPages > 1}">
 		<ul class="pagination justify-content-center flex-wrap">
-			<li th:replace="~{fragments :: pagination(1, 'First', 'prev')}"></li>
-			<li th:replace="~{fragments :: pagination(${currentPage-1}, 'Previous', 'prev')}"></li>
-			<li th:replace="~{fragments :: paginationItem()}"></li>
-			<li th:replace="~{fragments :: pagination(${currentPage+1}, 'Next', 'next')}"></li>
-			<li th:replace="~{fragments :: pagination(${totalPages}, 'Last', 'next')}"></li>
+			<li th:replace="~{fragments/common.html :: pagination(1, 'First', 'prev')}"></li>
+			<li th:replace="~{fragments/common.html :: pagination(${currentPage-1}, 'Previous', 'prev')}"></li>
+			<li th:replace="~{fragments/common.html :: paginationItem()}"></li>
+			<li th:replace="~{fragments/common.html :: pagination(${currentPage+1}, 'Next', 'next')}"></li>
+			<li th:replace="~{fragments/common.html :: pagination(${totalPages}, 'Last', 'next')}"></li>
 		</ul>
 	</nav>
 	<div class="modal fade text-center" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -87,7 +87,7 @@
 			</div>
 		</div>
 	</div>
-	<div th:replace="~{fragments :: footer}"></div>
+	<div th:replace="~{fragments/common.html :: footer}"></div>
 	<script type="text/javascript">
 		$(document).ready(function () {
 			$(".link-delete").on("click", function (e) {

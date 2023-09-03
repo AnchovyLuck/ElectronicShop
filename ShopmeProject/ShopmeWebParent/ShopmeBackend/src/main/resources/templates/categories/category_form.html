@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+
+<head th:replace="~{fragments/common.html :: header(${pageTitle})}"></head>
+
+<body>
+	<nav th:replace="~{fragments/navigation.html :: menu}"></nav>
+	<div class="ms-4">
+		<h2>Manage Categories | [[${pageTitle}]]</h2>
+	</div>
+	<div class="container">
+		<form th:action="@{/categories/save}" method="post" style="max-width: 500px; margin: 0 auto;"
+			th:object="${category}" enctype="multipart/form-data">
+			<input type="hidden" th:field="*{id}">
+			<div class="border border-info rounded p-3">
+				<div class="mb-3 row input-group text-start">
+					<label for="email" class="col-sm-2 col-form-label">Category Name:</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" th:field="*{name}" required minlength="3"
+							maxlength="128">
+					</div>
+				</div>
+				<div class="mb-3 row input-group text-start">
+					<label for="firstName" class="col-sm-2 col-form-label">Alias:</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" th:field="*{alias}" required minlength="3"
+							maxlength="64">
+					</div>
+				</div>
+				<div class="mb-3 row input-group text-start">
+					<label for="lastName" class="col-sm-2 col-form-label">Parent Category:</label>
+					<div class="col-sm-10">
+						<select class="form-select form-select-sm" th:field="*{parent}">
+							<option value="0">[No Parent]</option>
+							<th:block th:each="cat : ${listCategories}">
+								<option  th:value="${cat.id}">[[${cat.name}]]</option>
+							</th:block>
+						</select>
+					</div>
+				</div>
+				<div class="mb-3 row input-group text-start">
+					<label for="enabled" class="col-sm-2 col-form-label">Image:</label>
+					<div class="col-sm-10 text-start pt-2">
+						<input type="hidden" th:field="*{image}">
+						<input type="file" id="fileImage" name="fileImage" accept="image/png, image/jpeg" th:required="${category.imagePath == null}"
+							class="mb-2">
+						<div class="mt-2">
+							<img id="thumbnail" alt="Image preview" th:src="@{${category.imagePath}}"
+								class="img-fluid">
+						</div>
+					</div>
+				</div>
+				<div class="mb-3 row input-group text-start">
+					<label for="enabled" class="col-sm-2 col-form-label">Enabled:</label>
+					<div class="col-sm-10 text-start pt-2">
+						<input type="checkbox" id="enabled" th:field="*{enabled}">
+					</div>
+				</div>
+				<div class="text-center">
+					<input type="submit" value="Save" class="btn btn-primary me-3">
+					<input type="button" value="Cancel" class="btn btn-secondary" id="buttonCancel">
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="modal fade text-center" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+		id="modalDialog">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="modalTitle">Warning</h4>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<span id="modalBody"></span>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="~{fragments/common.html :: footer}"></div>
+	</div>
+	<script async type="text/javascript">
+		moduleURL = "[[@{/categories}]]";
+	</script>
+	<script th:src="@{/js/common_form.js}"></script>
+</body>
+
+</html>

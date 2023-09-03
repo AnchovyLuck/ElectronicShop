@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="EUC-KR">
+</head>
+
+<body>
+	<div class="less_details" th:fragment="listing(screenSize)" th:if="${screenSize == 'small'}">
+		<div th:each="user : ${listUsers}" class="row m-1">
+			<div class="col-4">
+				<span th:if="${user.photos == null}"><i
+						class="fa-solid fa-image-portrait fa-2xl icon-silver center"></i></span>
+				<img class="user_listing_img" th:if="${user.photos != null}" th:src="@{${user.photosImagePath}}">
+			</div>
+			<div class="col-8">
+				<div>[[${user.fullName}]]</div>
+				<div>[[${user.roles}]]</div>
+				<div class="mt-2">
+					<a th:if="${user.enabled == true}" class="fa-solid fa-circle-check fa-xl icon-green me-2"
+						th:href="@{'/users/' + ${user.id} + '/enabled/false' }" title="Disable this user"></a>
+					<a th:if="${user.enabled == false}" class="fa-solid fa-circle-check fa-xl icon-dark me-2"
+						th:href="@{'/users/' + ${user.id} + '/enabled/true' }" title="Enable this user"></a>
+					<a class="fa-solid fa-pen-to-square fa-xl me-2" style="color: #335b0b;"
+						th:href="@{'/users/edit/' + ${user.id}}" title="Edit this user"></a>
+					<a class="fa-solid fa-trash fa-xl link-delete" style="color: #d80e0e;"
+						th:href="@{'/users/delete/' + ${user.id}}" th:userId="${user.id}" title="Delete this user"></a>
+				</div>
+			</div>
+			<div class="mb-2"></div>
+		</div>
+	</div>
+	<tbody th:fragment="listing(screenSize)" th:if="${screenSize == 'other'}">
+		<tr th:each="user : ${listUsers}">
+			<td class="hideable_column">[[${user.id}]]</td>
+			<td class="default_image">
+				<span th:if="${user.photos == null}"><i
+						class="fa-solid fa-image-portrait fa-2xl icon-silver"></i></span>
+				<img th:if="${user.photos != null}" class="user_listing_img" th:src="@{${user.photosImagePath}}">
+			</td>
+			<td class="hideable_column">[[${user.email}]]</td>
+			<td>[[${user.firstName}]]</td>
+			<td>[[${user.lastName}]]</td>
+			<td>[[${user.roles}]]</td>
+			<td>
+				<a th:if="${user.enabled == true}" class="fa-solid fa-circle-check fa-xl icon-green"
+					th:href="@{'/users/' + ${user.id} + '/enabled/false' }" title="Disable this user"></a>
+				<a th:if="${user.enabled == false}" class="fa-solid fa-circle-check fa-xl icon-dark"
+					th:href="@{'/users/' + ${user.id} + '/enabled/true' }" title="Enable this user"></a>
+			</td>
+			<td>
+				<a class="fa-solid fa-pen-to-square fa-xl me-2" style="color: #335b0b;"
+					th:href="@{'/users/edit/' + ${user.id}}" title="Edit this user"></a>
+				<a class="fa-solid fa-trash fa-xl link-delete" style="color: #d80e0e;"
+					th:href="@{'/users/delete/' + ${user.id}}" th:userId="${user.id}" title="Delete this user"></a>
+			</td>
+		</tr>
+	</tbody>
+	<div class="less_details" th:fragment="catListing(screenSize)" th:if="${screenSize == 'small'}">
+		<div th:each="cat : ${listCategories}" class="row m-1">
+			<div class="col-4">
+				<span th:if="${cat.image == null}"><i
+						class="fa-solid fa-image-portrait fa-2xl icon-silver center"></i></span>
+				<img class="cat_listing_img" th:src="@{${cat.imagePath}}">
+			</div>
+			<div class="col-8">
+				<div>[[${cat.name}]]</div>
+				<div class="mt-2">
+					<a th:if="${cat.enabled == true}" class="fa-solid fa-circle-check fa-xl icon-green me-2"
+						th:href="@{'/categories/' + ${cat.id} + '/enabled/false' }" title="Disable this category"></a>
+					<a th:if="${cat.enabled == false}" class="fa-solid fa-circle-check fa-xl icon-dark me-2"
+						th:href="@{'/categories/' + ${cat.id} + '/enabled/true' }" title="Enable this category"></a>
+					<a class="fa-solid fa-pen-to-square fa-xl me-2" style="color: #335b0b;"
+						th:href="@{'/categories/edit/' + ${cat.id}}" title="Edit this category"></a>
+					<a class="fa-solid fa-trash fa-xl link-delete" style="color: #d80e0e;"
+						th:href="@{'/categories/delete/' + ${cat.id}}" th:userId="${cat.id}" title="Delete this category"></a>
+				</div>
+			</div>
+			<div class="mb-2"></div>
+		</div>
+	</div>
+	<tbody th:fragment="catListing(screenSize)" th:if="${screenSize == 'other'}">
+		<tr th:each="cat : ${listCategories}">
+			<td>[[${cat.id}]]</td>
+			<td>
+				<img class="cat_listing_img" th:src="@{${cat.imagePath}}">
+			</td>
+			<td>[[${cat.name}]]</td>
+			<td class="hideable_column">[[${cat.alias}]]</td>
+			<td>
+				<a th:if="${cat.enabled == true}" class="fa-solid fa-circle-check fa-xl icon-green"
+					th:href="@{'/categories/' + ${cat.id} + '/enabled/false' }" title="Disable this category"></a>
+				<a th:if="${cat.enabled == false}" class="fa-solid fa-circle-check fa-xl icon-dark"
+					th:href="@{'/categories/' + ${cat.id} + '/enabled/true' }" title="Enable this category"></a>
+			</td>
+			<td>
+				<a class="fa-solid fa-pen-to-square fa-xl me-2" style="color: #335b0b;"
+					th:href="@{'/categories/edit/' + ${cat.id}}" title="Edit this category"></a>
+				<a class="fa-solid fa-trash fa-xl link-delete" style="color: #d80e0e;"
+					th:href="@{'/categories/delete/' + ${cat.id}}" th:categoryId="${cat.id}" title="Delete this category"></a>
+			</td>
+		</tr>
+	</tbody>
+</body>
+
+</html>

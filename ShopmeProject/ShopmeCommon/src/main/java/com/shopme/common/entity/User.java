@@ -154,9 +154,10 @@ public class User {
 
 	@Transient
 	public String getPhotosImagePath() {
-		if (id == null || photos == null)
+		if (this.id == null || this.photos == null) {
 			return "/images/default-user.png";
-
+		}
+			
 		return "/user-photos/" + this.id + "/" + this.photos;
 	}
 

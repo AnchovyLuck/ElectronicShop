@@ -14,15 +14,25 @@
 	color: gray
 }
 
-.user_img {
-	width: 100px;
-}
-
-.default_image > span {
+.user_listing_img,
+.cat_listing_img,
+.default_image>span {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
 	padding: 15px 0;
+}
+
+.user_listing_img {
+	width: 100px;
+}
+
+.cat_listing_img {
+
+	width: 100px;
+}
+
+.default_image>span {
 	width: 50%;
 }
 
@@ -43,6 +53,7 @@
 	div.less_details {
 		display: block;
 	}
+
 	.admin_login_img {
 		width: 100%;
 	}
