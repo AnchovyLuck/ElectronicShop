@@ -69,10 +69,10 @@
 	<tbody th:fragment="userListing(screenSize)" th:if="${screenSize == 'other'}">
 		<tr th:each="user : ${listUsers}">
 			<td class="hideable_column">[[${user.id}]]</td>
-			<td>
+			<td class="default_image">
 				<span th:if="${user.photos == null}"><i
-						class="fa-solid fa-image-portrait fa-2xl icon-silver center"></i></span>
-				<img class="user_img" th:if="${user.photos != null}" th:src="@{${user.photosImagePath}}">
+						class="fa-solid fa-image-portrait fa-2xl icon-silver"></i></span>
+				<img th:if="${user.photos != null}" class="user_img" th:src="@{${user.photosImagePath}}">
 			</td>
 			<td class="hideable_column">[[${user.email}]]</td>
 			<td>[[${user.firstName}]]</td>

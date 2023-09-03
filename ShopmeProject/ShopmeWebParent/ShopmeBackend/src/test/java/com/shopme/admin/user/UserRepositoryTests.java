@@ -19,6 +19,8 @@ import org.springframework.data.domain.Pageable;
 import com.shopme.common.entity.Role;
 import com.shopme.common.entity.User;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
+
 @DataJpaTest(showSql = false)
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @Rollback(false)
@@ -142,7 +144,7 @@ public class UserRepositoryTests {
 
 		assertThat(listUsers.size()).isEqualTo(pageSize);
 	}
-	
+
 	@Test
 	public void testSearchUsers() {
 		String keyword = "bruce";
@@ -150,12 +152,17 @@ public class UserRepositoryTests {
 		int pageSize = 4;
 
 		Pageable pageable = PageRequest.of(pageNumber, pageSize);
-		Page<User> page = repo.findAll(keyword,pageable);
+		Page<User> page = repo.findAll(keyword, pageable);
 
 		List<User> listUsers = page.getContent();
 
 		listUsers.forEach(user -> System.out.println(user));
 
 		assertThat(listUsers.size()).isGreaterThan(0);
+	}
+
+	@Test
+	public void equalsContract() {
+		EqualsVerifier.forClass(User.class).verify();
 	}
 }

@@ -18,22 +18,12 @@
 	width: 100px;
 }
 
-.center {
+.default_image > span {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
 	padding: 15px 0;
 	width: 50%;
-}
-
-@media screen and (max-width: 768px) {
-	div.full_details {
-		display: none;
-	}
-
-	div.less_details {
-		display: block;
-	}
 }
 
 .search_bar {
@@ -45,12 +35,14 @@
 	margin: 0 auto;
 }
 
-.user_image {
-	width: 200px;
-	height: 250px;
-}
-
 @media screen and (max-width: 768px) {
+	div.full_details {
+		display: none;
+	}
+
+	div.less_details {
+		display: block;
+	}
 	.admin_login_img {
 		width: 100%;
 	}

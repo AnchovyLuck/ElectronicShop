@@ -1,12 +1,15 @@
 package com.shopme.common.entity;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,6 +25,9 @@ public class Role {
 	@Column(length = 150, nullable = false)
 	private String description;
 	
+	@ManyToMany(mappedBy = "roles")
+	private Set<User> users = new HashSet<>();
+
 	public Role() {
 	}
 	
@@ -54,6 +60,14 @@ public class Role {
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public Set<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
 	}
 
 	@Override
