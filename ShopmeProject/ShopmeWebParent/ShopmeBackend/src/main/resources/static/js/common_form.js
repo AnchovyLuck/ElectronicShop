@@ -15,6 +15,7 @@ $(document).ready(function() {
 		}
 	});
 });
+
 function showImageThumbnail(fileInput) {
 	var file = fileInput.files[0];
 	var reader = new FileReader();
@@ -23,4 +24,18 @@ function showImageThumbnail(fileInput) {
 	};
 
 	reader.readAsDataURL(file);
+}
+
+function showModalDialog(title, message) {
+	$("#modalTitle").text(title);
+	$("#modalBody").text(message);
+	$("#modalDialog").modal("show");
+}
+
+function showErrorModal(message) {
+	showModalDialog("Error", message);
+}
+
+function showWarningModal(message) {
+	showModalDialog("Warning", message);
 }

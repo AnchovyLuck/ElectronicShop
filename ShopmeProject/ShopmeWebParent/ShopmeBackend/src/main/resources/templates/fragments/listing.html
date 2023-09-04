@@ -73,7 +73,8 @@
 					<a class="fa-solid fa-pen-to-square fa-xl me-2" style="color: #335b0b;"
 						th:href="@{'/categories/edit/' + ${cat.id}}" title="Edit this category"></a>
 					<a class="fa-solid fa-trash fa-xl link-delete" style="color: #d80e0e;"
-						th:href="@{'/categories/delete/' + ${cat.id}}" th:userId="${cat.id}" title="Delete this category"></a>
+						th:href="@{'/categories/delete/' + ${cat.id}}" th:userId="${cat.id}"
+						title="Delete this category"></a>
 				</div>
 			</div>
 			<div class="mb-2"></div>
@@ -83,7 +84,8 @@
 		<tr th:each="cat : ${listCategories}">
 			<td>[[${cat.id}]]</td>
 			<td>
-				<img class="cat_listing_img" th:src="@{${cat.imagePath}}">
+				<span th:if="${cat.image == null}"><i class="fa-solid fa-image fa-2xl icon-silver"></i></span>
+				<img th:if="${cat.image != null}" class="cat_listing_img" th:src="@{${cat.imagePath}}">
 			</td>
 			<td>[[${cat.name}]]</td>
 			<td class="hideable_column">[[${cat.alias}]]</td>
@@ -97,7 +99,8 @@
 				<a class="fa-solid fa-pen-to-square fa-xl me-2" style="color: #335b0b;"
 					th:href="@{'/categories/edit/' + ${cat.id}}" title="Edit this category"></a>
 				<a class="fa-solid fa-trash fa-xl link-delete" style="color: #d80e0e;"
-					th:href="@{'/categories/delete/' + ${cat.id}}" th:categoryId="${cat.id}" title="Delete this category"></a>
+					th:href="@{'/categories/delete/' + ${cat.id}}" th:categoryId="${cat.id}"
+					title="Delete this category"></a>
 			</td>
 		</tr>
 	</tbody>

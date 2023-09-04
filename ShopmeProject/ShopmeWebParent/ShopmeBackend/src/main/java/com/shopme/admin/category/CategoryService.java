@@ -34,9 +34,9 @@ public class CategoryService {
 			Set<Category> children = rootCategory.getChildren();
 			children.forEach(subCategory -> {
 				String name = "--" + subCategory.getName();
-				
+
 				hierarchicalCategories.add(Category.copyFull(subCategory, name));
-				
+
 				listSubHierarchicalCategories(hierarchicalCategories, subCategory, 1);
 			});
 		});
@@ -152,7 +152,7 @@ public class CategoryService {
 			throw new CategoryNotFoundException("Could not find any category with ID " + id + "!");
 		}
 	}
-	
+
 	public String checkUnique(Integer id, String name, String alias) {
 		boolean isCreatingNew = (id == null || id == 0);
 		
@@ -166,6 +166,14 @@ public class CategoryService {
 				if (catByAlias != null) {
 					return "DuplicateAlias";
 				}
+			}
+		} else {
+			if (catByName != null && catByName.getId() != id) {
+				return "DuplicateName";
+			} 
+			Category catByAlias = catRepo.findByAlias(alias);
+			if (catByAlias != null && catByAlias.getId() != id) {
+				return "DuplicateAlias";
 			}
 		}
 		
