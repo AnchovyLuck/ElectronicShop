@@ -54,14 +54,14 @@ public class UserController {
 
 		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
 
-		model.addAttribute("currentPage", pageNum);
-		model.addAttribute("totalPages", page.getTotalPages());
 		model.addAttribute("startCount", startCount);
 		model.addAttribute("endCount", endCount);
+		model.addAttribute("currentPage", pageNum);
+		model.addAttribute("totalPages", page.getTotalPages());
 		model.addAttribute("totalItems", page.getTotalElements());
-		model.addAttribute("listUsers", listUsers);
 		model.addAttribute("sortField", sortField);
 		model.addAttribute("sortDir", sortDir);
+		model.addAttribute("listUsers", listUsers);
 		model.addAttribute("reverseSortDir", reverseSortDir);
 		model.addAttribute("keyword", keyword);
 
@@ -90,7 +90,7 @@ public class UserController {
 
 			String uploadDir = "user-photos/" + savedUser.getId();
 
-			FileUploadUtil.clearDir(uploadDir);
+			FileUploadUtil.cleanDir(uploadDir);
 			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
 		} else {
 			if (user.getPhotos().isEmpty()) {

@@ -38,71 +38,38 @@
 		<table class="table table-hover">
 			<thead class="table-dark">
 				<th class="hideable_column">
-				<th th:replace="~{fragments/common.html :: column_link('id', 'User ID', 'tag')}"></th>
+				<th th:replace="~{fragments/listing.html :: column_link('id', 'User ID', 'users', 'tag')}"></th>
 				</th>
-				<th>Photos</th>
+				<th th:replace="~{fragments/listing.html :: column_link('', 'Photos', 'users', 'none')}"></th>
 				<th class="hideable_column">
-				<th th:replace="~{fragments/common.html :: column_link('email', 'E-mail', 'tag')}"></th>
+				<th th:replace="~{fragments/listing.html :: column_link('email', 'E-mail', 'users', 'tag')}"></th>
 				</th>
-				<th th:replace="~{fragments/common.html :: column_link('firstName', 'First Name', 'none')}"></th>
-				<th th:replace="~{fragments/common.html :: column_link('lastName', 'Last Name', 'none')}"></th>
-				<th>Roles</th>
-				<th th:replace="~{fragments/common.html :: column_link('enabled', 'Enabled', 'none')}"></th>
+				<th th:replace="~{fragments/listing.html :: column_link('firstName', 'First Name', 'users', 'none')}"></th>
+				<th th:replace="~{fragments/listing.html :: column_link('lastName', 'Last Name', 'users', 'none')}"></th>
+				<th th:replace="~{fragments/listing.html :: column_link('', 'Roles', 'users', 'none')}"></th>
+				<th th:replace="~{fragments/listing.html :: column_link('enabled', 'Enabled', 'users', 'none')}"></th>
 				<th></th>
 			</thead>
 			<tbody th:replace="~{fragments/listing.html :: listing('other')}"></tbody>
 		</table>
 	</div>
 	<div th:replace="~{fragments/listing.html :: listing('small')}"></div>
-	<div class="text-center m-1" th:if="${totalItems > 0}">
-		<span>Showing users # [[${startCount}]] to [[${endCount}]] of [[${totalItems}]]</span>
-	</div>
-	<div class="text-center m-1" th:unless="${totalItems > 0}">
-		<span>No users found</span>
-	</div>
-	<nav th:if="${totalPages > 1}">
-		<ul class="pagination justify-content-center flex-wrap">
-			<li th:replace="~{fragments/common.html :: pagination(1, 'First', 'prev')}"></li>
-			<li th:replace="~{fragments/common.html :: pagination(${currentPage-1}, 'Previous', 'prev')}"></li>
-			<li th:replace="~{fragments/common.html :: paginationItem()}"></li>
-			<li th:replace="~{fragments/common.html :: pagination(${currentPage+1}, 'Next', 'next')}"></li>
-			<li th:replace="~{fragments/common.html :: pagination(${totalPages}, 'Last', 'next')}"></li>
-		</ul>
-	</nav>
-	<div class="modal fade text-center" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-		id="confirmModal">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title" id="modalTitle">Delete Confirmation</h4>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<span id="confirmText"></span>
-				</div>
-				<div class="modal-footer">
-					<a type="button" class="btn btn-success" href="" id="yesButton">Yes</a>
-					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
-				</div>
-			</div>
-		</div>
-	</div>
+		
+	
+	<div th:replace="~{fragments/common.html :: pagination('/users', 'users')}"></div>
+	
+	<div th:replace="~{fragments/modal.html :: confirm_modal}"></div>
+	
 	<div th:replace="~{fragments/common.html :: footer}"></div>
 	<script type="text/javascript">
+		moduleURL = "[[@{/users}]]";
+		
 		$(document).ready(function () {
 			$(".link-delete").on("click", function (e) {
 				e.preventDefault();
-				link = $(this);
-				userId = link.attr("userId");
-				$("#yesButton").attr("href", link.attr("href"));
-				$("#confirmText").text("Are you sure you want to delete this user ID " + userId + "?");
-				$("#confirmModal").modal("show");
+				showDeleteConfirmModal($(this), 'user');
 			});
 		});
-
-		function clearFilter() {
-			window.location = "[[@{/users}]]";
-		}
 	</script>
 </body>
 

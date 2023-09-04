@@ -6,6 +6,17 @@
 </head>
 
 <body>
+	<th th:fragment="column_link(fieldName, columnLabel, listDir, removeTag)" th:remove="${removeTag}">
+		<div th:if="${fieldName != ''}">
+			<a class="text-white link-underline link-underline-opacity-0"
+				th:href="@{'/' + ${listDir} + '/page/' + ${currentPage} + '?sortField=' + ${fieldName} + '&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+				[[${columnLabel}]]
+			</a>
+			<span th:if="${sortField == fieldName}"
+				th:class="${sortDir == 'asc' ? 'fa-solid fa-sort-up' : 'fa-solid fa-sort-down'}"> </span>
+		</div>
+		<span th:if="${fieldName == ''}">[[${columnLabel}]]</span>
+	</th>
 	<div class="less_details" th:fragment="listing(screenSize)" th:if="${screenSize == 'small'}">
 		<div th:each="user : ${listUsers}" class="row m-1">
 			<div class="col-4">
@@ -24,7 +35,7 @@
 					<a class="fa-solid fa-pen-to-square fa-xl me-2" style="color: #335b0b;"
 						th:href="@{'/users/edit/' + ${user.id}}" title="Edit this user"></a>
 					<a class="fa-solid fa-trash fa-xl link-delete" style="color: #d80e0e;"
-						th:href="@{'/users/delete/' + ${user.id}}" th:userId="${user.id}" title="Delete this user"></a>
+						th:href="@{'/users/delete/' + ${user.id}}" th:entityId="${user.id}" title="Delete this user"></a>
 				</div>
 			</div>
 			<div class="mb-2"></div>
@@ -52,7 +63,7 @@
 				<a class="fa-solid fa-pen-to-square fa-xl me-2" style="color: #335b0b;"
 					th:href="@{'/users/edit/' + ${user.id}}" title="Edit this user"></a>
 				<a class="fa-solid fa-trash fa-xl link-delete" style="color: #d80e0e;"
-					th:href="@{'/users/delete/' + ${user.id}}" th:userId="${user.id}" title="Delete this user"></a>
+					th:href="@{'/users/delete/' + ${user.id}}" th:entityId="${user.id}" title="Delete this user"></a>
 			</td>
 		</tr>
 	</tbody>
@@ -73,7 +84,7 @@
 					<a class="fa-solid fa-pen-to-square fa-xl me-2" style="color: #335b0b;"
 						th:href="@{'/categories/edit/' + ${cat.id}}" title="Edit this category"></a>
 					<a class="fa-solid fa-trash fa-xl link-delete" style="color: #d80e0e;"
-						th:href="@{'/categories/delete/' + ${cat.id}}" th:userId="${cat.id}"
+						th:href="@{'/categories/delete/' + ${cat.id}}" th:entityId="${cat.id}"
 						title="Delete this category"></a>
 				</div>
 			</div>
@@ -98,9 +109,11 @@
 			<td>
 				<a class="fa-solid fa-pen-to-square fa-xl me-2" style="color: #335b0b;"
 					th:href="@{'/categories/edit/' + ${cat.id}}" title="Edit this category"></a>
-				<a class="fa-solid fa-trash fa-xl link-delete" style="color: #d80e0e;"
-					th:href="@{'/categories/delete/' + ${cat.id}}" th:categoryId="${cat.id}"
-					title="Delete this category"></a>
+				<th:block th:if="${cat.hasChildren == false}">
+					<a class="fa-solid fa-trash fa-xl link-delete" style="color: #d80e0e;"
+						th:href="@{'/categories/delete/' + ${cat.id}}" th:entityId="${cat.id}"
+						title="Delete this category"></a>
+				</th:block>
 			</td>
 		</tr>
 	</tbody>

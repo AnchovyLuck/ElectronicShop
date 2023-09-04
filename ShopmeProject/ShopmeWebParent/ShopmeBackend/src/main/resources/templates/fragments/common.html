@@ -22,26 +22,38 @@
 	<div th:fragment="footer" class="text-center m-3">
 		<p>Shopme Control Panel - Copyright &copy; Shopme</p>
 	</div>
-	<th th:fragment="column_link(fieldName, columnLabel, removeTag)" th:remove="${removeTag}">
-		<a class="text-white link-underline link-underline-opacity-0"
-			th:href="@{'/users/page/' + ${currentPage} + '?sortField=' + ${fieldName} + '&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
-			[[${columnLabel}]]
-		</a>
-		<span th:if="${sortField == fieldName}"
-			th:class="${sortDir == 'asc' ? 'fa-solid fa-sort-up' : 'fa-solid fa-sort-down'}"> </span>
-	</th>
-	<li>
-	<li th:fragment="pagination(pageNum, buttonLabel, position)" th:class="${position == 'prev' ? (currentPage > 1 ? 'page-item' : 'page-item disabled') : 
+	<li th:fragment="page_link(moduleURL, pageNum, buttonLabel, position)" th:class="${position == 'prev' ? (currentPage > 1 ? 'page-item' : 'page-item disabled') : 
 		(position == 'next' ? (currentPage < totalPages ? 'page-item' : 'page-item disabled') : '')}">
-		<a class="page-link" th:href="@{'/users/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + 
+		<a class="page-link" th:href="@{${moduleURL} + '/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + 
 			${keyword != null ? '&keyword=' + keyword : ''}}">[[${buttonLabel}]]
 		</a>
 	</li>
-	<li th:fragment="paginationItem()" th:class="${currentPage != i ? 'page-item' : 'page-item active'}"
+	<li th:fragment="page_link_number(moduleURL)" th:class="${currentPage != i ? 'page-item' : 'page-item active'}"
 		th:each="i : ${#numbers.sequence(1, totalPages)}">
-		<a class="page-link" th:href="@{'/users/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} 
+		<a class="page-link" th:href="@{${moduleURL} + '/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} 
 			+ ${keyword != null ? '&keyword=' + keyword : ''}}">[[${i}]]</a>
 	</li>
+
+	<div th:fragment="pagination(moduleURL, entityName)" th:remove="tag">
+		<div class="text-center m-1" th:if="${totalItems > 0}">
+			<span>Showing [[${entityName}]] # [[${startCount}]] to [[${endCount}]] of [[${totalItems}]]</span>
+		</div>
+		<div class="text-center m-1" th:unless="${totalItems > 0}">
+			<span>No users found</span>
+		</div>
+		<nav th:if="${totalPages > 1}">
+			<ul class="pagination justify-content-center flex-wrap">
+				<li th:replace="~{fragments/common.html :: page_link(${moduleURL}, 1, 'First', 'prev')}"></li>
+				<li th:replace="~{fragments/common.html :: page_link(${moduleURL}, ${currentPage-1}, 'Previous', 'prev')}">
+				</li>
+				<li th:replace="~{fragments/common.html :: page_link_number(${moduleURL})}"></li>
+				<li th:replace="~{fragments/common.html :: page_link(${moduleURL}, ${currentPage+1}, 'Next', 'next')}">
+				</li>
+				<li th:replace="~{fragments/common.html :: page_link(${moduleURL}, ${totalPages}, 'Last', 'next')}">
+				</li>
+			</ul>
+		</nav>
+	</div>
 </body>
 
 </html>
