@@ -26,21 +26,42 @@ public class CategoryService {
 
 	@Autowired
 	private CategoryRepository catRepo;
+	
+	public List<Category> listAll() {
+		return (List<Category>) catRepo.findAll(Sort.by("name").ascending());
+	}
 
-	public List<Category> listByPage(CategoryPageInfo pageInfo, int pageNum, String sortDir) {
+	public List<Category> listByPage(CategoryPageInfo pageInfo, int pageNum, String sortDir, String keyword) {
 		Sort sort = Sort.by("name");
 
 		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
 
 		Pageable pageable = PageRequest.of(pageNum - 1, ROOT_CATEGORIES_PER_PAGE, sort);
 
-		Page<Category> pageCategories = catRepo.findRootCategories(pageable);
+		Page<Category> pageCategories = null;
+
+		if (keyword != null && !keyword.isEmpty()) {
+			pageCategories = catRepo.search(keyword, pageable);
+		} else {
+			pageCategories = catRepo.findRootCategories(pageable);
+		}
+
 		List<Category> rootCategories = pageCategories.getContent();
 
 		pageInfo.setTotalElements(pageCategories.getTotalElements());
 		pageInfo.setTotalPages(pageCategories.getTotalPages());
 
-		return listHierarchicalCategories(rootCategories, sortDir);
+		if (keyword != null && !keyword.isEmpty()) {
+			List<Category> searchResult = pageCategories.getContent();
+			
+			searchResult.forEach(category -> category.setHasChildren(category.getChildren().size() > 0));
+			
+			return searchResult;
+			
+		} else {
+			return listHierarchicalCategories(rootCategories, sortDir);
+		}
+
 	}
 
 	private List<Category> listHierarchicalCategories(List<Category> rootCategories, String sortDir) {

@@ -6,10 +6,10 @@
 </head>
 
 <body>
-	<th th:fragment="column_link(fieldName, columnLabel, listDir, removeTag)" th:remove="${removeTag}">
+	<th th:fragment="column_link(moduleURL, fieldName, columnLabel, removeTag)" th:remove="${removeTag}">
 		<div th:if="${fieldName != ''}">
 			<a class="text-white link-underline link-underline-opacity-0"
-				th:href="@{'/' + ${listDir} + '/page/' + ${currentPage} + '?sortField=' + ${fieldName} + '&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+				th:href="@{${moduleURL} + '/page/' + ${currentPage} + '?sortField=' + ${fieldName} + '&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
 				[[${columnLabel}]]
 			</a>
 			<span th:if="${sortField == fieldName}"
@@ -28,14 +28,12 @@
 				<div>[[${user.fullName}]]</div>
 				<div>[[${user.roles}]]</div>
 				<div class="mt-2">
-					<a th:if="${user.enabled == true}" class="fa-solid fa-circle-check fa-xl icon-green me-2"
-						th:href="@{'/users/' + ${user.id} + '/enabled/false' }" title="Disable this user"></a>
-					<a th:if="${user.enabled == false}" class="fa-solid fa-circle-check fa-xl icon-dark me-2"
-						th:href="@{'/users/' + ${user.id} + '/enabled/true' }" title="Enable this user"></a>
-					<a class="fa-solid fa-pen-to-square fa-xl me-2" style="color: #335b0b;"
-						th:href="@{'/users/edit/' + ${user.id}}" title="Edit this user"></a>
-					<a class="fa-solid fa-trash fa-xl link-delete" style="color: #d80e0e;"
-						th:href="@{'/users/delete/' + ${user.id}}" th:entityId="${user.id}" title="Delete this user"></a>
+					<div
+						th:replace="~{fragments/listing.html :: status(${user.enabled}, 'user', '/users/' + ${user.id})}">
+					</div>
+					<div th:replace="~{fragments/listing.html :: edit('user', '/users/edit/' + ${user.id})}">
+					</div>
+					<div th:replace="~{fragments/listing.html :: delete('user', '/users/delete/' + ${user.id}, true, ${user.id})}"></div>
 				</div>
 			</div>
 			<div class="mb-2"></div>
@@ -54,16 +52,13 @@
 			<td>[[${user.lastName}]]</td>
 			<td>[[${user.roles}]]</td>
 			<td>
-				<a th:if="${user.enabled == true}" class="fa-solid fa-circle-check fa-xl icon-green"
-					th:href="@{'/users/' + ${user.id} + '/enabled/false' }" title="Disable this user"></a>
-				<a th:if="${user.enabled == false}" class="fa-solid fa-circle-check fa-xl icon-dark"
-					th:href="@{'/users/' + ${user.id} + '/enabled/true' }" title="Enable this user"></a>
+				<div th:replace="~{fragments/listing.html :: status(${user.enabled}, 'user', '/users/' + ${user.id})}">
+				</div>
 			</td>
 			<td>
-				<a class="fa-solid fa-pen-to-square fa-xl me-2" style="color: #335b0b;"
-					th:href="@{'/users/edit/' + ${user.id}}" title="Edit this user"></a>
-				<a class="fa-solid fa-trash fa-xl link-delete" style="color: #d80e0e;"
-					th:href="@{'/users/delete/' + ${user.id}}" th:entityId="${user.id}" title="Delete this user"></a>
+				<div th:replace="~{fragments/listing.html :: edit('user', '/users/edit/' + ${user.id})}">
+				</div>
+				<div th:replace="~{fragments/listing.html :: delete('user', '/users/delete/' + ${user.id}, true, ${user.id})}"></div>
 			</td>
 		</tr>
 	</tbody>
@@ -77,15 +72,12 @@
 			<div class="col-8">
 				<div>[[${cat.name}]]</div>
 				<div class="mt-2">
-					<a th:if="${cat.enabled == true}" class="fa-solid fa-circle-check fa-xl icon-green me-2"
-						th:href="@{'/categories/' + ${cat.id} + '/enabled/false' }" title="Disable this category"></a>
-					<a th:if="${cat.enabled == false}" class="fa-solid fa-circle-check fa-xl icon-dark me-2"
-						th:href="@{'/categories/' + ${cat.id} + '/enabled/true' }" title="Enable this category"></a>
-					<a class="fa-solid fa-pen-to-square fa-xl me-2" style="color: #335b0b;"
-						th:href="@{'/categories/edit/' + ${cat.id}}" title="Edit this category"></a>
-					<a class="fa-solid fa-trash fa-xl link-delete" style="color: #d80e0e;"
-						th:href="@{'/categories/delete/' + ${cat.id}}" th:entityId="${cat.id}"
-						title="Delete this category"></a>
+					<div
+						th:replace="~{fragments/listing.html :: status(${cat.enabled}, 'category', '/categories/' + ${cat.id})}">
+					</div>
+					<div th:replace="~{fragments/listing.html :: edit('category', '/categories/edit/' + ${cat.id})}">
+					</div>
+					<div th:replace="~{fragments/listing.html :: delete('category', '/categories/delete/' + ${cat.id}, ${!cat.hasChildren}, ${cat.id})}"></div>
 				</div>
 			</div>
 			<div class="mb-2"></div>
@@ -101,22 +93,34 @@
 			<td>[[${cat.name}]]</td>
 			<td class="hideable_column">[[${cat.alias}]]</td>
 			<td>
-				<a th:if="${cat.enabled == true}" class="fa-solid fa-circle-check fa-xl icon-green"
-					th:href="@{'/categories/' + ${cat.id} + '/enabled/false' }" title="Disable this category"></a>
-				<a th:if="${cat.enabled == false}" class="fa-solid fa-circle-check fa-xl icon-dark"
-					th:href="@{'/categories/' + ${cat.id} + '/enabled/true' }" title="Enable this category"></a>
+				<div
+					th:replace="~{fragments/listing.html :: status(${cat.enabled}, 'category', '/categories/' + ${cat.id})}">
+				</div>
 			</td>
 			<td>
-				<a class="fa-solid fa-pen-to-square fa-xl me-2" style="color: #335b0b;"
-					th:href="@{'/categories/edit/' + ${cat.id}}" title="Edit this category"></a>
-				<th:block th:if="${cat.hasChildren == false}">
-					<a class="fa-solid fa-trash fa-xl link-delete" style="color: #d80e0e;"
-						th:href="@{'/categories/delete/' + ${cat.id}}" th:entityId="${cat.id}"
-						title="Delete this category"></a>
-				</th:block>
+				<div th:replace="~{fragments/listing.html :: edit('category', '/categories/edit/' + ${cat.id})}">
+				</div>
+				<div th:replace="~{fragments/listing.html :: delete('category', '/categories/delete/' + ${cat.id}, ${!cat.hasChildren}, ${cat.id})}"></div>
 			</td>
 		</tr>
 	</tbody>
+	<div th:fragment="status(enabled, entityName, entityURL)" th:remove="tag">
+		<a th:if="${enabled == true}" class="fa-solid fa-circle-check fa-xl icon-green me-2"
+			th:href="@{${entityURL} + '/enabled/false' }" title="'Disable this' + ${entityName}"></a>
+		<a th:if="${enabled == false}" class="fa-solid fa-circle-check fa-xl icon-dark me-2"
+			th:href="@{${entityURL} + '/enabled/true' }" title="'Enable this' ${entityName}"></a>
+	</div>
+
+	<div th:fragment="edit(entityName, editURL)" th:remove="tag">
+		<a class="fa-solid fa-pen-to-square fa-xl me-2" style="color: #335b0b;" th:href="@{${editURL}}"
+			th:title="'Edit this ' + ${entityName}"></a>
+	</div>
+	<div th:fragment="delete(entityName, deleteURL, visible, entityId)" th:remove="tag">
+		<th:block th:if="${visible}">
+			<a class="fa-solid fa-trash fa-xl link-delete" style="color: #d80e0e;" th:href="@{${deleteURL}}"
+				th:entityId="${entityId}" title="'Delete this ' + ${entityName}"></a>
+		</th:block>
+	</div>
 </body>
 
 </html>

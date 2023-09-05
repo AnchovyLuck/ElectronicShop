@@ -12,41 +12,19 @@
 		<a th:href="@{/categories/export/excel}" class="fa-solid fa-file-excel fa-2xl icon-dark me-3"></a>
 		<a th:href="@{/categories/export/pdf}" class="fa-solid fa-file-pdf fa-2xl icon-dark"></a>
 	</div>
-	<div th:if="${message != null}" class="alert alert-success text-center mx-3">
-		[[${message}]]
-	</div>
-	<div>
-		<form th:action="@{/categories/page/1}" class="form-inline">
-			<input type="hidden" name="sortField" th:value="${sortField}">
-			<input type="hidden" name="sortDir" th:value="${sortDir}">
-			<div class="w-50 p-3">
-				<div class="input-group col mb-3">
-					<span class="input-group-text">Filter</span>
-					<input type="search" name="keyword" th:value="${keyword}" class="form-control search_bar"
-						placeholder="Search...">
-					<div class="ps-4">
-						<button type="submit" class="btn btn-primary">
-							<i class="fa-solid fa-magnifying-glass"></i>
-						</button>
-						<button type="button" class="btn btn-secondary" onclick="clearFilter()">
-							<i class="fa-solid fa-eraser"></i>
-						</button>
-					</div>
-				</div>
-			</div>
-		</form>
-	</div>
+
+	<div th:replace="~{fragments/common.html :: search_form_and_message('/categories/page/1')}"></div>
+
 	<div class="container-fluid table-responsive-xl full_details">
 		<table class="table table-hover">
 			<thead class="table-dark">
-				<th th:replace="~{fragments/listing.html :: column_link('id', 'ID', 'categories', 'none')}"></th>
-				<th th:replace="~{fragments/listing.html :: column_link('', 'Category Image', 'categories', 'none')}">
+				<th th:replace="~{fragments/listing.html :: column_link('id', 'ID', 'ID', 'none')}"></th>
+				<th>Category Image</th>
+				<th
+					th:replace="~{fragments/listing.html :: column_link('/categories', 'name', 'Category Name', 'none')}">
 				</th>
-				<th th:replace="~{fragments/listing.html :: column_link('name', 'Category Name', 'categories', 'none')}"></th>
-				<th class="hideable_column">
-				<th th:replace="~{fragments/listing.html :: column_link('', 'Alias', 'categories', 'tag')}"></th>
-				</th>
-				<th th:replace="~{fragments/listing.html :: column_link('enabled', 'Enabled', 'categories', 'none')}">
+				<th class="hideable_column">Alias</th>
+				<th th:replace="~{fragments/listing.html :: column_link('/categories', 'name', 'Enabled', 'none')}">
 				</th>
 				<th></th>
 			</thead>
@@ -55,7 +33,14 @@
 	</div>
 	<div th:replace="~{fragments/listing.html :: catListing('small')}"></div>
 
-	<div th:replace="~{fragments/common.html :: pagination('/categories', 'top-level categories')}"></div>
+	<div th:if="${keyword != null}" class="text-center">
+		<span>Search result does not show categories in hierarchical form</span>
+		<div th:replace="~{fragments/common.html :: pagination('/categories', 'categories')}"></div>
+	</div>
+
+	<th:block th:unless="${keyword != null}" class="text-center">
+		<div th:replace="~{fragments/common.html :: pagination('/categories', 'top-level categories')}"></div>
+	</th:block>
 
 	<div th:replace="~{fragments/modal.html :: confirm_modal}"></div>
 	<div th:replace="~{fragments/common.html :: footer}"></div>
