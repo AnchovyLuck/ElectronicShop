@@ -28,10 +28,55 @@
 				</th>
 				<th></th>
 			</thead>
-			<tbody th:replace="~{fragments/listing.html :: catListing('other')}"></tbody>
+			<tbody>
+				<tr th:each="cat : ${listCategories}">
+					<td>[[${cat.id}]]</td>
+					<td>
+						<span th:if="${cat.image == null}"><i class="fa-solid fa-image fa-2xl icon-silver"></i></span>
+						<img th:if="${cat.image != null}" class="cat_listing_img" th:src="@{${cat.imagePath}}">
+					</td>
+					<td>[[${cat.name}]]</td>
+					<td class="hideable_column">[[${cat.alias}]]</td>
+					<td>
+						<div
+							th:replace="~{fragments/listing.html :: status(${cat.enabled}, 'category', '/categories/' + ${cat.id})}">
+						</div>
+					</td>
+					<td>
+						<div
+							th:replace="~{fragments/listing.html :: edit('category', '/categories/edit/' + ${cat.id})}">
+						</div>
+						<div
+							th:replace="~{fragments/listing.html :: delete('category', '/categories/delete/' + ${cat.id}, ${!cat.hasChildren}, ${cat.id})}">
+						</div>
+					</td>
+				</tr>
+			</tbody>
 		</table>
 	</div>
-	<div th:replace="~{fragments/listing.html :: catListing('small')}"></div>
+	<div class="less_details">
+		<div th:each="cat : ${listCategories}" class="row m-1">
+			<div class="col-4">
+				<span th:if="${cat.image == null}"><i
+						class="fa-solid fa-image-portrait fa-2xl icon-silver center"></i></span>
+				<img class="cat_listing_img" th:src="@{${cat.imagePath}}">
+			</div>
+			<div class="col-8">
+				<div>[[${cat.name}]]</div>
+				<div class="mt-2">
+					<div
+						th:replace="~{fragments/listing.html :: status(${cat.enabled}, 'category', '/categories/' + ${cat.id})}">
+					</div>
+					<div th:replace="~{fragments/listing.html :: edit('category', '/categories/edit/' + ${cat.id})}">
+					</div>
+					<div
+						th:replace="~{fragments/listing.html :: delete('category', '/categories/delete/' + ${cat.id}, ${!cat.hasChildren}, ${cat.id})}">
+					</div>
+				</div>
+			</div>
+			<div class="mb-2"></div>
+		</div>
+	</div>
 
 	<div th:if="${keyword != null}" class="text-center">
 		<span>Search result does not show categories in hierarchical form</span>
@@ -42,7 +87,7 @@
 		<div th:replace="~{fragments/common.html :: pagination('/categories', 'top-level categories')}"></div>
 	</th:block>
 
-	<div th:replace="~{fragments/modal.html :: confirm_modal}"></div>
+	<div th:replace="~{fragments/modal.html :: delete_confirm_modal}"></div>
 	<div th:replace="~{fragments/common.html :: footer}"></div>
 	<script type="text/javascript">
 		moduleURL = "[[@{/categories}]]";

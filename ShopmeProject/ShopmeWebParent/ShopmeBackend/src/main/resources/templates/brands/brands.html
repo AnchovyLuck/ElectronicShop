@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+
+<head th:replace="~{fragments/common.html :: header('Categories - Shopme Admin')}"></head>
+
+<body>
+	<nav th:replace="~{fragments/navigation.html :: menu}"></nav>
+	<div class="ms-4">
+		<h2>Manage Brands</h2>
+		<a th:href="@{/brands/new}" class="fa-solid fa-folder-plus fa-2xl icon-dark me-5"></a>
+		<a th:href="@{/categories/export/csv}" class="fa-solid fa-file-csv fa-2xl icon-dark me-3"></a>
+		<a th:href="@{/categories/export/excel}" class="fa-solid fa-file-excel fa-2xl icon-dark me-3"></a>
+		<a th:href="@{/categories/export/pdf}" class="fa-solid fa-file-pdf fa-2xl icon-dark"></a>
+	</div>
+
+	<div th:replace="~{fragments/common.html :: search_form_and_message('/categories/page/1')}"></div>
+
+	<div class="container-fluid table-responsive-xl full_details">
+		<table class="table table-hover">
+			<thead class="table-dark">
+				<tr>
+					<th>Brand ID</th>
+					<th>Logo</th>
+					<th>Brand Name</th>
+					<th>Categories</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="brand : ${listBrands}">
+					<td>[[${brand.id}]]</td>
+					<td>
+						<img th:src="@{${brand.logoPath}}" style="width: 100px;" class="img-fluid">
+					</td>
+					<td>[[${brand.name}]]</td>
+					<td>
+						<th:block th:each="cat : ${brand.categories}">
+							<span class="badge text-bg-secondary" th:text="${cat.name}"></span>
+						</th:block>
+					</td>
+					<td>
+						<div th:replace="~{fragments/listing.html :: edit('brand', '/brands/edit/' + ${brand.id})}">
+						</div>
+						<div
+							th:replace="~{fragments/listing.html :: delete('brand', '/brands/delete/' + ${brand.id}, true, ${brand.id})}">
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div th:replace="~{fragments/modal.html :: delete_confirm_modal}"></div>
+	<div th:replace="~{fragments/common.html :: footer}"></div>
+	<script type="text/javascript">
+		moduleURL = "[[@{/brands}]]";
+
+		$(document).ready(function () {
+			$(".link-delete").on("click", function (e) {
+				e.preventDefault();
+				showDeleteConfirmModal($(this), 'category');
+			});
+		});
+	</script>
+</body>
+
+</html>

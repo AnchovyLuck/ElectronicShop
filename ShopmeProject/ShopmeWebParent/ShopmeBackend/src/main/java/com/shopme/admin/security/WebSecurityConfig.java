@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -35,23 +36,23 @@ public class WebSecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-		http.authorizeHttpRequests(authz -> authz.requestMatchers("/users/**").hasAuthority("Admin")
-				.requestMatchers("/categories/**").hasAnyAuthority("Admin", "Editor")
-				.requestMatchers("/brands/**").hasAnyAuthority("Admin", "Editor")
-				.requestMatchers("/products/**").hasAnyAuthority("Admin", "Salesperson", "Editor", "Shipper")
-				.requestMatchers("/customers/**").hasAnyAuthority("Admin", "Salesperson")
-				.requestMatchers("/shipping/**").hasAnyAuthority("Admin", "Salesperson")
+		http.authorizeHttpRequests(authz -> authz.requestMatchers("/users/**", "/settings/**").hasAuthority("Admin")
+				.requestMatchers("/categories/**", "/brands/**", "/articles/**", "/menus/**")
+				.hasAnyAuthority("Admin", "Editor").requestMatchers("/products/**")
+				.hasAnyAuthority("Admin", "Salesperson", "Editor", "Shipper")
+				.requestMatchers("/customers/**", "/shipping/**", "/report/**").hasAnyAuthority("Admin", "Salesperson")
 				.requestMatchers("/orders/**").hasAnyAuthority("Admin", "Salesperson", "Shipper")
-				.requestMatchers("/report/**").hasAnyAuthority("Admin", "Salesperson")
-				.requestMatchers("/articles/**").hasAnyAuthority("Admin", "Editor")
-				.requestMatchers("/menus/**").hasAnyAuthority("Admin", "Editor")
-				.requestMatchers("/settings/**").hasAuthority("Admin")
-				.requestMatchers("/images/**", "/js/**", "/webjars/**", "/**").permitAll()
-				.anyRequest().authenticated())
+				.anyRequest()
+				.authenticated())
 				.formLogin(formLogin -> formLogin.loginPage("/login").usernameParameter("email").permitAll())
 				.authenticationProvider(authenticationProvider()).logout(logout -> logout.permitAll()).rememberMe(
 						remember -> remember.key("AbcDefgHijKlmnOpqrs_0123456789").tokenValiditySeconds(7 * 24 * 3600));
 
 		return http.build();
+	}
+
+	@Bean
+	public WebSecurityCustomizer webSecurityCustomizer() {
+		return (web) -> web.ignoring().requestMatchers("/images/**", "/js/**", "/webjars/**");
 	}
 }

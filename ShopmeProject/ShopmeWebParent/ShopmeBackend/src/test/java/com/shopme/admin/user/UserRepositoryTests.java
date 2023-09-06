@@ -60,7 +60,9 @@ public class UserRepositoryTests {
 	@Test
 	public void testListAllUsers() {
 		Iterable<User> listUsers = repo.findAll();
-		listUsers.forEach(user -> System.out.println(user));
+		listUsers.forEach(System.out :: println);
+		
+		assertThat(listUsers).isNotEmpty();
 	}
 
 	@Test

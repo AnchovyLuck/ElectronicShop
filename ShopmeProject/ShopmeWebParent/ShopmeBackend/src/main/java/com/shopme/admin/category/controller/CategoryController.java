@@ -87,16 +87,13 @@ public class CategoryController {
 		if (!multipartFile.isEmpty()) {
 			String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 			cat.setImage(fileName);
+			
 			Category savedCategory = service.save(cat);
-
 			String uploadDir = "../category-images/" + savedCategory.getId();
 
 			FileUploadUtil.cleanDir(uploadDir);
 			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
 		} else {
-			if (cat.getImage().isEmpty()) {
-				cat.setImage(null);
-			}
 			service.save(cat);
 		}
 		redirectAttributes.addFlashAttribute("message", "The category has been saved successfully!");
