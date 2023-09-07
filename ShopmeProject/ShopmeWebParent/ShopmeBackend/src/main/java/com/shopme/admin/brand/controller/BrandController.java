@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -31,9 +32,35 @@ public class BrandController {
 	private CategoryService catService;
 
 	@GetMapping("/brands")
-	public String listAll(Model model) {
-		List<Brand> listBrands = brandService.listAll();
+	public String listFirstPage(Model model) {
+		return listByPage(1, model, "name", "asc", null);
+	}
+
+	@GetMapping("/brands/page/{pageNum}")
+	public String listByPage(@PathVariable(name = "pageNum") int pageNum, Model model, String sortField, String sortDir,
+			String keyword) {
+		Page<Brand> page = brandService.listByPage(pageNum, sortField, sortDir, keyword);
+		List<Brand> listBrands = page.getContent();
+
+		long startCount = (pageNum - 1) * BrandService.BRAND_PER_PAGE + 1;
+		long endCount = startCount + BrandService.BRAND_PER_PAGE - 1;
+
+		if (endCount > page.getTotalElements()) {
+			endCount = page.getTotalElements();
+		}
+
+		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
+
+		model.addAttribute("startCount", startCount);
+		model.addAttribute("endCount", endCount);
+		model.addAttribute("currentPage", pageNum);
+		model.addAttribute("totalPages", page.getTotalPages());
+		model.addAttribute("totalItems", page.getTotalElements());
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("sortDir", sortDir);
 		model.addAttribute("listBrands", listBrands);
+		model.addAttribute("reverseSortDir", reverseSortDir);
+		model.addAttribute("keyword", keyword);
 
 		return "brands/brands";
 	}
@@ -92,7 +119,7 @@ public class BrandController {
 			brandService.delete(id);
 			String brandDir = "../brand-logo/" + id;
 			FileUploadUtil.removeDir(brandDir);
-			
+
 			ra.addFlashAttribute("message", "The brand ID " + id + " has been deleted successfully!");
 		} catch (BrandNotFoundException ex) {
 			ra.addFlashAttribute("message", ex.getMessage());

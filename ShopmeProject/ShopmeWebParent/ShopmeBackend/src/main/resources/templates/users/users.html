@@ -83,15 +83,12 @@
 					</div>
 				</div>
 			</div>
-			<div class="mb-2"></div>
 		</div>
 	</div>
 
 
 	<div th:replace="~{fragments/common.html :: pagination('/users', 'users')}"></div>
-
 	<div th:replace="~{fragments/modal.html :: delete_confirm_modal}"></div>
-
 	<div th:replace="~{fragments/common.html :: footer}"></div>
 	<script type="text/javascript">
 		moduleURL = "[[@{/users}]]";
