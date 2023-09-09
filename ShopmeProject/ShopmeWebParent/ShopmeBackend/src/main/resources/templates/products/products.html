@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+
+<head th:replace="~{fragments/common.html :: header('Products - Shopme Admin')}"></head>
+
+<body>
+	<nav th:replace="~{fragments/navigation.html :: menu}"></nav>
+	<div class="ms-4">
+		<h2>Manage Products</h2>
+		<a th:href="@{/products/new}" class="fa-solid fa-folder-plus fa-2xl icon-dark me-5"></a>
+		<a th:href="@{/products/export/csv}" class="fa-solid fa-file-csv fa-2xl icon-dark me-3"></a>
+		<a th:href="@{/products/export/excel}" class="fa-solid fa-file-excel fa-2xl icon-dark me-3"></a>
+		<a th:href="@{/products/export/pdf}" class="fa-solid fa-file-pdf fa-2xl icon-dark"></a>
+	</div>
+
+	<div th:replace="~{fragments/common.html :: search_form_and_message('/products/page/1')}"></div>
+
+	<div class="container-fluid table-responsive-xl full_details">
+		<table class="table table-hover">
+			<thead class="table-dark">
+				<div class="row">
+					<th>ID</th>
+					<th>Main Image</th>
+					<th>Product Name</th>
+					<th>Brand</th>
+					<th>Category</th>
+					<th>Enabled</th>
+					<th class="col-lg-1 col-md-2 col-sm-1"></th>
+				</div>
+			</thead>
+			<tbody>
+				<tr th:each="product : ${listProducts}">
+					<td>[[${product.id}]]</td>
+					<td></td>
+					<td>[[${product.name}]]</td>
+					<td>[[${product.brand.name}]]</td>
+					<td>[[${product.category.name}]]</td>
+					<td>
+						<div
+							th:replace="~{fragments/listing.html :: status(${product.enabled}, 'product', '/products/' + ${product.id})}">
+						</div>
+					</td>
+					<td>
+						<a class="fa-solid fa-file-lines fa-2xl icon-green me-2"
+							th:href="@{'/products/detail/' + ${product.id}}" title="View details of this product"></a>
+						<div
+							th:replace="~{fragments/listing.html :: edit('product', '/products/edit/' + ${product.id})}">
+						</div>
+						<div
+							th:replace="~{fragments/listing.html :: delete('product', '/products/delete/' + ${product.id}, true, ${product.id})}">
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div th:replace="~{fragments/common.html :: pagination('/brands', 'brands')}"></div>
+	<div th:replace="~{fragments/modal.html :: delete_confirm_modal}"></div>
+	<div th:replace="~{fragments/common.html :: footer}"></div>
+	<script type="text/javascript">
+		moduleURL = "[[@{/brands}]]";
+
+		$(document).ready(function () {
+			$(".link-delete").on("click", function (e) {
+				e.preventDefault();
+				showDeleteConfirmModal($(this), 'category');
+			});
+		});
+	</script>
+</body>
+
+</html>

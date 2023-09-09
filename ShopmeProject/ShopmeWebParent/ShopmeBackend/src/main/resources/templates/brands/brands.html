@@ -8,9 +8,9 @@
 	<div class="ms-4">
 		<h2>Manage Brands</h2>
 		<a th:href="@{/brands/new}" class="fa-solid fa-folder-plus fa-2xl icon-dark me-5"></a>
-		<a th:href="@{/categories/export/csv}" class="fa-solid fa-file-csv fa-2xl icon-dark me-3"></a>
-		<a th:href="@{/categories/export/excel}" class="fa-solid fa-file-excel fa-2xl icon-dark me-3"></a>
-		<a th:href="@{/categories/export/pdf}" class="fa-solid fa-file-pdf fa-2xl icon-dark"></a>
+		<a th:href="@{/brands/export/csv}" class="fa-solid fa-file-csv fa-2xl icon-dark me-3"></a>
+		<a th:href="@{/brands/export/excel}" class="fa-solid fa-file-excel fa-2xl icon-dark me-3"></a>
+		<a th:href="@{/brands/export/pdf}" class="fa-solid fa-file-pdf fa-2xl icon-dark"></a>
 	</div>
 
 	<div th:replace="~{fragments/common.html :: search_form_and_message('/brands/page/1')}"></div>

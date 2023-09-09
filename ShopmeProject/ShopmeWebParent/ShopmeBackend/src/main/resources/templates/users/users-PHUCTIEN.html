@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+
+<head th:replace="~{fragments/common.html :: header('Users - Shopme Admin')}"></head>
+
+<body>
+	<nav th:replace="~{fragments/navigation.html :: menu}"></nav>
+	<div class="ms-4">
+		<h2>Manage Users</h2>
+		<a th:href="@{/users/new}" class="fa-solid fa-user-plus fa-2xl icon-dark me-5"></a>
+		<a th:href="@{/users/export/csv}" class="fa-solid fa-file-csv fa-2xl icon-dark me-3"></a>
+		<a th:href="@{/users/export/excel}" class="fa-solid fa-file-excel fa-2xl icon-dark me-3"></a>
+		<a th:href="@{/users/export/pdf}" class="fa-solid fa-file-pdf fa-2xl icon-dark"></a>
+	</div>
+
+	<div th:replace="~{fragments/common.html :: search_form_and_message('/users/page/1')}"></div>
+
+	<div class="container-fluid table-responsive-xl full_details">
+		<table class="table table-hover">
+			<thead class="table-dark">
+				<th class="hideable_column">
+				<th th:replace="~{fragments/listing.html :: column_link('/users', 'id', 'User ID', 'tag')}"></th>
+				</th>
+				<th>Photos</th>
+				<th class="hideable_column">
+				<th th:replace="~{fragments/listing.html :: column_link('/users', 'email', 'E-mail', 'tag')}"></th>
+				</th>
+				<th th:replace="~{fragments/listing.html :: column_link('/users', 'firstName', 'First Name', 'none')}">
+				</th>
+				<th th:replace="~{fragments/listing.html :: column_link('/users', 'lastName', 'Last Name', 'none')}">
+				</th>
+				<th>Roles</th>
+				<th th:replace="~{fragments/listing.html :: column_link('/users', 'enabled', 'Enabled', 'none')}"></th>
+				<th></th>
+			</thead>
+			<tbody>
+				<tr th:each="user : ${listUsers}">
+					<td class="hideable_column">[[${user.id}]]</td>
+					<td class="default_image">
+						<span th:if="${user.photos == null}"><i
+								class="fa-solid fa-image-portrait fa-2xl icon-silver"></i></span>
+						<img th:if="${user.photos != null}" class="user_listing_img"
+							th:src="@{${user.photosImagePath}}">
+					</td>
+					<td class="hideable_column">[[${user.email}]]</td>
+					<td>[[${user.firstName}]]</td>
+					<td>[[${user.lastName}]]</td>
+					<td>[[${user.roles}]]</td>
+					<td>
+						<div
+							th:replace="~{fragments/listing.html :: status(${user.enabled}, 'user', '/users/' + ${user.id})}">
+						</div>
+					</td>
+					<td>
+						<div th:replace="~{fragments/listing.html :: edit('user', '/users/edit/' + ${user.id})}">
+						</div>
+						<div
+							th:replace="~{fragments/listing.html :: delete('user', '/users/delete/' + ${user.id}, true, ${user.id})}">
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="less_details">
+		<div th:each="user : ${listUsers}" class="row m-1">
+			<div class="col-4">
+				<span th:if="${user.photos == null}"><i
+						class="fa-solid fa-image-portrait fa-2xl icon-silver center"></i></span>
+				<img class="user_listing_img" th:if="${user.photos != null}" th:src="@{${user.photosImagePath}}">
+			</div>
+			<div class="col-8">
+				<div>[[${user.fullName}]]</div>
+				<div>[[${user.roles}]]</div>
+				<div class="mt-2">
+					<div
+						th:replace="~{fragments/listing.html :: status(${user.enabled}, 'user', '/users/' + ${user.id})}">
+					</div>
+					<div th:replace="~{fragments/listing.html :: edit('user', '/users/edit/' + ${user.id})}">
+					</div>
+					<div
+						th:replace="~{fragments/listing.html :: delete('user', '/users/delete/' + ${user.id}, true, ${user.id})}">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div th:replace="~{fragments/common.html :: pagination('/users', 'users')}"></div>
+	<div th:replace="~{fragments/modal.html :: delete_confirm_modal}"></div>
+	<div th:replace="~{fragments/common.html :: footer}"></div>
+	<script type="text/javascript">
+		moduleURL = "[[@{/users}]]";
+
+		$(document).ready(function () {
+			$(".link-delete").on("click", function (e) {
+				e.preventDefault();
+				showDeleteConfirmModal($(this), 'user');
+			});
+		});
+	</script>
+</body>
+
+</html>

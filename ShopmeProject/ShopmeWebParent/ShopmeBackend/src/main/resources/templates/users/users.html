@@ -1,104 +1,185 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org/">
 
-<head th:replace="~{fragments/common.html :: header('Users - Shopme Admin')}"></head>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+	<title>Home - Shopme Admin</title>
+	<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/style.css}">
+	<script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+		crossorigin="anonymous"></script>
+</head>
 
 <body>
-	<nav th:replace="~{fragments/navigation.html :: menu}"></nav>
-	<div class="ms-4">
+	<nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+		<div class="container-fluid">
+			<a class="navbar-brand" th:href="@{/}">
+				<img th:src="@{/images/ShopmeAdminSmall.png}">
+			</a>
+			<button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#topNavbar">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="topNavbar">
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/users}">Users</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/categories}">Categories</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/brands}">Brands</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/products}">Products</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/customers}">Customers</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/shipping}">Shipping</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/orders}">Orders</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/report}">Sales Report</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/articles}">Articles</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/menus}">Menus</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/settings}">Settings</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div>
 		<h2>Manage Users</h2>
-		<a th:href="@{/users/new}" class="fa-solid fa-user-plus fa-2xl icon-dark me-5"></a>
-		<a th:href="@{/users/export/csv}" class="fa-solid fa-file-csv fa-2xl icon-dark me-3"></a>
-		<a th:href="@{/users/export/excel}" class="fa-solid fa-file-excel fa-2xl icon-dark me-3"></a>
-		<a th:href="@{/users/export/pdf}" class="fa-solid fa-file-pdf fa-2xl icon-dark"></a>
+		<a th:href="@{users/new}">Create New User</a>
 	</div>
-
-	<div th:replace="~{fragments/common.html :: search_form_and_message('/users/page/1')}"></div>
-
-	<div class="container-fluid table-responsive-xl full_details">
+	<div th:if="${message != null}" class="alert alert-success text-center mx-3">
+		[[${message}]]
+	</div>
+	<div>
+		<form th:action="@{/users/page/1}" class="form-inline">
+			<input type="hidden" name="sortField" th:value="${sortField}">
+			<input type="hidden" name="sortDir" th:value="${sortDir}">
+			<div class="w-50 p-3">
+				<div class="input-group col mb-3">
+					<span class="input-group-text">Filter</span>
+					<input type="search" name="keyword" th:value="${keyword}" class="form-control"
+						placeholder="Search...">
+					<div class="ps-4">
+						<input type="submit" value="Search" class="btn btn-primary me-3">
+						<input type="button" value="Clear" class="btn btn-secondary" onclick="clearFilter()">
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="container-fluid table-responsive-xl">
 		<table class="table table-hover">
 			<thead class="table-dark">
-				<th class="hideable_column">
-				<th th:replace="~{fragments/listing.html :: column_link('/users', 'id', 'User ID', 'tag')}"></th>
-				</th>
+				<th th:replace="fragments :: column_link('id', 'User ID')"></th>
 				<th>Photos</th>
-				<th class="hideable_column">
-				<th th:replace="~{fragments/listing.html :: column_link('/users', 'email', 'E-mail', 'tag')}"></th>
-				</th>
-				<th th:replace="~{fragments/listing.html :: column_link('/users', 'firstName', 'First Name', 'none')}">
-				</th>
-				<th th:replace="~{fragments/listing.html :: column_link('/users', 'lastName', 'Last Name', 'none')}">
-				</th>
+				<th th:replace="fragments :: column_link('email', 'E-mail')"></th>
+				<th th:replace="fragments :: column_link('firstName', 'First Name')"></th>
+				<th th:replace="fragments :: column_link('lastName', 'Last Name')"></th>
 				<th>Roles</th>
-				<th th:replace="~{fragments/listing.html :: column_link('/users', 'enabled', 'Enabled', 'none')}"></th>
+				<th th:replace="fragments :: column_link('enabled', 'Enabled')"></th>
 				<th></th>
 			</thead>
 			<tbody>
 				<tr th:each="user : ${listUsers}">
-					<td class="hideable_column">[[${user.id}]]</td>
-					<td class="default_image">
+					<td>[[${user.id}]]</td>
+					<td>
 						<span th:if="${user.photos == null}"><i
-								class="fa-solid fa-image-portrait fa-2xl icon-silver"></i></span>
-						<img th:if="${user.photos != null}" class="user_listing_img"
-							th:src="@{${user.photosImagePath}}">
+								class="fa-solid fa-image-portrait fa-2xl icon-silver center"></i></span>
+						<img class="user_img" th:if="${user.photos != null}" th:src="@{${user.photosImagePath}}">
 					</td>
-					<td class="hideable_column">[[${user.email}]]</td>
+					<td>[[${user.email}]]</td>
 					<td>[[${user.firstName}]]</td>
 					<td>[[${user.lastName}]]</td>
 					<td>[[${user.roles}]]</td>
 					<td>
-						<div
-							th:replace="~{fragments/listing.html :: status(${user.enabled}, 'user', '/users/' + ${user.id})}">
-						</div>
+						<a th:if="${user.enabled == true}" class="fa-solid fa-circle-check fa-xl icon-green"
+							th:href="@{'/users/' + ${user.id} + '/enabled/false' }" title="Disable this user"></a>
+						<a th:if="${user.enabled == false}" class="fa-solid fa-circle-check fa-xl icon-dark"
+							th:href="@{'/users/' + ${user.id} + '/enabled/true' }" title="Enable this user"></a>
 					</td>
 					<td>
-						<div th:replace="~{fragments/listing.html :: edit('user', '/users/edit/' + ${user.id})}">
-						</div>
-						<div
-							th:replace="~{fragments/listing.html :: delete('user', '/users/delete/' + ${user.id}, true, ${user.id})}">
-						</div>
+						<a class="fa-solid fa-pen-to-square fa-xl" style="color: #335b0b;"
+							th:href="@{'/users/edit/' + ${user.id}}" title="Edit this user"></a>
+						&nbsp;
+						<a class="fa-solid fa-trash fa-xl link-delete" style="color: #d80e0e;"
+							th:href="@{'/users/delete/' + ${user.id}}" th:userId="${user.id}"
+							title="Delete this user"></a>
 					</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
-	<div class="less_details">
-		<div th:each="user : ${listUsers}" class="row m-1">
-			<div class="col-4">
-				<span th:if="${user.photos == null}"><i
-						class="fa-solid fa-image-portrait fa-2xl icon-silver center"></i></span>
-				<img class="user_listing_img" th:if="${user.photos != null}" th:src="@{${user.photosImagePath}}">
-			</div>
-			<div class="col-8">
-				<div>[[${user.fullName}]]</div>
-				<div>[[${user.roles}]]</div>
-				<div class="mt-2">
-					<div
-						th:replace="~{fragments/listing.html :: status(${user.enabled}, 'user', '/users/' + ${user.id})}">
-					</div>
-					<div th:replace="~{fragments/listing.html :: edit('user', '/users/edit/' + ${user.id})}">
-					</div>
-					<div
-						th:replace="~{fragments/listing.html :: delete('user', '/users/delete/' + ${user.id}, true, ${user.id})}">
-					</div>
+	<div class="text-center m-1" th:if="${totalItems > 0}">
+		<span>Showing users # [[${startCount}]] to [[${endCount}]] of [[${totalItems}]]</span>
+	</div>
+	<div class="text-center m-1" th:unless="${totalItems > 0}">
+		<span>No users found</span>
+	</div>
+	<nav th:if="${totalPages > 1}">
+		<ul class="pagination justify-content-center">
+			<li th:replace="fragments :: pagination(1, 'First', 'prev')"></li>
+			<li th:replace="fragments :: pagination(${currentPage-1}, 'Previous', 'prev')"></li>
+			<li th:replace="fragments :: paginationItem()"></li>
+			<li th:replace="fragments :: pagination(${currentPage+1}, 'Next', 'next')"></li>
+			<li th:replace="fragments :: pagination(${totalPages}, 'Last', 'next')"></li>
+		</ul>
+	</nav>
+	<div class="modal fade text-center" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+		id="confirmModal">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="modalTitle">Delete Confirmation</h4>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<span id="confirmText"></span>
+				</div>
+				<div class="modal-footer">
+					<a type="button" class="btn btn-success" href="" id="yesButton">Yes</a>
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
 				</div>
 			</div>
 		</div>
 	</div>
-
-
-	<div th:replace="~{fragments/common.html :: pagination('/users', 'users')}"></div>
-	<div th:replace="~{fragments/modal.html :: delete_confirm_modal}"></div>
-	<div th:replace="~{fragments/common.html :: footer}"></div>
+	<div class="text-center">
+		<p>Shopme Control Panel - Copyright &copy; Shopme</p>
+	</div>
 	<script type="text/javascript">
-		moduleURL = "[[@{/users}]]";
-
 		$(document).ready(function () {
 			$(".link-delete").on("click", function (e) {
 				e.preventDefault();
-				showDeleteConfirmModal($(this), 'user');
+				link = $(this);
+				userId = link.attr("userId");
+				$("#yesButton").attr("href", link.attr("href"));
+				$("#confirmText").text("Are you sure you want to delete this user ID " + userId + "?");
+				$("#confirmModal").modal("show");
 			});
 		});
+
+		function clearFilter() {
+			window.location = "[[@{/users}]]";
+		}
 	</script>
 </body>
 

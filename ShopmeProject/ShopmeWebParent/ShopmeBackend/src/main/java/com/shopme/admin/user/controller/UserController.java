@@ -19,13 +19,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.shopme.admin.FileUploadUtil;
 import com.shopme.admin.user.UserNotFoundException;
 import com.shopme.admin.user.UserService;
-import com.shopme.admin.user.export.UserCsvExporter;
-import com.shopme.admin.user.export.UserExcelExporter;
-import com.shopme.admin.user.export.UserPdfExporter;
 import com.shopme.common.entity.Role;
 import com.shopme.common.entity.User;
-
-import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class UserController {
@@ -37,35 +32,36 @@ public class UserController {
 	public String listFirstPage(Model model) {
 		return listByPage(1, model, "firstName", "asc", null);
 	}
-
+	
 	@GetMapping("/users/page/{pageNum}")
-	public String listByPage(@PathVariable(name = "pageNum") int pageNum, Model model,
-			@Param("sortField") String sortField, @Param("sortDir") String sortDir, @Param("keyword") String keyword) {
-
+	public String listByPage(@PathVariable(name = "pageNum") int pageNum, Model model, 
+			@Param("sortField") String sortField, @Param("sortDir") String sortDir,
+			@Param("keyword") String keyword) {
+		
 		Page<User> page = service.listByPage(pageNum, sortField, sortDir, keyword);
 		List<User> listUsers = page.getContent();
-
+		
 		long startCount = (pageNum - 1) * UserService.USERS_PER_PAGE + 1;
-		long endCount = startCount + UserService.USERS_PER_PAGE - 1;
-
+		long endCount = startCount + UserService.USERS_PER_PAGE -1;
+		
 		if (endCount > page.getTotalElements()) {
 			endCount = page.getTotalElements();
 		}
-
+		
 		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
-
-		model.addAttribute("startCount", startCount);
-		model.addAttribute("endCount", endCount);
+		
 		model.addAttribute("currentPage", pageNum);
 		model.addAttribute("totalPages", page.getTotalPages());
+		model.addAttribute("startCount", startCount);
+		model.addAttribute("endCount", endCount);
 		model.addAttribute("totalItems", page.getTotalElements());
+		model.addAttribute("listUsers", listUsers);
 		model.addAttribute("sortField", sortField);
 		model.addAttribute("sortDir", sortDir);
-		model.addAttribute("listUsers", listUsers);
 		model.addAttribute("reverseSortDir", reverseSortDir);
 		model.addAttribute("keyword", keyword);
-
-		return "users/users";
+		
+		return "users";
 	}
 
 	@GetMapping("/users/new")
@@ -77,7 +73,7 @@ public class UserController {
 		model.addAttribute("listRoles", listRoles);
 		model.addAttribute("pageTitle", "Create New User");
 
-		return "users/user_form";
+		return "user_form";
 	}
 
 	@PostMapping("/users/save")
@@ -88,21 +84,18 @@ public class UserController {
 			user.setPhotos(fileName);
 			User savedUser = service.save(user);
 
-			String uploadDir = "user-photos/" + savedUser.getId();
+			String uploadDir = "user-photos/" +savedUser.getId();
 
 			FileUploadUtil.cleanDir(uploadDir);
 			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
 		} else {
-			if (user.getPhotos().isEmpty()) {
+			if (user.getPhotos().isEmpty()) 
 				user.setPhotos(null);
-			}
-				
 			service.save(user);
 		}
 		redirectAttributes.addFlashAttribute("message", "The user has been saved successfully!");
-		String firstPartOfEmail = user.getEmail().split("@")[0];
 
-		return "redirect:/users/page/1?sortField=id&sortDir=asc&keyword=" + firstPartOfEmail;
+		return "redirect:/users";
 	}
 
 	@GetMapping("/users/edit/{id}")
@@ -116,7 +109,7 @@ public class UserController {
 			model.addAttribute("pageTitle", "Edit User (ID:" + id + ")");
 			model.addAttribute("listRoles", listRoles);
 
-			return "users/user_form";
+			return "user_form";
 		} catch (UserNotFoundException ex) {
 			redirectAttributes.addFlashAttribute("message", ex.getMessage());
 			return "redirect:/users";
@@ -144,26 +137,5 @@ public class UserController {
 		redirectAttributes.addFlashAttribute("message", message);
 
 		return "redirect:/users";
-	}
-	
-	@GetMapping("/users/export/csv")
-	public void exportToCSV(HttpServletResponse response) throws IOException {
-		List<User> listUsers = service.listAll();
-		UserCsvExporter exporter = new UserCsvExporter();
-		exporter.export(listUsers, response);
-	}
-	
-	@GetMapping("/users/export/excel")
-	public void exportToExcel(HttpServletResponse response) throws IOException {
-		List<User> listUsers = service.listAll();
-		UserExcelExporter exporter = new UserExcelExporter();
-		exporter.export(listUsers, response);
-	}
-	
-	@GetMapping("/users/export/pdf")
-	public void exportToPDF(HttpServletResponse response) throws IOException {
-		List<User> listUsers = service.listAll();
-		UserPdfExporter exporter = new UserPdfExporter();
-		exporter.export(listUsers, response);
 	}
 }
