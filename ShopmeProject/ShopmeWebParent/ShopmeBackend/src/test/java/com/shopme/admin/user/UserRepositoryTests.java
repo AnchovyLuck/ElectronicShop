@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.data.domain.Pageable;
 
+import com.shopme.admin.repository.UserRepository;
 import com.shopme.common.entity.Role;
 import com.shopme.common.entity.User;
 
