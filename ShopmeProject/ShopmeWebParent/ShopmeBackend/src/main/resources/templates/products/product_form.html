@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org/">
 
-<head th:replace="~{fragments/common.html :: header(${pageTitle})}"></head>
+<head>
+
+	<head th:replace="~{fragments/common.html :: page_head(${pageTitle}, 'tag')}"></head>
+	<link rel="stylesheet" th:href="@{/richtext/richtext.min.css}">
+	<script th:src="@{/richtext/jquery.richtext.min.js}"></script>
+</head>
 
 <body>
 	<nav th:replace="~{fragments/navigation.html :: menu}"></nav>
@@ -29,6 +34,10 @@
 					<button class="nav-link" data-bs-toggle="tab" data-bs-target="#details" type="button"
 						role="tab">Details</button>
 				</li>
+				<li class="nav-item" role="presentation">
+					<button class="nav-link" data-bs-toggle="tab" data-bs-target="#shipping" type="button"
+						role="tab">Shipping</button>
+				</li>
 			</ul>
 
 			<!-- Tab panes -->
@@ -36,10 +45,15 @@
 				<div class="tab-pane active p-3" id="overview" role="tabpanel" tabindex="0">
 					<div th:replace="~{products/product_overview.html :: content}"></div>
 				</div>
-				<div class="tab-pane" id="description" role="tabpanel" tabindex="0">Description</div>
+				<div class="tab-pane" id="description" role="tabpanel" tabindex="0">
+					<div th:replace="~{products/product_description.html :: content}"></div>
+				</div>
 				<div class="tab-pane" id="images" role="tabpanel" tabindex="0">Images
 				</div>
 				<div class="tab-pane" id="details" role="tabpanel" tabindex="0">Details
+				</div>
+				<div class="tab-pane" id="shipping" role="tabpanel" tabindex="0">
+					<div th:replace="~{products/product_shipping.html :: content}"></div>
 				</div>
 			</div>
 		</form>
@@ -53,23 +67,27 @@
 		dropdownBrands = $("#brand");
 		dropdownCategories = $("#category")
 
-		$(document).ready(function() {
-			dropdownBrands.change(function() {
+		$(document).ready(function () {
+
+			$("#shortDescription").richText();
+			$("#fullDescription").richText();
+
+			dropdownBrands.change(function () {
 				dropdownCategories.empty();
 				getCategories();
 			});
 			getCategories();
 		});
-		
+
 		function getCategories() {
 			brandId = dropdownBrands.val();
 			url = brandModuleURL + "/" + brandId + "/categories";
-			
-			$.get(url, function(responseJson) {
-				$.each(responseJson, function(index, category) {
+
+			$.get(url, function (responseJson) {
+				$.each(responseJson, function (index, category) {
 					$("<option>").val(category.id).text(category.name).appendTo(dropdownCategories);
 				});
-			}); 
+			});
 		}
 	</script>
 	<script th:src="@{/js/common_form.js}"></script>

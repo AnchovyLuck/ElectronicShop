@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org/">
 
-<head th:replace="~{fragments/common.html :: header(${pageTitle})}"></head>
+<head th:replace="~{fragments/common.html :: page_head(${pageTitle}, 'none')}"></head>
 
 <body>
 	<nav th:replace="~{fragments/navigation.html :: menu}"></nav>
@@ -46,7 +46,7 @@
 					<label class="col-sm-4 col-form-label">Chosen categories:</label>
 					<div class="col-sm-8">
 						<div id="chosenCategories">
-							
+
 						</div>
 					</div>
 				</div>
@@ -63,48 +63,48 @@
 	<script type="text/javascript">
 		moduleURL = "[[@{/brands}]]";
 
-		$(document).ready(function() {
+		$(document).ready(function () {
 			dropdownCategories = $("#categories");
 			divChosenCategories = $("#chosenCategories");
-			
-			dropdownCategories.change(function() {
+
+			dropdownCategories.change(function () {
 				divChosenCategories.empty();
 				showChosenCategories();
 			});
 			showChosenCategories();
-		});		
-		
+		});
+
 		function showChosenCategories() {
-			dropdownCategories.children("option:selected").each(function() {
+			dropdownCategories.children("option:selected").each(function () {
 				selectedCategory = $(this);
 				catId = selectedCategory.val();
 				catName = selectedCategory.text().replace(/-/g, "");
-				
+
 				divChosenCategories.append("<span class='badge text-bg-secondary m-1'>" + catName + "</span>");
-				
+
 			});
 		}
-		
+
 		function checkUnique(form) {
 			url = "[[@{/brands/check_unique}]]";
 			brandId = $("#id").val();
 			brandName = $("#name").val();
 			csrfValue = $("input[name='_csrf']").val();
-			
+
 			params = {id: brandId, name: brandName, _csrf: csrfValue};
-			
-			$.post(url, params, function(response) {
+
+			$.post(url, params, function (response) {
 				if (response == "OK") {
 					form.submit();
 				} else if (response == "Duplicate") {
 					showWarningModal("There is another brand with name: " + brandName);
 				} else {
 					showErrorModal("Unknown response from server");
-				} 
-			}).fail(function() {
+				}
+			}).fail(function () {
 				showErrorModal("Could not connect to the server");
 			});
-			
+
 			return false;
 		}
 	</script>
