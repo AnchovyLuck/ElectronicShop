@@ -111,11 +111,11 @@ public class Product {
 		this.createdTime = createdTime;
 	}
 
-	public Date getUpdateTime() {
+	public Date getUpdatedTime() {
 		return updatedTime;
 	}
 
-	public void setUpdateTime(Date updateTime) {
+	public void setUpdatedTime(Date updateTime) {
 		this.updatedTime = updateTime;
 	}
 

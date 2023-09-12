@@ -1,20 +1,70 @@
 package com.shopme.admin.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.shopme.admin.exception.ProductNotFoundException;
 import com.shopme.admin.repository.ProductRepository;
 import com.shopme.common.entity.Product;
 
 @Service
+@Transactional
 public class ProductService {
 
-	@Autowired 
+	@Autowired
 	private ProductRepository repo;
-	
+
 	public List<Product> listAll() {
 		return (List<Product>) repo.findAll();
+	}
+
+	public Product save(Product product) {
+		if (product.getId() == null) {
+			product.setCreatedTime(new Date());
+		}
+
+		if (product.getAlias() == null || product.getAlias().isEmpty()) {
+			product.setAlias(product.getName().replaceAll(" ", "-"));
+		} else {
+			product.setAlias(product.getAlias().replaceAll(" ", "-"));
+		}
+
+		product.setUpdatedTime(new Date());
+
+		return repo.save(product);
+	}
+
+	public String checkUnique(Integer id, String name) {
+		boolean creatingNew = (id == null || id == 0);
+
+		Product productByName = repo.findByName(name);
+
+		if (creatingNew) {
+			if (productByName != null) {
+				return "Duplicate";
+			}
+		} else if (productByName != null && productByName.getId() != id) {
+			return "Duplicate";
+		}
+
+		return "OK";
+	}
+
+	public void updateProductEnabledStatus(Integer id, boolean enabled) {
+		repo.updateEnabledStatus(id, enabled);
+	}
+
+	public void delete(Integer id) throws ProductNotFoundException {
+		Long counter = repo.countById(id);
+
+		if (counter == null || counter == 0) {
+			throw new ProductNotFoundException("Could not find product with ID " + id);
+		}
+
+		repo.deleteById(id);
 	}
 }

@@ -49,7 +49,7 @@ public class ProductRepositoryTests {
 		product.setInStock(true);
 		
 		product.setCreatedTime(new Date());
-		product.setUpdateTime(new Date());
+		product.setUpdatedTime(new Date());
 		
 		Product savedProduct = repo.save(product);
 		

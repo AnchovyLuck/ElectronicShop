@@ -10,14 +10,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.shopme.admin.exception.UserNotFoundException;
 import com.shopme.admin.repository.RoleRepository;
 import com.shopme.admin.repository.UserRepository;
 import com.shopme.common.entity.Role;
 import com.shopme.common.entity.User;
-
-import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
@@ -32,7 +31,7 @@ public class UserService {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+
 	public User getByEmail(String email) {
 		return userRepo.getUserByEmail(email);
 	}
@@ -40,18 +39,17 @@ public class UserService {
 	public List<User> listAll() {
 		return (List<User>) userRepo.findAll(Sort.by("name").ascending());
 	}
-	
-	public Page<User> listByPage(int pageNum, String sortField, String sortDir,
-			String keyword) {
+
+	public Page<User> listByPage(int pageNum, String sortField, String sortDir, String keyword) {
 		Sort sort = Sort.by(sortField);
-		
+
 		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
-		
+
 		Pageable pageable = PageRequest.of(pageNum - 1, USERS_PER_PAGE, sort);
 		if (keyword != null) {
 			return userRepo.findAll(keyword, pageable);
 		}
-		
+
 		return userRepo.findAll(pageable);
 	}
 
@@ -73,22 +71,22 @@ public class UserService {
 		}
 		return userRepo.save(user);
 	}
-	
+
 	public User updateAccount(User userInForm) {
 		User userInDB = userRepo.findById(userInForm.getId()).get();
-		
+
 		if (!userInForm.getPassword().isEmpty()) {
 			userInDB.setPassword(userInForm.getPassword());
 			encodePassword(userInDB);
 		}
-		
+
 		if (userInForm.getPhotos() != null) {
 			userInDB.setPhotos(userInForm.getPhotos());
 		}
-		
+
 		userInDB.setFirstName(userInForm.getFirstName());
 		userInDB.setLastName(userInForm.getLastName());
-		
+
 		return userRepo.save(userInDB);
 	}
 
@@ -125,16 +123,16 @@ public class UserService {
 			throw new UserNotFoundException("Could not find any user with ID " + id + "!");
 		}
 	}
-	
+
 	public void delete(Integer id) throws UserNotFoundException {
 		Long countById = userRepo.countById(id);
 		if (countById == null || countById == 0) {
 			throw new UserNotFoundException("Could not find any user with ID " + id);
 		}
-		
+
 		userRepo.deleteById(id);
 	}
-	
+
 	public void updateUserEnabledStatus(Integer id, boolean enabled) {
 		userRepo.updateEnabledStatus(id, enabled);
 	}

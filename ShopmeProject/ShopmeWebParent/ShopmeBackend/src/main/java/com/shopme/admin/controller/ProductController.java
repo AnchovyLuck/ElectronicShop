@@ -6,8 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.shopme.admin.exception.ProductNotFoundException;
 import com.shopme.admin.service.BrandService;
 import com.shopme.admin.service.ProductService;
 import com.shopme.common.entity.Brand;
@@ -33,20 +36,47 @@ public class ProductController {
 	@GetMapping("/products/new")
 	public String newProduct(Model model) {
 		List<Brand> listBrands = brandService.listAll();
-		
+
 		Product product = new Product();
 		product.setEnabled(true);
 		product.setInStock(true);
-		
+
 		model.addAttribute("product", product);
 		model.addAttribute("listBrands", listBrands);
 		model.addAttribute("pageTitle", "Create New Product");
 
 		return "products/product_form";
 	}
+
+	@PostMapping("/products/save")
+	public String saveProduct(Product product, RedirectAttributes ra) {
+		productService.save(product);
+
+		ra.addFlashAttribute("message", "The product has been saved successfully!");
+
+		return "redirect:/products";
+	}
+
+	@GetMapping("/products/{id}/enabled/{status}")
+	public String updateProductEnabledStatus(@PathVariable("id") Integer id, @PathVariable("status") boolean enabled,
+			RedirectAttributes ra) {
+		productService.updateProductEnabledStatus(id, enabled);
+		String status = enabled ? "enabled" : "disabled";
+		String message = "The product ID " + id + " has been " + status;
+		ra.addFlashAttribute("message", message);
+
+		return "redirect:/products";
+	}
 	
-	@PostMapping("/products/save") 
-	public String saveProduct(Product product) {
+	@GetMapping("/products/delete/{id}")
+	public String deleteProduct(@PathVariable(name = "id") Integer id, Model model, RedirectAttributes ra) {
+		try {
+			productService.delete(id);
+			ra.addFlashAttribute("message", "The product ID " + id + " has been deleted successfully!");
+		} catch (ProductNotFoundException e) {
+			ra.addFlashAttribute("message", e.getMessage());
+		}
+		
 		return "redirect:/products";
 	}
 }

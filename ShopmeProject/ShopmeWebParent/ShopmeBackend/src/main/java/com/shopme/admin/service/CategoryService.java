@@ -14,13 +14,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.shopme.admin.dto.CategoryPageInfo;
 import com.shopme.admin.exception.CategoryNotFoundException;
 import com.shopme.admin.repository.CategoryRepository;
 import com.shopme.common.entity.Category;
-
-import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
@@ -29,7 +28,7 @@ public class CategoryService {
 
 	@Autowired
 	private CategoryRepository catRepo;
-	
+
 	public List<Category> listAll() {
 		return (List<Category>) catRepo.findAll(Sort.by("name").ascending());
 	}
@@ -56,11 +55,11 @@ public class CategoryService {
 
 		if (keyword != null && !keyword.isEmpty()) {
 			List<Category> searchResult = pageCategories.getContent();
-			
+
 			searchResult.forEach(category -> category.setHasChildren(category.getChildren().size() > 0));
-			
+
 			return searchResult;
-			
+
 		} else {
 			return listHierarchicalCategories(rootCategories, sortDir);
 		}
