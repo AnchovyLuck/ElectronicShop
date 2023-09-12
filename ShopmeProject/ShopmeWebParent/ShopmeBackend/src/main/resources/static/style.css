@@ -16,6 +16,7 @@
 
 .user_listing_img,
 .cat_listing_img,
+.prod_listing_img,
 .default_image>span {
 	display: block;
 	margin-left: auto;
@@ -28,7 +29,10 @@
 }
 
 .cat_listing_img {
+	width: 100px;
+}
 
+.prod_listing_img {
 	width: 100px;
 }
 

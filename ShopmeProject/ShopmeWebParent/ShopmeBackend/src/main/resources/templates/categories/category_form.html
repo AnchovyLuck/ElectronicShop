@@ -69,6 +69,7 @@
 		moduleURL = "[[@{/categories}]]";
 
 		function checkUnique(form) {
+			MAX_FILE_SIZE = 102400;
 			url = "[[@{/categories/check_unique}]]";
 			catId = $("#id").val();
 			catName = $("#name").val();

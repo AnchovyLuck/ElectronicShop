@@ -40,7 +40,7 @@ public class WebSecurityConfig {
 				.requestMatchers("/products/**").hasAnyAuthority("Admin", "Salesperson", "Editor", "Shipper")
 				.requestMatchers("/customers/**", "/shipping/**", "/report/**").hasAnyAuthority("Admin", "Salesperson")
 				.requestMatchers("/orders/**").hasAnyAuthority("Admin", "Salesperson", "Shipper")
-				.requestMatchers("/images/**", "/js/**", "/webjars/**", "style.css", "fontawesome/**").permitAll().anyRequest().authenticated())
+				.requestMatchers("/images/**", "/js/**", "/webjars/**", "style.css", "/fontawesome/**").permitAll().anyRequest().authenticated())
 				.formLogin(formLogin -> formLogin.loginPage("/login").usernameParameter("email").permitAll())
 				.authenticationProvider(authenticationProvider()).logout(logout -> logout.permitAll()).rememberMe(
 						remember -> remember.key("AbcDefgHijKlmnOpqrs_0123456789").tokenValiditySeconds(7 * 24 * 3600));

@@ -86,6 +86,7 @@
 		}
 
 		function checkUnique(form) {
+			MAX_FILE_SIZE = 102400;
 			url = "[[@{/brands/check_unique}]]";
 			brandId = $("#id").val();
 			brandName = $("#name").val();
