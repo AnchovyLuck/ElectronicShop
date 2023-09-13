@@ -52,7 +52,12 @@
 				<div class="tab-pane" id="images" role="tabpanel" tabindex="0">
 					<div th:replace="~{products/product_images.html :: content}"></div>
 				</div>
-				<div class="tab-pane" id="details" role="tabpanel" tabindex="0">Details
+				<div class="tab-pane p-3" id="details" role="tabpanel" tabindex="0">
+					<div th:replace="~{products/product_details.html :: content}"></div>
+					<div>
+						<input type="button" class="btn btn-secondary" value="Add More Detail"
+							onclick="addNextDetailSection()">
+					</div>
 				</div>
 				<div class="tab-pane" id="shipping" role="tabpanel" tabindex="0">
 					<div th:replace="~{products/product_shipping.html :: content}"></div>
@@ -99,7 +104,9 @@
 		}
 	</script>
 	<script th:src="@{/js/common_form.js}"></script>
-	<script th:src="@{/js/product_form.js}"></script>
+	<script th:src="@{/js/product_form_overview.js}"></script>
+	<script th:src="@{/js/product_form_images.js}"></script>
+	<script th:src="@{/js/product_form_details.js}"></script>
 </body>
 
 </html>

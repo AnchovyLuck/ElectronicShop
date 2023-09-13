@@ -12,27 +12,28 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "product_details")
-public class ProductImage {
+public class ProductDetail {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(nullable = false)
+	@Column(nullable = false, length = 255)
 	private String name;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, length = 255)
 	private String value;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "product_id")
 	private Product product;
 
-	public ProductImage() {
+	public ProductDetail() {
 	}
 
-	public ProductImage(String name, Product product) {
+	public ProductDetail(String name, String value, Product product) {
 		this.name = name;
+		this.value = value;
 		this.product = product;
 	}
 
