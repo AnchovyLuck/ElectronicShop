@@ -17,13 +17,13 @@ function showExtraImageThumbnail(fileInput, index) {
 	let reader = new FileReader();
 	reader.onload = function(e) {
 		$("#extraThumbnail" + index).attr("src", e.target.result);
-	};
+	}; 
 
 	reader.readAsDataURL(file);
 
 	if (index >= extraImagesCount - 1) {
 		addNextExtraImageSection(index + 1);
-	} 
+	}
 }
 
 function addNextExtraImageSection(index) {
@@ -33,34 +33,21 @@ function addNextExtraImageSection(index) {
 					<img id="extraThumbnail${index}" alt="Extra image #${index + 1} preview" class="img-fluid" src="${defaultImageThumbnailSrc}">
 				</div>
 				<div>
-					<input type="file" name="extraImage" id="extraImage2" onchange="showExtraImageThumbnail(this, ${index})" accept="image/png, image/jpeg">
+					<input type="file" name="extraImage" onchange="showExtraImageThumbnail(this, ${index})" accept="image/png, image/jpeg">
 				</div>
 			</div>`;
 
 	htmlLinkRemove = `
-		<a class="fa-solid fa-circle-xmark fa-xl icon-dark float-end pt-2" href="javascript:removeExtraImage(${index - 1})" title="Remove this image"></a>
+		<div class="position-absolute top-0 end-0"><a class="fa-solid fa-circle-xmark fa-xl icon-dark float-end pt-2" href="javascript:removeExtraImage(${index - 1})" title="Remove this image"></a></div>
 	`;
 
 	$("#divProductImages").append(htmlExtraImage);
 
 	$("#extraImageHeader" + (index - 1)).append(htmlLinkRemove);
-	
+
 	extraImagesCount++;
 }
 
 function removeExtraImage(index) {
 	$("#divExtraImage" + index).remove();
-	extraImagesCount--;
 }
-
-function getCategories() {
-	brandId = dropdownBrands.val();
-	url = brandModuleURL + "/" + brandId + "/categories";
-
-	$.get(url, function(responseJson) {
-		$.each(responseJson, function(index, category) {
-			$("<option>").val(category.id).text(category.name).appendTo(dropdownCategories);
-		});
-	});
-}
-

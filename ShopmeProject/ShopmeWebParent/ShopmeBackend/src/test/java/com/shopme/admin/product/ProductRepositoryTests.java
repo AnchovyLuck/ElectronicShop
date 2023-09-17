@@ -50,6 +50,7 @@ public class ProductRepositoryTests {
 		
 		product.setCreatedTime(new Date());
 		product.setUpdatedTime(new Date());
+		product.setMainImage("test_img.png");
 		
 		Product savedProduct = repo.save(product);
 		
@@ -89,7 +90,7 @@ public class ProductRepositoryTests {
 	
 	@Test
 	public void testDeleteProduct() {
-		Integer id = 3;
+		Integer id = 1;
 		repo.deleteById(id);
 		
 		Optional<Product> result = repo.findById(id);
@@ -99,20 +100,21 @@ public class ProductRepositoryTests {
 	
 	@Test
 	public void testSavedProductWithImages() {
-		Integer id = 1;
+		Integer id = 2;
 		Product product = repo.findById(id).get();
 		
-		product.addExtraImage("Test add extra image");
-		product.addExtraImage("Test add extra image 2");
+		product.addExtraImage("extra image 1.png");
+		product.addExtraImage("extra image 2.png");
+		product.addExtraImage("extra image 3.png");
 		
 		Product savedProduct = repo.save(product);
 		
-		assertThat(savedProduct.getImages().size()).isEqualTo(13);
+		assertThat(savedProduct.getImages().size()).isEqualTo(3);
 	}
 	
 	@Test
 	public void testSaveProductWithDetails() {
-		Integer productId = 1;
+		Integer productId = 2;
 		Product product = repo.findById(productId).get();
 		
 		product.addDetail("Device Memory", "128 GB");

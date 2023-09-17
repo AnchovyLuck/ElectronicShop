@@ -63,10 +63,8 @@ public class ProductController {
 		setExtraImageNames(extraImageMultiparts, product);
 		setProductDetails(detailNames, detailValues, product);
 		
-		System.out.println(detailValues);
-
 		Product savedProduct = productService.save(product);
-
+		
 		saveUploadedImages(mainImageMultipart, extraImageMultiparts, savedProduct);
 
 		ra.addFlashAttribute("message", "The product has been saved successfully!");
@@ -74,7 +72,9 @@ public class ProductController {
 	}
 
 	private void setProductDetails(String[] detailNames, String[] detailValues, Product product) {
-		if (detailNames == null || detailNames.length == 0) return;
+		if (detailNames == null || detailNames.length == 0) {
+			return;
+		}
 		
 		for (int count = 0; count < detailNames.length; count++) {
 			String name = detailNames[count];
@@ -100,13 +100,19 @@ public class ProductController {
 			String uploadDir = "../product-images/" + savedProduct.getId() + "/extras";
 
 			for (MultipartFile multipartFile : extraImageMultiparts) {
-				if (multipartFile.isEmpty()) {
-					continue;
+				if (!multipartFile.isEmpty()) {
+					String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+					FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
 				}
-
-				String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-				FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+				
 			}
+		}
+	}
+	
+	private void setMainImageName(MultipartFile mainImageMultipart, Product product) {
+		if (!mainImageMultipart.isEmpty()) {
+			String fileName = StringUtils.cleanPath(mainImageMultipart.getOriginalFilename());
+			product.setMainImage(fileName);
 		}
 	}
 
@@ -118,13 +124,6 @@ public class ProductController {
 					product.addExtraImage(fileName);
 				}
 			}
-		}
-	}
-
-	private void setMainImageName(MultipartFile mainImageMultipart, Product product) {
-		if (!mainImageMultipart.isEmpty()) {
-			String fileName = StringUtils.cleanPath(mainImageMultipart.getOriginalFilename());
-			product.setMainImage(fileName);
 		}
 	}
 

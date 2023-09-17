@@ -11,7 +11,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "product_details")
+@Table(name = "product_images")
 public class ProductImage {
 
 	@Id
@@ -21,9 +21,6 @@ public class ProductImage {
 	@Column(nullable = false)
 	private String name;
 	
-	@Column(nullable = false)
-	private String value;
-
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "product_id")
 	private Product product;

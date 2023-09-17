@@ -77,31 +77,9 @@
 		moduleURL = "[[@{/products}]]";
 		brandModuleURL = "[[@{/brands}]]";
 		defaultImageThumbnailSrc = "[[@{/images/image-thumbnail.png}]]";
+		checkUniqueUrl = "[[@{/products/check_unique}]]";
 
-
-		function checkUnique(form) {
-			MAX_FILE_SIZE = 512000;
-			url = "[[@{/products/check_unique}]]";
-			productId = $("#id").val();
-			productName = $("#name").val();
-			csrfValue = $("input[name='_csrf']").val();
-
-			params = {id: productId, name: productName, _csrf: csrfValue};
-
-			$.post(url, params, function (response) {
-				if (response == "OK") {
-					form.submit();
-				} else if (response == "Duplicate") {
-					showWarningModal("There is another product with name: " + productName);
-				} else {
-					showErrorModal("Unknown response from server");
-				}
-			}).fail(function () {
-				showErrorModal("Could not connect to the server");
-			});
-
-			return false;
-		}
+		
 	</script>
 	<script th:src="@{/js/common_form.js}"></script>
 	<script th:src="@{/js/product_form_overview.js}"></script>

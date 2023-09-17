@@ -1,7 +1,6 @@
 function addNextDetailSection() {
 	allDivDetails = $("[id^='divDetail']");
 	divDetailsCount = allDivDetails.length;
-	
 
 	htmlDetailSection = `
 		<div class="row pb-2" id="divDetail${divDetailsCount}">
@@ -21,15 +20,15 @@ function addNextDetailSection() {
 	`;
 
 	$("#divProductDetails").append(htmlDetailSection);
-	
+
 	previousDivDetailSection = allDivDetails.last();
 	previousDivDetailID = previousDivDetailSection.attr("id");
 
 	htmlLinkRemove = `
-		<a class="fa-solid fa-circle-xmark fa-xl icon-dark pt-2" href="javascript:removeDetailSectionById('${previousDivDetailID}')" title="Remove this detail"></a>
+		<div><a class="fa-solid fa-circle-xmark fa-xl icon-dark text-end" href="javascript:removeDetailSectionById('${previousDivDetailID}')" title="Remove this detail"></a></div>
 	`;
 	previousDivDetailSection.append(htmlLinkRemove);
-	
+
 	$("input[name='detailNames']").last().focus();
 }
 

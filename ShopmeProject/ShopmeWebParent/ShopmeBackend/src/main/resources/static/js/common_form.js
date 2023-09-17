@@ -26,13 +26,15 @@ function checkFileSize(fileInput) {
 
 	if (fileSize > MAX_FILE_SIZE) {
 		fileInput.setCustomValidity("You must choose an image not exceeds " + Math.round(MAX_FILE_SIZE / 1024) + " KB!");
-		fileInput.reportValidity();
-
-		return false;
-	} else {
+	} else if (MAX_FILE_SIZE >= 1048576 && fileSize > MAX_FILE_SIZE) {
+		fileInput.setCustomValidity("You must choose an image not exceeds " + Math.round(MAX_FILE_SIZE / 1048576) + " MB!");
+	}
+	else {
 		fileInput.setCustomValidity("");
 		return true;
 	}
+	fileInput.reportValidity();
+	return false;
 }
 
 function showModalDialog(title, message) {
