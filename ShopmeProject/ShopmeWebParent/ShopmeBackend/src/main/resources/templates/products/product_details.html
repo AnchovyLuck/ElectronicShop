@@ -3,7 +3,24 @@
 
 <body>
 	<div th:fragment="content" id="divProductDetails">
-		<div class="row pb-2 position-relative" id="divDetail0">
+		<th:block th:each="detail, status : ${product.details}">
+			<div class="row pb-2 position-relative" th:id="'divDetail' + ${status.index}">
+				<div class="col-1">
+					<label class="col-form-label pb-2 ps-5">Name:</label>
+				</div>
+				<div class="col-5">
+					<input type="text" name="detailNames" class="form-control w-75" th:value="${detail.name}">
+				</div>
+				<div class="col-1">
+					<label class="col-form-label pb-2 ps-5">Value:</label>
+				</div>
+				<div class="col-5">
+					<input type="text" name="detailValues" class="form-control w-75" th:value="${detail.value}">
+				</div>
+				<div><a name="linkRemoveDetail" class="fa-solid fa-circle-xmark fa-xl icon-dark text-end" href="javascript:removeDetailSectionById('${previousDivDetailID}')" title="Remove this detail"></a></div>
+			</div>
+		</th:block>
+		<div class="row pb-2 position-relative" th:id="'divDetail' + ${#lists.size(product.details)}">
 			<div class="col-1">
 				<label class="col-form-label pb-2 ps-5">Name:</label>
 			</div>

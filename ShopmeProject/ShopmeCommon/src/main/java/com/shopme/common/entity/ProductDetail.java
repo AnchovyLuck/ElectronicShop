@@ -20,7 +20,7 @@ public class ProductDetail {
 
 	@Column(nullable = false, length = 255)
 	private String name;
-	
+
 	@Column(nullable = false, length = 255)
 	private String value;
 
@@ -59,5 +59,13 @@ public class ProductDetail {
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
 	}
 }

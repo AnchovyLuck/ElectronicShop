@@ -29,9 +29,18 @@
 		<div class="mb-3 row input-group text-start">
 			<label class="col-sm-2 col-form-label">Category:</label>
 			<div class="col-sm-10">
-				<select th:field="*{category}" class="form-control" required>
+				<th:block th:if="${product.category != null}">
+					<select th:field="*{category}" class="form-control" required>
+						<th:block th:each="cat : ${product.brand.categories}">
+							<option th:value="${cat.id}">[[${cat.name}]]</option>
+						</th:block>
+					</select>
+				</th:block>
+				<th:block th:if="${product.category == null}">
+					<select th:field="*{category}" class="form-control" required>
 
-				</select>
+					</select>
+				</th:block>
 			</div>
 		</div>
 		<div class="mb-3 row input-group text-start">
@@ -49,19 +58,19 @@
 		<div class="mb-3 row input-group text-start">
 			<label class="col-sm-2 col-form-label">Cost:</label>
 			<div class="col-sm-10">
-				<input type="number" class="form-control" th:field="*{cost}" >
+				<input type="number" class="form-control" th:field="*{cost}">
 			</div>
 		</div>
 		<div class="mb-3 row input-group text-start">
 			<label class="col-sm-2 col-form-label">Price:</label>
 			<div class="col-sm-10">
-				<input type="number" class="form-control" th:field="*{price}" >
+				<input type="number" class="form-control" th:field="*{price}">
 			</div>
 		</div>
 		<div class="mb-3 row input-group text-start">
 			<label class="col-sm-2 col-form-label">Discount:</label>
 			<div class="col-sm-10">
-				<input type="number" class="form-control" th:field="*{discountPercent}" >
+				<input type="number" class="form-control" th:field="*{discountPercent}">
 			</div>
 		</div>
 	</div>
