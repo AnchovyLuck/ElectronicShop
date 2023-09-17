@@ -15,14 +15,14 @@ $(document).ready(function() {
 			removeExtraImage(index);
 		})
 	});
-}); 
+});
 
 function showExtraImageThumbnail(fileInput, index) {
 	let file = fileInput.files[0];
 	let reader = new FileReader();
 	reader.onload = function(e) {
 		$("#extraThumbnail" + index).attr("src", e.target.result);
-	}; 
+	};
 
 	reader.readAsDataURL(file);
 
@@ -43,7 +43,7 @@ function addNextExtraImageSection(index) {
 			</div>`;
 
 	htmlLinkRemove = `
-		<div class="position-absolute top-0 end-0"><a class="fa-solid fa-circle-xmark fa-xl icon-dark float-end pt-2" href="javascript:removeExtraImage(${index - 1})" title="Remove this image"></a></div>
+		<a class="fa-solid fa-circle-xmark fa-xl icon-dark float-end pt-2" href="javascript:removeExtraImage(${index - 1})" title="Remove this image"></a>
 	`;
 
 	$("#divProductImages").append(htmlExtraImage);

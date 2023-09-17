@@ -49,6 +49,10 @@
 	margin: 0 auto;
 }
 
+a[name="linkRemoveExtraImage"] {
+	cursor: pointer;
+}
+
 @media screen and (max-width: 768px) {
 	div.full_details {
 		display: none;
