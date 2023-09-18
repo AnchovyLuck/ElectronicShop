@@ -53,6 +53,10 @@ a[name="linkRemoveExtraImage"] {
 	cursor: pointer;
 }
 
+.product_image {
+	width: 350px;
+}
+
 @media screen and (max-width: 768px) {
 	div.full_details {
 		display: none;

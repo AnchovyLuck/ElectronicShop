@@ -19,6 +19,14 @@ $(document).ready(function() {
 
 function showExtraImageThumbnail(fileInput, index) {
 	let file = fileInput.files[0];
+	
+	fileName = file.name;
+	
+	imageNameHiddenField = $("#imageName" + index);
+	if (imageNameHiddenField.length) {
+		imageNameHiddenField.val(fileName);
+	}
+	
 	let reader = new FileReader();
 	reader.onload = function(e) {
 		$("#extraThumbnail" + index).attr("src", e.target.result);

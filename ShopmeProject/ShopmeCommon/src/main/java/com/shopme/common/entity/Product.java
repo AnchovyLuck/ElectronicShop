@@ -2,6 +2,7 @@ package com.shopme.common.entity;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -251,6 +252,10 @@ public class Product {
 	public void addDetail(String name, String value) {
 		this.details.add(new ProductDetail(name, value, this));
 	}
+	
+	public void addDetail(Integer id, String name, String value) {
+		this.details.add(new ProductDetail(id, name, value, this));
+	}
 
 	@Override
 	public String toString() {
@@ -263,5 +268,17 @@ public class Product {
 			return "/images/image-thumbnail.png";
 		}
 		return "/product-images/" + this.id + "/" + this.mainImage;
+	}
+	
+	public boolean containsImageName(String imageName) {
+		Iterator<ProductImage> iterator = images.iterator();
+		
+		while (iterator.hasNext()) {
+			ProductImage image = iterator.next();
+			if (image.getName().equals(imageName)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

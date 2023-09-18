@@ -34,7 +34,11 @@
 					<td>
 						<img class="prod_listing_img" th:src="@{${product.mainImagePath}}">
 					</td>
-					<td>[[${product.name}]]</td>
+					<td>
+						<a class="link-detail link-underline fw-bold link-underline-opacity-0"
+							th:href="@{'/products/detail/' + ${product.id}}"
+							title="View details of this product">[[${product.name}]]</a>
+					</td>
 					<td>[[${product.brand.name}]]</td>
 					<td>[[${product.category.name}]]</td>
 					<td>
@@ -43,7 +47,7 @@
 						</div>
 					</td>
 					<td>
-						<a class="fa-solid fa-file-lines fa-2xl icon-green me-2"
+						<a class="fa-solid fa-file-lines fa-2xl icon-green me-2 link-detail"
 							th:href="@{'/products/detail/' + ${product.id}}" title="View details of this product"></a>
 						<div
 							th:replace="~{fragments/listing.html :: edit('product', '/products/edit/' + ${product.id})}">
@@ -56,16 +60,26 @@
 			</tbody>
 		</table>
 	</div>
-	<div th:replace="~{fragments/common.html :: pagination('/brands', 'brands')}"></div>
+	<div th:replace="~{fragments/common.html :: pagination('/products', 'products')}"></div>
 	<div th:replace="~{fragments/modal.html :: delete_confirm_modal}"></div>
+	<div class="modal fade" id="detailModal">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content"></div>
+		</div>
+	</div>
 	<div th:replace="~{fragments/common.html :: footer}"></div>
 	<script type="text/javascript">
-		moduleURL = "[[@{/brands}]]";
+		moduleURL = "[[@{/products}]]";
 
 		$(document).ready(function () {
 			$(".link-delete").on("click", function (e) {
 				e.preventDefault();
 				showDeleteConfirmModal($(this), 'product');
+			});
+			$(".link-detail").on("click", function (e) {
+				e.preventDefault();
+				linkDetailURL = $(this).attr("href");
+				$("#detailModal").modal("show").find(".modal-content").load(linkDetailURL);
 			});
 		});
 	</script>

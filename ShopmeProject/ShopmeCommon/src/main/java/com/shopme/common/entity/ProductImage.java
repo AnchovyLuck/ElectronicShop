@@ -21,12 +21,18 @@ public class ProductImage {
 
 	@Column(nullable = false)
 	private String name;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "product_id")
 	private Product product;
 
 	public ProductImage() {
+	}
+
+	public ProductImage(Integer id, String name, Product product) {
+		this.id = id;
+		this.name = name;
+		this.product = product;
 	}
 
 	public ProductImage(String name, Product product) {
@@ -57,7 +63,7 @@ public class ProductImage {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
-	
+
 	@Transient
 	public String getImagePath() {
 		return "/product-images/" + product.getId() + "/extras/" + this.name;
