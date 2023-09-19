@@ -1,6 +1,7 @@
 package com.shopme.common.entity;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -11,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -40,6 +42,12 @@ public class Category {
 
 	@OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Category> children = new HashSet<>();
+
+	@ManyToMany(mappedBy = "categories")
+	private Set<Brand> brands = new HashSet<>();
+	
+	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Product> products = new HashSet<>();
 
 	public Category() {
 	}
@@ -99,6 +107,14 @@ public class Category {
 		this(name);
 		this.parent = parent;
 	}
+	
+	public Set<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(Set<Product> products) {
+		this.products = products;
+	}
 
 	public Integer getId() {
 		return id;
@@ -156,6 +172,14 @@ public class Category {
 		this.children = children;
 	}
 
+	public Set<Brand> getBrands() {
+		return brands;
+	}
+
+	public void setBrands(Set<Brand> brands) {
+		this.brands = brands;
+	}
+
 	public void addChild(Category child) {
 		this.children.add(child);
 		child.setParent(this.parent);
@@ -165,27 +189,48 @@ public class Category {
 		this.children.remove(child);
 		child.setParent(null);
 	}
-	
+
+	public void addBrand(Brand brand) {
+		this.brands.add(brand);
+		brand.getCategories().add(this);
+	}
+
+	public void removeBrand(Brand brand) {
+		this.brands.remove(brand);
+		brand.getCategories().remove(this);
+	}
+
+	public void removeBrands() {
+		Iterator<Brand> iterator = this.brands.iterator();
+
+		while (iterator.hasNext()) {
+			Brand brand = iterator.next();
+
+			brand.setCategories(null);
+			iterator.remove();
+		}
+	}
+
 	@Transient
 	public String getImagePath() {
 		if (this.id == null || this.image == null) {
 			return "/images/image-thumbnail.png";
 		}
-			
+
 		return "/category-images/" + this.id + "/" + this.image;
 	}
-	
+
 	public boolean isHasChildren() {
 		return hasChildren;
 	}
-	
+
 	public void setHasChildren(boolean hasChildren) {
 		this.hasChildren = hasChildren;
 	}
-	
+
 	@Transient
 	private boolean hasChildren;
-	
+
 	@Override
 	public String toString() {
 		return this.name;

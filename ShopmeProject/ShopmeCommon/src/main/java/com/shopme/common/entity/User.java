@@ -1,5 +1,6 @@
 package com.shopme.common.entity;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -18,7 +19,9 @@ import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,7 +54,7 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
@@ -140,7 +143,7 @@ public class User {
 		this.roles.add(role);
 		role.getUsers().add(this);
 	}
-	
+
 	public void removeRole(Role role) {
 		this.roles.remove(role);
 		role.getUsers().remove(this);
@@ -157,7 +160,7 @@ public class User {
 		if (this.id == null || this.photos == null) {
 			return "/images/default-user.png";
 		}
-			
+
 		return "/user-photos/" + this.id + "/" + this.photos;
 	}
 

@@ -206,6 +206,7 @@ public class CategoryService {
 		if (countById == null || countById == 0) {
 			throw new CategoryNotFoundException("Could not find any category with ID " + id);
 		}
+		catRepo.findById(id).get().removeBrands();
 
 		catRepo.deleteById(id);
 	}

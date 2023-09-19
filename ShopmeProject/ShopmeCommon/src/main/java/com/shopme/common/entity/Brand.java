@@ -3,6 +3,7 @@ package com.shopme.common.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
@@ -28,9 +30,12 @@ public class Brand {
 	@Column(nullable = false, length = 128)
 	private String logo;
 
-	@ManyToMany
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(name = "brands_categories", joinColumns = @JoinColumn(name = "brand_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
 	private Set<Category> categories = new HashSet<>();
+	
+	@OneToMany(mappedBy = "brand", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Product> products = new HashSet<>();
 
 	public Brand() {
 	}
@@ -76,6 +81,14 @@ public class Brand {
 	public void setCategories(Set<Category> categories) {
 		this.categories = categories;
 	}
+	
+	public Set<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(Set<Product> products) {
+		this.products = products;
+	}
 
 	@Override
 	public String toString() {
@@ -90,4 +103,6 @@ public class Brand {
 
 		return "/brand-logos/" + this.id + "/" + this.logo;
 	}
+	
+	
 }

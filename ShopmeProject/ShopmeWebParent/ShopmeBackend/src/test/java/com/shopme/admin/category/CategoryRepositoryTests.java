@@ -3,6 +3,7 @@ package com.shopme.admin.category;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ import org.springframework.test.annotation.Rollback;
 import com.shopme.admin.repository.CategoryRepository;
 import com.shopme.common.entity.Category;
 
-@DataJpaTest(showSql = false)
+@DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @Rollback(false)
 public class CategoryRepositoryTests {
@@ -111,5 +112,19 @@ public class CategoryRepositoryTests {
 		assertThat(category.getName()).isEqualTo(alias);
 	}
 	
+	@Test
+	public void testDeleteCategory() {
+		Integer id = 22;
+		
+		Category cat = repo.findById(id).get();
+		
+		cat.removeBrands();
+		
+		repo.deleteById(id);
+		
+		Optional<Category> result = repo.findById(id);
+		
+		assertThat(result).isEmpty();
+	}
 	
 }

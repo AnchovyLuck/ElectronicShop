@@ -133,7 +133,7 @@ public class CategoryController {
 		} catch (CategoryNotFoundException ex) {
 			redirectAttributes.addFlashAttribute("message", ex.getMessage());
 		}
-		return "redirect:/users";
+		return "redirect:/categories";
 	}
 
 	@GetMapping("/categories/{id}/enabled/{status}")
