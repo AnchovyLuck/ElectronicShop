@@ -25,13 +25,13 @@
 	<li th:fragment="page_link(moduleURL, pageNum, buttonLabel, position)" th:class="${position == 'prev' ? (currentPage > 1 ? 'page-item' : 'page-item disabled') : 
 		(position == 'next' ? (currentPage < totalPages ? 'page-item' : 'page-item disabled') : '')}">
 		<a class="page-link" th:href="@{${moduleURL} + '/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + 
-			${keyword != null ? '&keyword=' + keyword : ''}}">[[${buttonLabel}]]
+			${keyword != null ? '&keyword=' + keyword : ''} + ${categoryId != null ? '&categoryId=' + categoryId : ''}}">[[${buttonLabel}]]
 		</a>
 	</li>
 	<li th:fragment="page_link_number(moduleURL)" th:class="${currentPage != i ? 'page-item' : 'page-item active'}"
 		th:each="i : ${#numbers.sequence(1, totalPages)}">
 		<a class="page-link" th:href="@{${moduleURL} + '/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} 
-			+ ${keyword != null ? '&keyword=' + keyword : ''}}">[[${i}]]</a>
+			+ ${keyword != null ? '&keyword=' + keyword : ''} + ${categoryId != null ? '&categoryId=' + categoryId : ''}}">[[${i}]]</a>
 	</li>
 
 	<div th:fragment="pagination(moduleURL, entityName)" th:remove="tag">
