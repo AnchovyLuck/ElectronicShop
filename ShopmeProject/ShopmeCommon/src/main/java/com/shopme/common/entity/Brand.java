@@ -89,6 +89,16 @@ public class Brand {
 	public void setProducts(Set<Product> products) {
 		this.products = products;
 	}
+	
+	public void addProduct(Product product) {
+		this.products.add(product);
+		product.setBrand(this);
+	}
+	
+	public void removeProduct(Product product) {
+		this.products.remove(product);
+		product.setBrand(null);
+	}
 
 	@Override
 	public String toString() {

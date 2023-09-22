@@ -2,6 +2,7 @@ package com.shopme.admin.service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.shopme.admin.exception.BrandNotFoundException;
 import com.shopme.admin.repository.BrandRepository;
 import com.shopme.common.entity.Brand;
+import com.shopme.common.entity.Product;
 
 @Service
 public class BrandService {
@@ -56,6 +58,10 @@ public class BrandService {
 		if (countById == null || countById == 0) {
 			throw new BrandNotFoundException("Could not find any brand with ID " + id);
 		}
+		Brand deletingBrand = brandRepo.findById(id).get();
+		
+		Set<Product> productsPerBrand = deletingBrand.getProducts();
+		productsPerBrand.forEach(product -> deletingBrand.removeProduct(product));
 
 		brandRepo.deleteById(id);
 	}
