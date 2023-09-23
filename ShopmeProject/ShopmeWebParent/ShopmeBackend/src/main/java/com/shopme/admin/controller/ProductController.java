@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shopme.admin.FileUploadUtil;
 import com.shopme.admin.exception.ProductNotFoundException;
+import com.shopme.admin.security.ShopmeUserDetails;
 import com.shopme.admin.service.BrandService;
 import com.shopme.admin.service.CategoryService;
 import com.shopme.admin.service.ProductService;
@@ -42,7 +44,7 @@ public class ProductController {
 
 	@Autowired
 	private BrandService brandService;
-	
+
 	@Autowired
 	private CategoryService categoryService;
 
@@ -50,14 +52,15 @@ public class ProductController {
 	public String listFirstPage(Model model) {
 		return listByPage(1, model, "id", "asc", null, 0);
 	}
-	
+
 	@GetMapping("/products/page/{pageNum}")
-	public String listByPage(@PathVariable(name = "pageNum") int pageNum, Model model, @Param("sortField") String sortField, @Param("sortDir") String sortDir,
-			@Param("keyword") String keyword, @Param("categoryId") Integer categoryId) {
-		
+	public String listByPage(@PathVariable(name = "pageNum") int pageNum, Model model,
+			@Param("sortField") String sortField, @Param("sortDir") String sortDir, @Param("keyword") String keyword,
+			@Param("categoryId") Integer categoryId) {
+
 		Page<Product> page = productService.listByPage(pageNum, sortField, sortDir, keyword, categoryId);
 		List<Product> listProducts = page.getContent();
-		
+
 		List<Category> listCategories = categoryService.listCategoriesUsedInForm();
 
 		long startCount = (pageNum - 1) * ProductService.PRODUCTS_PER_PAGE + 1;
@@ -72,7 +75,7 @@ public class ProductController {
 		if (categoryId != null) {
 			model.addAttribute("categoryId", categoryId);
 		}
-		
+
 		model.addAttribute("startCount", startCount);
 		model.addAttribute("endCount", endCount);
 		model.addAttribute("currentPage", pageNum);
@@ -106,13 +109,20 @@ public class ProductController {
 
 	@PostMapping("/products/save")
 	public String saveProduct(Product product, RedirectAttributes ra,
-			@RequestParam("fileImage") MultipartFile mainImageMultipart,
-			@RequestParam("extraImage") MultipartFile[] extraImageMultiparts,
+			@RequestParam(value = "fileImage", required = false) MultipartFile mainImageMultipart,
+			@RequestParam(value = "extraImage", required = false) MultipartFile[] extraImageMultiparts,
 			@RequestParam(name = "detailIDs", required = false) String[] detailIDs,
 			@RequestParam(name = "detailNames", required = false) String[] detailNames,
 			@RequestParam(name = "detailValues", required = false) String[] detailValues,
 			@RequestParam(name = "imageIDs", required = false) String[] imageIDs,
-			@RequestParam(name = "imageNames", required = false) String[] imageNames) throws IOException {
+			@RequestParam(name = "imageNames", required = false) String[] imageNames,
+			@AuthenticationPrincipal ShopmeUserDetails loggedUser) throws IOException {
+		if (loggedUser.hasRole("Salesperson")) {
+			productService.saveProductPrice(product);
+			ra.addFlashAttribute("message", "The product has been saved successfully!");
+			return "redirect:/products";
+		}
+
 		setMainImageName(mainImageMultipart, product);
 		setExistingExtraImageName(imageIDs, imageNames, product);
 		setNewExtraImageNames(extraImageMultiparts, product);

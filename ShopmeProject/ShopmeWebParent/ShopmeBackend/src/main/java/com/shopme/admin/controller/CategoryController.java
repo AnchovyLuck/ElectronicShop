@@ -103,7 +103,7 @@ public class CategoryController {
 
 	@GetMapping("/categories/edit/{id}")
 	public String editCategory(@PathVariable(name = "id") Integer id, Model model,
-			RedirectAttributes redirectAttributes) throws CategoryNotFoundException {
+			RedirectAttributes ra) throws CategoryNotFoundException {
 		try {
 			List<Category> listCategories = service.listCategoriesUsedInForm();
 			Category category = service.get(id);
@@ -114,35 +114,35 @@ public class CategoryController {
 
 			return "categories/category_form";
 		} catch (CategoryNotFoundException ex) {
-			redirectAttributes.addFlashAttribute("message", ex.getMessage());
+			ra.addFlashAttribute("message", ex.getMessage());
 			return "redirect:/categories";
 		}
 	}
 
 	@GetMapping("/categories/delete/{id}")
 	public String deleteCategory(@PathVariable(name = "id") Integer id, Model model,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes ra) {
 		try {
 			service.delete(id);
 			String catDir = "../category-images/" + id;
 			FileUploadUtil.removeDir(catDir);
 
-			redirectAttributes.addFlashAttribute("message",
+			ra.addFlashAttribute("message",
 					"The category ID " + id + " has been deleted successfully!");
 			
 		} catch (CategoryNotFoundException ex) {
-			redirectAttributes.addFlashAttribute("message", ex.getMessage());
+			ra.addFlashAttribute("message", ex.getMessage());
 		}
 		return "redirect:/categories";
 	}
 
 	@GetMapping("/categories/{id}/enabled/{status}")
 	public String updateUserEnabledStatus(@PathVariable("id") Integer id, @PathVariable("status") boolean enabled,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes ra) {
 		service.updateCategoryEnabledStatus(id, enabled);
 		String status = enabled ? "enabled" : "disabled";
 		String message = "The category ID " + id + " has been " + status;
-		redirectAttributes.addFlashAttribute("message", message);
+		ra.addFlashAttribute("message", message);
 
 		return "redirect:/categories";
 	}

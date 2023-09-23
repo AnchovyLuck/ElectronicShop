@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org/">
+<html xmlns:th="https://www.thymeleaf.org/" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
 <head th:replace="~{fragments/common.html :: page_head('Products - Shopme Admin', 'none')}"></head>
 
@@ -7,17 +7,20 @@
 	<nav th:replace="~{fragments/navigation.html :: menu}"></nav>
 	<div class="ms-4">
 		<h2>Manage Products</h2>
-		<a th:href="@{/products/new}" class="fa-solid fa-folder-plus fa-2xl icon-dark me-5"></a>
-		<a th:href="@{/products/export/csv}" class="fa-solid fa-file-csv fa-2xl icon-dark me-3"></a>
-		<a th:href="@{/products/export/excel}" class="fa-solid fa-file-excel fa-2xl icon-dark me-3"></a>
-		<a th:href="@{/products/export/pdf}" class="fa-solid fa-file-pdf fa-2xl icon-dark"></a>
+
+		<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+			<a th:href="@{/products/new}" class="fa-solid fa-folder-plus fa-2xl icon-dark me-5"></a>
+			<a th:href="@{/products/export/csv}" class="fa-solid fa-file-csv fa-2xl icon-dark me-3"></a>
+			<a th:href="@{/products/export/excel}" class="fa-solid fa-file-excel fa-2xl icon-dark me-3"></a>
+			<a th:href="@{/products/export/pdf}" class="fa-solid fa-file-pdf fa-2xl icon-dark"></a>
+		</th:block>
 	</div>
 
 	<div>
 		<form th:action="@{/products/page/1}" class="form-inline" id="searchForm">
 			<input type="hidden" name="sortField" th:value="${sortField}">
 			<input type="hidden" name="sortDir" th:value="${sortDir}">
-			
+
 			<div class="w-auto p-3 d-flex">
 				<div class="row">
 					<div class="input-group mb-3 col-lg-2">
@@ -25,7 +28,8 @@
 						<select class="form-control" name="categoryId" id="dropdownCategory">
 							<option value="0">All Categories</option>
 							<th:block th:each="cat : ${listCategories}">
-								<option th:value="${cat.id}" th:selected="(${categoryId} == ${cat.id})">[[${cat.name}]]</option>
+								<option th:value="${cat.id}" th:selected="(${categoryId} == ${cat.id})">[[${cat.name}]]
+								</option>
 							</th:block>
 						</select>
 						<span class="input-group-text">Filter</span>
@@ -59,10 +63,15 @@
 					<th>Main Image</th>
 					<th
 						th:replace="~{fragments/listing.html :: column_link('/products', 'name', 'Product Name', 'none')}">
+					</th>
 					<th th:replace="~{fragments/listing.html :: column_link('/products', 'brand', 'Brand', 'none')}">
+					</th>
 					<th
 						th:replace="~{fragments/listing.html :: column_link('/products', 'category', 'Category', 'none')}">
-					<th>Enabled</th>
+					</th>
+					<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+						<th>Enabled</th>
+					</th:block>
 					<th class="col-lg-1 col-md-2 col-sm-1"></th>
 				</div>
 			</thead>
@@ -79,20 +88,26 @@
 					</td>
 					<td>[[${product.brand.name}]]</td>
 					<td>[[${product.category.name}]]</td>
+					<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
 					<td>
 						<div
 							th:replace="~{fragments/listing.html :: status(${product.enabled}, 'product', '/products/' + ${product.id})}">
 						</div>
 					</td>
+					</th:block>
 					<td>
 						<a class="fa-solid fa-file-lines fa-2xl icon-green me-2 link-detail"
 							th:href="@{'/products/detail/' + ${product.id}}" title="View details of this product"></a>
+						<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor', 'Salesperson')">
 						<div
 							th:replace="~{fragments/listing.html :: edit('product', '/products/edit/' + ${product.id})}">
 						</div>
+						</th:block>
+						<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
 						<div
 							th:replace="~{fragments/listing.html :: delete('product', '/products/delete/' + ${product.id}, true, ${product.id})}">
 						</div>
+						</th:block>
 					</td>
 				</tr>
 			</tbody>
@@ -119,7 +134,7 @@
 				linkDetailURL = $(this).attr("href");
 				$("#detailModal").modal("show").find(".modal-content").load(linkDetailURL);
 			});
-			$("#dropdownCategory").on("change", function() {
+			$("#dropdownCategory").on("change", function () {
 				$("#searchForm").submit();
 			});
 		});

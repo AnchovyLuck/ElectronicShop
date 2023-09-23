@@ -36,6 +36,11 @@ public class ProductService {
 		Pageable pageable = PageRequest.of(pageNum - 1, PRODUCTS_PER_PAGE, sort);
 
 		if (keyword != null && !keyword.isEmpty()) {
+			if (categoryId != null && categoryId > 0) {
+				String categoryIdMatch = "-" + String.valueOf(categoryId) + "-";
+				return repo.searchInCategory(categoryId, categoryIdMatch, keyword, pageable);
+			}
+			
 			return repo.findAll(keyword, pageable);
 		}
 		
@@ -61,6 +66,15 @@ public class ProductService {
 		product.setUpdatedTime(new Date());
 
 		return repo.save(product);
+	}
+	
+	public void saveProductPrice(Product productInForm) {
+		Product productInDB = repo.findById(productInForm.getId()).get();
+		productInDB.setCost(productInForm.getCost());
+		productInDB.setPrice(productInForm.getPrice());
+		productInDB.setDiscountPercent(productInForm.getDiscountPercent());
+		
+		repo.save(productInDB);
 	}
 
 	public String checkUnique(Integer id, String name) {

@@ -37,7 +37,13 @@ public class WebSecurityConfig {
 
 		http.authorizeHttpRequests(authz -> authz.requestMatchers("/users/**", "/settings/**").hasAuthority("Admin")
 				.requestMatchers("/categories/**", "/brands/**", "/articles/**", "/menus/**").hasAnyAuthority("Admin", "Editor")
-				.requestMatchers("/products/**").hasAnyAuthority("Admin", "Salesperson", "Editor", "Shipper")
+				
+				.requestMatchers("/products/edit/**", "products/save", "/products/check_unique").hasAnyAuthority("Admin", "Editor", "Salesperson")
+				
+				.requestMatchers("/products", "/products/", "/products/detail/**", "/products/page/**").hasAnyAuthority("Admin", "Editor", "Salesperson", "Shipper")
+				
+				.requestMatchers("/products/**").hasAnyAuthority("Admin", "Editor")
+				
 				.requestMatchers("/customers/**", "/shipping/**", "/report/**").hasAnyAuthority("Admin", "Salesperson")
 				.requestMatchers("/orders/**").hasAnyAuthority("Admin", "Salesperson", "Shipper")
 				.requestMatchers("/images/**", "/js/**", "/webjars/**", "style.css", "/fontawesome/**").permitAll().anyRequest().authenticated())

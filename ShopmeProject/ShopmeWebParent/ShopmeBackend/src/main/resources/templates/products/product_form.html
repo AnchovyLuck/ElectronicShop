@@ -45,20 +45,40 @@
 					<div th:replace="~{products/product_overview.html :: content}"></div>
 				</div>
 				<div class="tab-pane" id="description" role="tabpanel" tabindex="0">
-					<div th:replace="~{products/product_description.html :: content}"></div>
+					<th:block sec:authorize="hasAnyAuthority('Salesperson')">
+						<div th:replace="~{products/product_description_readonly.html :: content}"></div>
+					</th:block>
+					<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+						<div th:replace="~{products/product_description.html :: content}"></div>
+					</th:block>
 				</div>
 				<div class="tab-pane" id="images" role="tabpanel" tabindex="0">
-					<div th:replace="~{products/product_images.html :: content}"></div>
+					<th:block sec:authorize="hasAnyAuthority('Salesperson')">
+						<div th:replace="~{products/product_images_readonly.html :: content}"></div>
+					</th:block>
+					<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+						<div th:replace="~{products/product_images.html :: content}"></div>
+					</th:block>
 				</div>
 				<div class="tab-pane p-3" id="details" role="tabpanel" tabindex="0">
-					<div th:replace="~{products/product_details.html :: content}"></div>
-					<div>
-						<input type="button" class="btn btn-secondary" value="Add More Detail"
-							onclick="addNextDetailSection()">
-					</div>
+					<th:block sec:authorize="hasAnyAuthority('Salesperson')">
+						<div th:replace="~{products/product_details_readonly.html :: content}"></div>
+					</th:block>
+					<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+						<div th:replace="~{products/product_details.html :: content}"></div>
+						<div>
+							<input type="button" class="btn btn-secondary" value="Add More Detail"
+								onclick="addNextDetailSection()">
+						</div>
+					</th:block>
 				</div>
 				<div class="tab-pane" id="shipping" role="tabpanel" tabindex="0">
-					<div th:replace="~{products/product_shipping.html :: content}"></div>
+					<th:block sec:authorize="hasAnyAuthority('Salesperson')">
+						<div th:replace="~{products/product_shipping_readonly.html :: content}"></div>
+					</th:block>
+					<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+						<div th:replace="~{products/product_shipping.html :: content}"></div>
+					</th:block>
 				</div>
 			</div>
 			<div class="text-center">
@@ -77,7 +97,7 @@
 		defaultImageThumbnailSrc = "[[@{/images/image-thumbnail.png}]]";
 		checkUniqueUrl = "[[@{/products/check_unique}]]";
 
-		
+
 	</script>
 	<script th:src="@{/js/common_form.js}"></script>
 	<script th:src="@{/js/product_form_overview.js}"></script>

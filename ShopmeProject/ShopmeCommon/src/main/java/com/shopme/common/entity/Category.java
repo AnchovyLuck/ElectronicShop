@@ -1,7 +1,6 @@
 package com.shopme.common.entity;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -193,6 +192,11 @@ public class Category {
 		this.children.remove(child);
 		child.setParent(null);
 	}
+	
+	public void removeChildren() {
+		Set<Category> children = this.getChildren();
+		children.forEach(child -> child.setParent(null));
+	}
 
 	public void addBrand(Brand brand) {
 		this.brands.add(brand);
@@ -205,14 +209,23 @@ public class Category {
 	}
 
 	public void removeBrands() {
-		Iterator<Brand> iterator = this.brands.iterator();
-
-		while (iterator.hasNext()) {
-			Brand brand = iterator.next();
-
-			brand.setCategories(null);
-			iterator.remove();
-		}
+		Set<Brand> brands = this.getBrands();
+		brands.forEach(brand -> brand.getCategories().remove(this));
+	}
+	
+	public void addProduct(Product product) {
+		this.getProducts().add(product);
+		product.setCategory(this);
+	}
+	
+	public void removeProduct(Product product) {
+		this.getProducts().remove(product);
+		product.setCategory(null);
+	}
+	
+	public void removeProducts() {
+		Set<Product> products = this.getProducts();
+		products.forEach(product -> product.setCategory(null));
 	}
 
 	@Transient
