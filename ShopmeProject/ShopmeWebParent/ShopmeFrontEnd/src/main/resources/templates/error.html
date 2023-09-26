@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+
+<head th:replace="~{fragments/common.html :: page_head('Error - Shopme', 'none')}"></head>
+
+<body>
+	<nav th:replace="~{fragments/navigation.html :: head_menu}"></nav>
+	<div class="text-center mt-3">
+		<h2>Sorry, an unexpected error has occurred!</h2>
+	</div>
+	<div th:replace="~{fragments/navigation.html :: footer_menu}"></div>
+</body>
+
+</html>

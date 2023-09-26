@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org">
 
-<head th:replace="~{fragments/common.html :: page_head('Shopme', 'none')}"></head>
+<head th:replace="~{fragments/common.html :: page_head('Internal Server Error - Shopme', 'none')}"></head>
 
 <body>
 	<nav th:replace="~{fragments/navigation.html :: head_menu}"></nav>
-
-	<div class="ms-4">
-		<h1>Welcome to Shopme eCommerce</h1>
+	<div class="text-center mt-3">
+		<h2>Sorry, the server has encountered an error while processing your request!</h2>
 	</div>
 	<div th:replace="~{fragments/navigation.html :: footer_menu}"></div>
 </body>
