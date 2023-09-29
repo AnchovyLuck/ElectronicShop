@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head th:replace="~{fragments/common.html :: page_head(${pageTitle}, 'none')}"></head>
+
+<body>
+	<nav th:replace="~{fragments/navigation.html :: head_menu}"></nav>
+
+	<div th:if="${listCategoryParents != null && !listCategoryParents.empty}" class="ms-4">
+		<div class="row">
+			<div class="col">
+				<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">
+							<a th:href="@{/}">Home</a>
+						</li>
+						<th:block th:each="parent : ${listCategoryParents}">
+							<li class="breadcrumb-item">
+								<a th:href="@{'/c/' + ${parent.alias}}">[[${parent.name}]]</a>
+							</li>
+						</th:block>
+					</ol>
+				</nav>
+			</div>
+		</div>
+	</div>
+
+	<div class="row text-center">
+		<th:block th:each="cat : ${category.children}">
+			<div class="col" th:if="${cat.enabled == true}">
+				<a class="link-underline link-underline-opacity-0" th:href="@{'/c/' + ${cat.alias}}">
+					<img th:src="@{${cat.imagePath}}" height="100">
+					<br>
+					<b>[[${cat.name}]]</b>
+				</a>
+			</div>
+		</th:block>
+	</div>
+	<div class="row pt-5">
+		<th:block th:each="product : ${listProducts}">
+			<div class="col">
+				<div>
+					<img th:src="@{${product.mainImagePath}}" width="150">
+					<br>
+					<b>[[${product.name}]]</b>
+				</div>
+			</div>
+		</th:block>
+	</div>
+	<div th:replace="~{fragments/common.html :: pagination('/c/' + ${category.alias}, 'product')}"></div>
+	<div th:replace="~{fragments/navigation.html :: footer_menu}"></div>
+</body>
+
+</html>

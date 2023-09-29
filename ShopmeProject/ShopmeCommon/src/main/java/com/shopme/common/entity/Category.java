@@ -35,7 +35,7 @@ public class Category {
 
 	private boolean enabled;
 	
-	@Column(name = "all_parent_ids", nullable = true)
+	@Column(name = "all_parent_ids", length = 256, nullable = true)
 	private String allParentIDs;
 
 
@@ -43,13 +43,13 @@ public class Category {
 	@JoinColumn(name = "parent_id")
 	private Category parent;
 
-	@OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
 	private Set<Category> children = new HashSet<>();
 
 	@ManyToMany(mappedBy = "categories")
 	private Set<Brand> brands = new HashSet<>();
 	
-	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
 	private Set<Product> products = new HashSet<>();
 
 	public Category() {

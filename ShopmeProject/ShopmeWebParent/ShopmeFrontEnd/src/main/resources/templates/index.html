@@ -7,7 +7,17 @@
 	<nav th:replace="~{fragments/navigation.html :: head_menu}"></nav>
 
 	<div class="ms-4">
-		<h1>Welcome to Shopme eCommerce</h1>
+		<h1>Shopping by Categories</h1>
+	</div>
+	<div class="row">
+		<div class="col" th:each="cat : ${listCategories}">
+			<div>
+				<img th:src="@{${cat.imagePath}}" width="80">
+			</div>
+			<div>
+				<a th:href="@{'/c/' + ${cat.alias}}" class="fw-bold link-underline link-underline-opacity-0">[[${cat.name}]]</a>
+			</div>
+		</div>
 	</div>
 	<div th:replace="~{fragments/navigation.html :: footer_menu}"></div>
 </body>
