@@ -5,7 +5,7 @@
 
 <body>
 	<nav th:replace="~{fragments/navigation.html :: head_menu}"></nav>
-
+	<div th:replace="~{fragments/navigation.html :: search_nav}"></div>
 	<div th:replace="~{fragments/breadcrumb.html :: content}"></div>
 
 	<div class="row">
@@ -19,7 +19,8 @@
 				</div>
 				<th:block th:each="extraImage, status : ${product.images}">
 					<div class="m-2 border border-secondary p-1">
-						<img class="image_thumbnail" th:src="@{${extraImage.imagePath}}" height="50" th:index="${status.count}">
+						<img class="image_thumbnail" th:src="@{${extraImage.imagePath}}" height="50"
+							th:index="${status.count}">
 					</div>
 				</th:block>
 			</div>
@@ -89,23 +90,24 @@
 
 	<div th:replace="~{fragments/images_carousel.html :: content}"></div>
 	<div th:replace="~{fragments/navigation.html :: footer_menu}"></div>
-<script type="text/javascript">
-	$(document).ready(function() {
-		bigImage = $("#bigImage");
-		
-		$(".image_thumbnail").mouseover(function() {
-			currentImageSource = $(this).attr("src");
-			currentImageIndex = $(this).attr("index");
-			bigImage.attr("src", currentImageSource);
-			bigImage.attr("index", currentImageIndex);
+	<script type="text/javascript">
+		$(document).ready(function () {
+			bigImage = $("#bigImage");
+
+			$(".image_thumbnail").mouseover(function () {
+				currentImageSource = $(this).attr("src");
+				currentImageIndex = $(this).attr("index");
+				bigImage.attr("src", currentImageSource);
+				bigImage.attr("index", currentImageIndex);
+			});
+
+			bigImage.on("click", function () {
+				$("#carouselModal").modal("show");
+				imageIndex = parseInt(bigImage.attr("index"));
+				$("#carouselExampleIndicators").carousel(imageIndex);
+			});
 		});
-		
-		bigImage.on("click", function() {
-			$("#carouselModal").modal("show");
-			imageIndex = parseInt(bigImage.attr("index"));
-			$("#carouselExampleIndicators").carousel(imageIndex);
-		});
-	});
-</script>
+	</script>
 </body>
+
 </html>

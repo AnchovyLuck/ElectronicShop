@@ -5,12 +5,13 @@
 
 <body>
 	<nav th:replace="~{fragments/navigation.html :: head_menu}"></nav>
-
+	<div th:replace="~{fragments/navigation.html :: search_nav}"></div>
+	
 	<div class="ms-4">
 		<h1>Shopping by Categories</h1>
 	</div>
 	<div class="row">
-		<div class="col" th:each="cat : ${listCategories}">
+		<div class="col-sm-2" th:each="cat : ${listCategories}">
 			<div>
 				<img th:src="@{${cat.imagePath}}" width="80">
 			</div>
