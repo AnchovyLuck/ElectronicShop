@@ -12,11 +12,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shopme.admin.exception.UserNotFoundException;
 import com.shopme.admin.repository.RoleRepository;
 import com.shopme.admin.repository.UserRepository;
 import com.shopme.common.entity.Role;
 import com.shopme.common.entity.User;
+import com.shopme.common.exception.UserNotFoundException;
 
 @Service
 @Transactional

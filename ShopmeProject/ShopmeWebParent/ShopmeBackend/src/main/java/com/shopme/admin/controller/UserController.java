@@ -17,10 +17,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shopme.admin.FileUploadUtil;
-import com.shopme.admin.exception.UserNotFoundException;
 import com.shopme.admin.service.UserService;
 import com.shopme.common.entity.Role;
 import com.shopme.common.entity.User;
+import com.shopme.common.exception.UserNotFoundException;
 
 @Controller
 public class UserController {

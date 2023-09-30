@@ -8,44 +8,49 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.shopme.common.entity.Category;
+import com.shopme.common.exception.CategoryNotFoundException;
 import com.shopme.repository.CategoryRepository;
 
 @Service
 public class CategoryService {
-	
+
 	@Autowired
 	private CategoryRepository repo;
-	
+
 	public List<Category> listNoChildrenCategories() {
 		List<Category> listNoChildrenCategories = new ArrayList<>();
 		List<Category> listEnabledCategories = repo.findAllEnabled();
-		
+
 		listEnabledCategories.forEach(cat -> {
-			Set<Category> children =cat.getChildren();
+			Set<Category> children = cat.getChildren();
 			if (children == null || children.size() == 0) {
 				listNoChildrenCategories.add(cat);
 			}
 		});
-		
+
 		return listNoChildrenCategories;
 	}
-	
-	public Category getCategory(String alias) {
-		return repo.findByAliasEnabled(alias);
+
+	public Category getCategory(String alias) throws CategoryNotFoundException {
+		Category category = repo.findByAliasEnabled(alias);
+		if (category == null) {
+			throw new CategoryNotFoundException("Could not find any category with alias " + alias);
+		}
+		return category;
 	}
-	
+
 	public List<Category> getCategoryParents(Category child) {
 		List<Category> listParents = new ArrayList<>();
-		
+
 		Category parent = child.getParent();
-		
+
 		while (parent != null) {
 			listParents.add(0, parent);
 			parent = parent.getParent();
 		}
-		
+
 		listParents.add(child);
-		
+
 		return listParents;
 	}
 

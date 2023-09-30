@@ -17,12 +17,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shopme.admin.FileUploadUtil;
 import com.shopme.admin.dto.CategoryPageInfo;
-import com.shopme.admin.exception.CategoryNotFoundException;
 import com.shopme.admin.export.CategoryCsvExporter;
 import com.shopme.admin.export.CategoryExcelExporter;
 import com.shopme.admin.export.CategoryPdfExporter;
 import com.shopme.admin.service.CategoryService;
 import com.shopme.common.entity.Category;
+import com.shopme.common.exception.CategoryNotFoundException;
 
 import jakarta.servlet.http.HttpServletResponse;
 

@@ -1,4 +1,4 @@
-package com.shopme;
+package com.shopme.category;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

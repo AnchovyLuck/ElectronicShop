@@ -6,24 +6,7 @@
 <body>
 	<nav th:replace="~{fragments/navigation.html :: head_menu}"></nav>
 
-	<div th:if="${listCategoryParents != null && !listCategoryParents.empty}" class="ms-4">
-		<div class="row">
-			<div class="col">
-				<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item">
-							<a th:href="@{/}">Home</a>
-						</li>
-						<th:block th:each="parent : ${listCategoryParents}">
-							<li class="breadcrumb-item">
-								<a th:href="@{'/c/' + ${parent.alias}}">[[${parent.name}]]</a>
-							</li>
-						</th:block>
-					</ol>
-				</nav>
-			</div>
-		</div>
-	</div>
+	<div th:replace="~{fragments/breadcrumb.html :: content}"></div>
 
 	<div class="row text-center">
 		<th:block th:each="cat : ${category.children}">
@@ -40,9 +23,11 @@
 		<th:block th:each="product : ${listProducts}">
 			<div class="col">
 				<div>
-					<img th:src="@{${product.mainImagePath}}" width="150">
-					<br>
-					<b>[[${product.name}]]</b>
+					<a th:href="@{'/p/' + ${product.alias}}">
+						<img th:src="@{${product.mainImagePath}}" width="150">
+						<br>
+						<b>[[${product.shortName}]]</b>
+					</a>
 				</div>
 				<div th:if="${product.discountPercent <= 0}">
 					<span>$[[${product.price}]]</span>

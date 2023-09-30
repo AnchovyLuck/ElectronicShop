@@ -14,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
@@ -44,6 +45,7 @@ public class Category {
 	private Category parent;
 
 	@OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
+	@OrderBy("name asc")
 	private Set<Category> children = new HashSet<>();
 
 	@ManyToMany(mappedBy = "categories")

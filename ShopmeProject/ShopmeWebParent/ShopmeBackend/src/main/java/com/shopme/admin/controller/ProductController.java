@@ -17,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shopme.admin.FileUploadUtil;
-import com.shopme.admin.exception.ProductNotFoundException;
 import com.shopme.admin.helper.ProductSaveHelper;
 import com.shopme.admin.security.ShopmeUserDetails;
 import com.shopme.admin.service.BrandService;
@@ -26,6 +25,7 @@ import com.shopme.admin.service.ProductService;
 import com.shopme.common.entity.Brand;
 import com.shopme.common.entity.Category;
 import com.shopme.common.entity.Product;
+import com.shopme.common.exception.ProductNotFoundException;
 
 @Controller
 public class ProductController {

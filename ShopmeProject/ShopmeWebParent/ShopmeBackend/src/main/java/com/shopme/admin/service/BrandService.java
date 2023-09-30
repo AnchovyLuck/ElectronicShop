@@ -11,10 +11,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.shopme.admin.exception.BrandNotFoundException;
 import com.shopme.admin.repository.BrandRepository;
 import com.shopme.common.entity.Brand;
 import com.shopme.common.entity.Product;
+import com.shopme.common.exception.BrandNotFoundException;
 
 @Service
 public class BrandService {

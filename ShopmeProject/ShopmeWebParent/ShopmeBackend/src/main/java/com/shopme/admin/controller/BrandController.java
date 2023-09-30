@@ -16,11 +16,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shopme.admin.FileUploadUtil;
-import com.shopme.admin.exception.BrandNotFoundException;
 import com.shopme.admin.service.BrandService;
 import com.shopme.admin.service.CategoryService;
 import com.shopme.common.entity.Brand;
 import com.shopme.common.entity.Category;
+import com.shopme.common.exception.BrandNotFoundException;
 
 @Controller
 public class BrandController {
