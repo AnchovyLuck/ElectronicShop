@@ -1,4 +1,4 @@
-package com.shopme.admin.setting;
+package com.shopme.admin.setting.country;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -59,7 +59,7 @@ public class CountryRepositoryTests {
 	
 	@Test
 	public void testDeleteCountry() {
-		Integer id = 2;
+		Integer id = 1;
 		repo.deleteById(id);
 		
 		Optional<Country> findById = repo.findById(id);

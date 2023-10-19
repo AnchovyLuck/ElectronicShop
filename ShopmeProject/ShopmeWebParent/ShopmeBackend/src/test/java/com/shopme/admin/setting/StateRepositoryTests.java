@@ -30,7 +30,7 @@ public class StateRepositoryTests {
 	
 	@Test
 	public void testCreateStatesInIndia() {
-		Integer countryId = 1;
+		Integer countryId = 2;
 		Country country = entityManager.find(Country.class, countryId);
 				
 		State state = repo.save(new State("Uttar Pradesh", country));
@@ -42,7 +42,7 @@ public class StateRepositoryTests {
 	
 	@Test
 	public void testCreateStatesInUS() {
-		Integer countryId = 2;
+		Integer countryId = 3;
 		Country country = entityManager.find(Country.class, countryId);
 		
 		State state = repo.save(new State("New York", country));

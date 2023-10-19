@@ -60,8 +60,8 @@
 				<label class="col-sm-4 col-form-label">Decimal Digits:</label>
 				<div class="col-sm-8 text-start pt-2">
 					<select name="DECIMAL_DIGITS" class="form-select">
-						<th:block th:each="num : ${#numbers.sequence(1,4)}">
-							<option value="num" th:selected="(${DECIMAL_DIGITS} == ${num})">[[${num}]]</option>
+						<th:block th:each="num : ${#numbers.sequence(0,4)}">
+							<option th:value="${num}" th:selected="(${DECIMAL_DIGITS} == ${num})">[[${num}]]</option>
 						</th:block>
 					</select>
 				</div>
