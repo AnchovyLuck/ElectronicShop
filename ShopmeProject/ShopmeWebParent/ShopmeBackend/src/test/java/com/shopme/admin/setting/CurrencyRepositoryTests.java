@@ -21,28 +21,30 @@ import com.shopme.common.entity.Currency;
 public class CurrencyRepositoryTests {
 	@Autowired
 	private CurrencyRepository repo;
-	
+
 	@Test
 	public void testCreateCurrencies() {
-		List<Currency> listCurrencies = Arrays.asList(
-				new Currency("United Statese Dollar", "$", "USD"),
-				new Currency("British Pound", "£", "GPB"),
-				new Currency("Japanese Yen", "¥", "JPY"),
-				new Currency("Euro", "€", "EUR"),
-				new Currency("Russian Ruble", "₽", "RUB"),
-				new Currency("South Korean Won", "₩", "KRW"),
-				new Currency("Chinese Yuan", "¥", "CNY"),
-				new Currency("Brazilian Real", "R$", "BRL"),
-				new Currency("Australian Dollar", "AU$", "AUD"),
-				new Currency("Canadian Dollar", "CA$", "CAD"),
-				new Currency("Vietnamese Dong", "đ", "VND"),
-				new Currency("Indian Rupee", "₹", "INR")
-		);
-		
+		List<Currency> listCurrencies = Arrays.asList(new Currency("United States Dollar", "$", "USD"),
+				new Currency("British Pound", "£", "GPB"), new Currency("Japanese Yen", "¥", "JPY"),
+				new Currency("Euro", "€", "EUR"), new Currency("Russian Ruble", "₽", "RUB"),
+				new Currency("South Korean Won", "₩", "KRW"), new Currency("Chinese Yuan", "¥", "CNY"),
+				new Currency("Brazilian Real", "R$", "BRL"), new Currency("Australian Dollar", "AU$", "AUD"),
+				new Currency("Canadian Dollar", "CA$", "CAD"), new Currency("Vietnamese Dong", "đ", "VND"),
+				new Currency("Indian Rupee", "₹", "INR"));
+
 		repo.saveAll(listCurrencies);
-		
+
 		Iterable<Currency> iterable = repo.findAll();
-		
+
 		assertThat(iterable).size().isEqualTo(12);
+	}
+
+	@Test
+	public void testListAllOrderByNameAsc() {
+		List<Currency> currencies = repo.findAllByOrderByNameAsc();
+
+		currencies.forEach(System.out::println);
+		
+		assertThat(currencies.size()).isGreaterThan(0);
 	}
 }

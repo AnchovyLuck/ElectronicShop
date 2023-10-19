@@ -25,11 +25,11 @@ public class SettingRepositoryTests {
 
 	@Test
 	public void testCreateGeneralSettings() {
-//		Setting siteName = new Setting("SITE_NAME", "Shopme", SettingCategory.GENERAL);
+		Setting siteName = new Setting("SITE_NAME", "Shopme", SettingCategory.GENERAL);
 		Setting siteLogo = new Setting("SITE_LOGO", "Shopme.png", SettingCategory.GENERAL);
 		Setting copyright = new Setting("COPYRIGHT", "Copyright (C) 2023 Shopme Ltd.", SettingCategory.GENERAL);
 
-		repo.saveAll(List.of(siteLogo, copyright));
+		repo.saveAll(List.of(siteName, siteLogo, copyright));
 
 		Iterable<Setting> iterable = repo.findAll();
 
@@ -47,5 +47,12 @@ public class SettingRepositoryTests {
 
 		repo.saveAll(List.of(currencyId, symbol, symbolPosition, decimalPointType, decimalDigits, thousandsPointType));
 
+	}
+	
+	@Test
+	public void testListSettingByCategory() {
+		List<Setting> settings = repo.findByCategory(SettingCategory.GENERAL);
+		
+		settings.forEach(System.out::println);;
 	}
 }

@@ -45,9 +45,6 @@ public class User implements Serializable {
 
 	private boolean enabled;
 
-	public User() {
-	}
-
 	public User(String email, String password, String firstName, String lastName) {
 		this.email = email;
 		this.password = password;
@@ -58,6 +55,10 @@ public class User implements Serializable {
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
+
+	
+	public User() {
+	}
 
 	public Integer getId() {
 		return id;
@@ -123,6 +124,10 @@ public class User implements Serializable {
 		this.roles = roles;
 	}
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -169,7 +174,7 @@ public class User implements Serializable {
 	public String getFullName() {
 		return firstName + " " + lastName;
 	}
-	
+
 	public boolean hasRole(String roleName) {
 		Iterator<Role> iterator = roles.iterator();
 		while (iterator.hasNext()) {

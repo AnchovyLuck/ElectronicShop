@@ -1,4 +1,4 @@
-package com.shopme.admin.dto;
+package com.shopme.admin;
 
 public class CategoryPageInfo {
 	private int totalPages;

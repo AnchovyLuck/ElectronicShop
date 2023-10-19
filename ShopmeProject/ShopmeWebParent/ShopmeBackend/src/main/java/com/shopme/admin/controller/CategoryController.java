@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.shopme.admin.CategoryPageInfo;
 import com.shopme.admin.FileUploadUtil;
-import com.shopme.admin.dto.CategoryPageInfo;
 import com.shopme.admin.export.CategoryCsvExporter;
 import com.shopme.admin.export.CategoryExcelExporter;
 import com.shopme.admin.export.CategoryPdfExporter;
