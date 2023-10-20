@@ -45,25 +45,30 @@
 			<div class="tab-pane active p-3" id="general" role="tabpanel" tabindex="0">
 				<div th:replace="~{settings/general.html :: content}"></div>
 			</div>
-			<div class="tab-pane" id="countries" role="tabpanel" tabindex="0">
-				<h2>Countries</h2>
+			<div class="tab-pane p-3" id="countries" role="tabpanel" tabindex="0">
+				<div th:replace="~{settings/countries.html :: content}"></div>
 			</div>
-			<div class="tab-pane" id="states" role="tabpanel" tabindex="0">
+			<div class="tab-pane p-3" id="states" role="tabpanel" tabindex="0">
 				<h2>States</h2>
 			</div>
 			<div class="tab-pane p-3" id="mailServer" role="tabpanel" tabindex="0">
 				<h2>Mail Server</h2>
 			</div>
-			<div class="tab-pane" id="mailTemplates" role="tabpanel" tabindex="0">
+			<div class="tab-pane p-3" id="mailTemplates" role="tabpanel" tabindex="0">
 				<h2>Mail Templates</h2>
 			</div>
 		</div>
 	</div>
+
 	<div th:replace="~{fragments/common.html :: footer}"></div>
 	<script type="text/javascript">
 		MAX_FILE_SIZE = 102400;
+		contextPath = "[[@{/}]]";
+		let csrfHeaderName = "[[${_csrf.headerName}]]";
+		let csrfValue = "[[${_csrf.token}]]";
 	</script>
 	<script th:src="@{/js/common_form.js}"></script>
+	<script th:src="@{/js/countries_setting.js}"></script>
 </body>
 
 </html>
