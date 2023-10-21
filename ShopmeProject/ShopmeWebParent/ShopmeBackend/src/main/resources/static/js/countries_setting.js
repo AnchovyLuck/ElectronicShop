@@ -1,11 +1,3 @@
-let buttonLoad;
-let dropdownCountry;
-let buttonAddCountry;
-let buttonUpdateCountry;
-let buttonDeleteCountry;
-let labelCountryName;
-
-
 $(document).ready(function() {
 	buttonLoad = $("#buttonLoadCountries");
 	dropDownCountry = $("#dropDownCountries");
@@ -28,7 +20,7 @@ $(document).ready(function() {
 		if (buttonAddCountry.val() == "Add") {
 			addCountry();
 		} else {
-			changeFormStateToNew();
+			changeCountryFormStatusToNew();
 		}
 	});
 
@@ -82,7 +74,7 @@ updateCountry = () => {
 		$("#dropDownCountries option:selected").val(countryId + "-" + countryCode);
 		$("#dropDownCountries option:selected").text(countryName);
 		showToastMessage("The country has been updated.");				
-		changeFormStateToNew();
+		changeCountryFormStatusToNew();
 	}).fail(() => {
 		showToastMessage("ERROR: Could not connect to server / server encounter an error")
 	});
@@ -93,9 +85,8 @@ deleteCountry = () => {
 	countryId = optionValue.split("-")[0];	
 	url = contextPath + "countries/delete/" + countryId;	
 	
-	$.get(url, function(responseJSON) {
+	$.get(url, function() {
 		$("#dropDownCountries option[value='" + optionValue + "']").remove();
-		changeFormStateToNew();
 	}).done(() => {
 		buttonLoad.val("Refresh Country List");
 		showToastMessage("The country has been deleted.");
@@ -111,10 +102,9 @@ selectNewlyAddedCountry = (countryId, countryCode, countryName) => {
 
 	fieldCountryName.val("").focus();
 	fieldCountryCode.val("");
-
 }
 
-changeFormStateToNew = () => {
+changeCountryFormStatusToNew = () => {
 	buttonAddCountry.val("Add");
 	labelCountryName.text("Country Name:");
 	buttonUpdateCountry.prop("disabled", true);
@@ -154,7 +144,12 @@ loadCountries = () => {
 	});
 }
 
-function showToastMessage(message) {
+showToastMessage = (message) => {
 	$("#toastMessage").text(message);
+	$(".toast").toast('show');
+}
+
+showToastMessageState = (message) => {
+	$("#toastMessageState").text(message);
 	$(".toast").toast('show');
 }

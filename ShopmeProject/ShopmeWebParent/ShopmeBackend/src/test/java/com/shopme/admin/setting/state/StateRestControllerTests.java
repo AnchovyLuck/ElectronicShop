@@ -1,4 +1,4 @@
-package com.shopme.admin.setting.country;
+package com.shopme.admin.setting.state;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -21,11 +21,13 @@ import org.springframework.test.web.servlet.MvcResult;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shopme.admin.repository.CountryRepository;
+import com.shopme.admin.repository.StateRepository;
 import com.shopme.common.entity.Country;
+import com.shopme.common.entity.State;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class CountryRestControllerTests {
+public class StateRestControllerTests {
 
 	@Autowired
 	MockMvc mockMvc;
@@ -34,80 +36,83 @@ public class CountryRestControllerTests {
 	ObjectMapper objectMapper;
 	
 	@Autowired
-	CountryRepository repo;
+	CountryRepository countryRepo;
+	
+	@Autowired
+	StateRepository stateRepo;
 
 	@Test
-	@WithMockUser(username = "anchovy@gmail.com", password = "admin123", roles = "Admin")
-	public void testListCountries() throws Exception {
-		String url = "/countries/list";
+	@WithMockUser(username = "anchovy", password = "something", roles = "Admin")
+	public void testListStatesByCountry() throws Exception {
+		Integer countryId = 2;
+		String url = "/states/list_by_country/" + countryId;
 		MvcResult result = mockMvc.perform(get(url))
 				.andExpect(status().isOk())
 				.andDo(print())
 				.andReturn();
 		
 		String jsonResponse = result.getResponse().getContentAsString();	
-		Country[] countries = objectMapper.readValue(jsonResponse, Country[].class);
+		State[] states = objectMapper.readValue(jsonResponse, State[].class);
 		
-		assertThat(countries).hasSizeGreaterThan(0);
+		assertThat(states).hasSizeGreaterThan(1);
 	}
 	
 	@Test
-	@WithMockUser(username = "anchovy@gmail.com", password = "admin123", roles = "Admin")
-	public void testCreateCountry() throws JsonProcessingException, Exception {
-		String url = "/countries/save";
-		String countryName = "Germany";
-		String countryCode = "DE";
-		Country country = new Country(countryName, countryCode);
+	@WithMockUser(username = "anchovy", password = "something", roles = "Admin")
+	public void testCreateState() throws JsonProcessingException, Exception {
+		String url = "/states/save";
+		String stateName = "New State";
+		Integer countryId = 7;
+		Country country = countryRepo.findById(countryId).get();
+		State state = new State(stateName, country);
 		
 		MvcResult result = mockMvc.perform(post(url).contentType("application/json")
-				.content(objectMapper.writeValueAsString(country))
+				.content(objectMapper.writeValueAsString(state))
 				.with(csrf()))
 				.andDo(print())
 				.andExpect(status().isOk())
 				.andReturn();
 		
 		String response = result.getResponse().getContentAsString();
-		Integer countryId = Integer.parseInt(response);
+		Integer stateId = Integer.parseInt(response);
 		
-		Optional<Country> findById = repo.findById(countryId);
+		Optional<State> findById = stateRepo.findById(stateId);
 		assertThat(findById.isPresent());
-		
-		Country savedCountry = findById.get();
-		assertThat(savedCountry.getName()).isEqualTo(countryName);
 	}
 	
 	@Test
-	@WithMockUser(username = "anchovy@gmail.com", password = "admin123", roles = "ADMIN")
-	public void testUpdateCountry() throws JsonProcessingException, Exception {
-		String url = "/countries/save";
-		Integer countryId = 4;
-		String countryName = "China";
-		String countryCode = "CN";
-		Country country = new Country(countryId, countryName, countryCode);
+	@WithMockUser(username = "anchovy@gmail.com", password = "admin123", roles = "Admin")
+	public void testUpdateState() throws JsonProcessingException, Exception {
+		String url = "/states/save";
+		Integer stateId = 3;
+		String stateName = "Test State 2";
+		
+		State state = stateRepo.findById(stateId).get();
+		state.setName(stateName);
 		
 		mockMvc.perform(post(url).contentType("application/json")
-				.content(objectMapper.writeValueAsString(country))
+				.content(objectMapper.writeValueAsString(state))
 				.with(csrf()))
 				.andDo(print())
 				.andExpect(status().isOk())
-				.andExpect(content().string(String.valueOf(countryId)));
+				.andExpect(content().string(String.valueOf(stateId)));
 		
-		Optional<Country> findById = repo.findById(countryId);
+		Optional<State> findById = stateRepo.findById(stateId);
 		assertThat(findById.isPresent());
 		
-		Country savedCountry = findById.get();
-		assertThat(savedCountry.getName()).isEqualTo(countryName);
+		State updatedState = findById.get();
+		assertThat(updatedState.getName()).isEqualTo(stateName);
 	}
 	
 	@Test
-	@WithMockUser(username = "anchovy@gmail.com", password = "admin123", roles = "ADMIN")
-	public void testDeleteCountry() throws Exception {
-		Integer countryId = 6;
-		String url = "/countries/delete/" + countryId;
+	@WithMockUser(username = "anchovy@gmail.com", password = "admin123", roles = "Admin")
+	public void testDeleteState() throws Exception {
+		Integer stateId = 5;
+		String url = "/states/delete/" + stateId;
 		mockMvc.perform(get(url))
 				.andExpect(status().isOk());
 		
-		Optional<Country> findById = repo.findById(countryId);
+		Optional<State> findById = stateRepo.findById(stateId);
 		assertThat(findById).isNotPresent();
 	}
 }

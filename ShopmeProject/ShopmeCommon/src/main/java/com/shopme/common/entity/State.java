@@ -24,10 +24,9 @@ public class State {
 	@JoinColumn(name = "country_id")
 	private Country country;
 	
-	public State() {
-		
+	public State() {	
 	}
-
+	
 	public State(String name, Country country) {
 		this.name = name;
 		this.country = country;
