@@ -5,9 +5,10 @@ $(document).ready(function() {
 	});
 
 	customizeDropDownMenu();
+	customizeTabs();
 });
 
-function customizeDropDownMenu() {
+customizeDropDownMenu = () => {
 	$(".navbar .dropdown").hover(
 		function() {
 			$(this).find('.dropdown-menu').first().stop(true, true).delay(250).slideDown();
@@ -18,14 +19,25 @@ function customizeDropDownMenu() {
 	);
 	$(".dropdown > a").click(function() {
 		location.href = this.href;
-	})
+	});
 }
 
-function clearFilter() {
+customizeTabs = () => {
+	let url = document.location.toString();
+	if (url.match('#')) {
+		$('.nav-tabs button[data-bs-target="#' + url.split('#')[1] + '"]').tab('show');
+	}
+	
+	$('.nav-tabs a').on('shown.bs.tab', (e) => {
+		window.location.hash = e.target.hash;
+	});
+}
+
+clearFilter = () => {
 	window.location = moduleURL;
 }
 
-function showDeleteConfirmModal(link, entityName) {
+showDeleteConfirmModal = (link, entityName) => {
 	entityId = link.attr("entityId");
 
 	$("#yesButton").attr("href", link.attr("href"));

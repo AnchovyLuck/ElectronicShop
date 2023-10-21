@@ -27,7 +27,7 @@ $(document).ready(function() {
 	buttonUpdateCountry.click(function() {
 		updateCountry();
 	});
-	
+
 	buttonDeleteCountry.click(function() {
 		deleteCountry();
 	})
@@ -36,7 +36,7 @@ $(document).ready(function() {
 addCountry = () => {
 	url = contextPath + "countries/save";
 	countryName = fieldCountryName.val();
-	countryCode = fieldCountryCode.val();	
+	countryCode = fieldCountryCode.val();
 	jsonData = { name: countryName, code: countryCode };
 
 	$.ajax({
@@ -59,8 +59,8 @@ updateCountry = () => {
 	url = contextPath + "countries/save";
 	countryName = fieldCountryName.val();
 	countryCode = fieldCountryCode.val();
-	countryId = dropDownCountry.val().split("-")[0];	
-	jsonData = {id: countryId, name: countryName, code: countryCode };
+	countryId = dropDownCountry.val().split("-")[0];
+	jsonData = { id: countryId, name: countryName, code: countryCode };
 
 	$.ajax({
 		type: 'POST',
@@ -73,7 +73,7 @@ updateCountry = () => {
 	}).done((countryId) => {
 		$("#dropDownCountries option:selected").val(countryId + "-" + countryCode);
 		$("#dropDownCountries option:selected").text(countryName);
-		showToastMessage("The country has been updated.");				
+		showToastMessage("The country has been updated.");
 		changeCountryFormStatusToNew();
 	}).fail(() => {
 		showToastMessage("ERROR: Could not connect to server / server encounter an error")
@@ -82,16 +82,21 @@ updateCountry = () => {
 
 deleteCountry = () => {
 	optionValue = dropDownCountry.val();
-	countryId = optionValue.split("-")[0];	
-	url = contextPath + "countries/delete/" + countryId;	
-	
-	$.get(url, function() {
-		$("#dropDownCountries option[value='" + optionValue + "']").remove();
+	countryId = optionValue.split("-")[0];
+	url = contextPath + "countries/delete/" + countryId;
+
+	$.ajax({
+		type: 'DELETE',
+		url: url,
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader(csrfHeaderName, csrfValue);
+		}
 	}).done(() => {
-		buttonLoad.val("Refresh Country List");
+		$("#dropDownCountries option[value='" + optionValue + "']").remove();
+		changeCountryFormStatusToNew();
 		showToastMessage("The country has been deleted.");
 	}).fail(() => {
-		showToastMessage("ERROR: Could not connect to server / server encounter an error")
+		showToastMessage("ERROR: Could not connect to server / server encounter an error");
 	});
 }
 
