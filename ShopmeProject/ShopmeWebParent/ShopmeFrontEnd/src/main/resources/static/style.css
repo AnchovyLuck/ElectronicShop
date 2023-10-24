@@ -2,3 +2,8 @@
 	font-size: larger;
 	color: darkred;
 }
+
+.register_form {
+	width: 600px;
+	margin: 0 auto;;
+}

@@ -1,4 +1,4 @@
-package com.shopme.admin.repository;
+package com.shopme.repository;
 
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

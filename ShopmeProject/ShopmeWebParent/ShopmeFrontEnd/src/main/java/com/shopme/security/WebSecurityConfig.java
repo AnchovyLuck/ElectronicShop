@@ -11,7 +11,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class WebSecurityConfig {
 
 	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
 		http.authorizeHttpRequests(
 				authz -> authz.requestMatchers("/images/**", "/js/**", "/webjars/**", "style.css", "/fontawesome/**")

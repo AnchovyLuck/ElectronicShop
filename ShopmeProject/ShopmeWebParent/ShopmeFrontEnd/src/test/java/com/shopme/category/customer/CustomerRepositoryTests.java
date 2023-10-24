@@ -1,4 +1,5 @@
-package com.shopme.admin.customer;
+package com.shopme.category.customer;
+
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -13,9 +14,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.annotation.Rollback;
 
-import com.shopme.admin.repository.CustomerRepository;
 import com.shopme.common.entity.Country;
 import com.shopme.common.entity.Customer;
+import com.shopme.repository.CustomerRepository;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
