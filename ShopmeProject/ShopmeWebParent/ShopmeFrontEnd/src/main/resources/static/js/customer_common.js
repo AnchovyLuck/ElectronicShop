@@ -24,7 +24,7 @@ checkEmailUnique = (form) => {
 	customerEmail = $("#email").val();
 	csrfValue = $("input[name='_csrf']").val();
 
-	params = { email: customerEmail, _csrf: csrfValue };
+	params = {email: customerEmail, _csrf: csrfValue };
 
 	$.post(url, params, (response) => {
 		if (response == "OK") {

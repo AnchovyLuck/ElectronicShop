@@ -76,7 +76,5 @@ public class CustomerController {
 		content = content.replace("[[URL]]", verifyURL);
 		
 		mailSender.send(message);
-		
-		
 	}
 }
