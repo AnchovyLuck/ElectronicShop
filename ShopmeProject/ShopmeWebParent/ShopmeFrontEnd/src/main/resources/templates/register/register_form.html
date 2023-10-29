@@ -9,48 +9,141 @@
 	<div class="ms-4">
 		<h1 class="text-center">Customer Registration</h1>
 	</div>
-	<form th:action="@{/create_customer}" method="post" th:object="${customer}" class="register_form">
+	<form th:action="@{/create_customer}" method="post" th:object="${customer}" class="register_form my-4"
+		onsubmit="return checkEmailUnique(this);">
 		<div class="border border-secondary rounded p-3">
 			<div class="row mb-3">
-				<label for="inputEmail3" class="col-sm-4 col-form-label">First Name:</label>
-				<div class="col-sm-8">
+				<label for="firstName" class="col-sm-2 col-form-label">First Name:</label>
+				<div class="col-sm-3">
 					<input type="text" class="form-control" th:field="*{firstName}" required minlength="2"
 						maxlength="45">
 				</div>
-			</div>
-			<div class="row mb-3">
-				<label for="inputEmail3" class="col-sm-4 col-form-label">Last Name:</label>
-				<div class="col-sm-8">
+				<label for="lastName" class="col-sm-2 col-form-label">Last Name:</label>
+				<div class="col-sm-5">
 					<input type="text" class="form-control" th:field="*{lastName}" required minlength="2"
 						maxlength="45">
 				</div>
 			</div>
 			<div class="row mb-3">
-				<label for="inputEmail3" class="col-sm-4 col-form-label">E-mail:</label>
+				<label for="email" class="col-sm-4 col-form-label">E-mail:</label>
 				<div class="col-sm-8">
 					<input type="email" class="form-control" th:field="*{email}" required minlength="8" maxlength="45">
 				</div>
 			</div>
 			<div class="row mb-3">
-				<label for="inputEmail3" class="col-sm-4 col-form-label">Password:</label>
+				<label for="password" class="col-sm-4 col-form-label">Password:</label>
 				<div class="col-sm-8">
 					<input type="password" class="form-control" th:field="*{password}" required minlength="6"
+						maxlength="15" oninput="checkPasswordMatch(document.getElementById('confirmPassword'))">
+				</div>
+			</div>
+			<div class="row mb-3">
+				<label for="confirmPassword" class="col-sm-4 col-form-label">Retype Password:</label>
+				<div class="col-sm-8">
+					<input type="password" class="form-control" id="confirmPassword" required minlength="6"
+						maxlength="15" oninput="checkPasswordMatch(this)">
+				</div>
+			</div>
+			<div class="row mb-3">
+				<label for="phoneNumber" class="col-sm-4 col-form-label">Phone Number:</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" th:field="*{phoneNumber}" required minlength="8"
 						maxlength="15">
 				</div>
 			</div>
 			<div class="row mb-3">
-				<label for="inputEmail3" class="col-sm-4 col-form-label">Retype Password:</label>
+				<label for="addressLine1" class="col-sm-4 col-form-label">Address Line 1:</label>
 				<div class="col-sm-8">
-					<input type="password" class="form-control" th:field="*{password}" required minlength="6"
-						maxlength="15">
+					<input type="text" class="form-control" th:field="*{addressLine1}" required minlength="3"
+						maxlength="64">
+				</div>
+			</div>
+			<div class="row mb-3">
+				<label for="addressLine2" class="col-sm-4 col-form-label">Address Line 2:</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" th:field="*{addressLine2}" maxlength="64">
+				</div>
+			</div>
+			<div class="row mb-3">
+				<label for="city" class="col-sm-4 col-form-label">City:</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" th:field="*{city}" minlength="2" maxlength="45">
+				</div>
+			</div>
+			<div class="row mb-3">
+				<label class="col-sm-4 col-form-label">Country:</label>
+				<div class="col-sm-8">
+					<select type="text" class="form-select" th:field="*{country}">
+						<th:block th:each="country : ${countries}">
+							<option th:value="${country.id}">[[${country.name}]]</option>
+						</th:block>
+					</select>
+				</div>
+			</div>
+			<div class="row mb-3">
+				<label for="state" class="col-sm-4 col-form-label">State/Province:</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" th:field="*{state}" minlength="3" maxlength="45"
+						list="listStates">
+					<datalist id="listStates"></datalist>
+				</div>
+			</div>
+			<div class="row mb-3">
+				<label for="postalCode" class="col-sm-4 col-form-label">Postal Code:</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" th:field="*{postalCode}" minlength="2" maxlength="10">
 				</div>
 			</div>
 			<div class="text-center">
 				<input type="submit" value="Create Account" class="btn btn-primary mb-4">
 			</div>
 		</div>
+		<div th:replace="~{fragments/modal.html :: modal_dialog}"></div>
 	</form>
 	<div th:replace="~{fragments/navigation.html :: footer_menu}"></div>
+	<script type="text/javascript">
+		contextPath = "[[@{/}]]";
+		$(document).ready(() => {
+			dropDownCountry = $("#country");
+			dataListState = $("#listStates");
+			fieldState = $("#state")
+
+			dropDownCountry.on("change", () => {
+				loadStateForCountry();
+				fieldState.val("").focus();
+			});
+		});
+		checkEmailUnique = (form) => {
+			url = contextPath + "customers/check_unique_email";
+			customerEmail = $("#email").val();
+			csrfValue = $("input[name='_csrf']").val();
+
+			params = {email: customerEmail, _csrf: csrfValue};
+
+			$.post(url, params, (response) => {
+				if (response == "OK") {
+					form.submit();
+				} else if (response == "Duplicated") {
+					showWarningModal("There is another customer with email: " + customerEmail);
+				} else {
+					showErrorModal("Unknown response from server!");
+				}
+			}).fail(() => {
+				showErrorModal("Could not connect to the server!");
+			});
+		}
+
+		showModalDialog = (title, message) => {
+			$("#modalTitle").text(title);
+			$("#modalBody").text(message);
+			$("#modalDialog").modal("show");
+		}
+
+		showErrorModal = (message) => showModalDialog("Error", message);
+
+		showWarningModal = (message) => showModalDialog("Warning", message);
+	</script>
+	<script type="text/javascript" th:src="@{/js/customer_common.js}"></script>
 </body>
 
 </html>

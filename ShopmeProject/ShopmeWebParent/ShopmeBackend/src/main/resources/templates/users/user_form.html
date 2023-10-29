@@ -85,7 +85,7 @@
 		MAX_FILE_SIZE = 102400;
 		moduleURL = "[[@{/users}]]";
 
-		function checkEmailUnique(form) {
+		checkEmailUnique = (form) => {
 			url = "[[@{/users/check_email}]]";
 			userEmail = $("#email").val();
 			userId = $("#id").val();
@@ -101,7 +101,7 @@
 				} else {
 					showErrorModal("Unknown response from server!");
 				}
-			}).fail(function () {
+			}).fail(() => {
 				showErrorModal("Could not connect to the server!");
 			});
 			return false;

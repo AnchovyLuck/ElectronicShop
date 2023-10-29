@@ -187,6 +187,10 @@ public class Customer {
 	public void setCountry(Country country) {
 		this.country = country;
 	}
+	
+	public String getFullName() {
+		return this.getFirstName() + " " + this.getLastName();
+	}
 	@Override
 	public String toString() {
 		String format = "Customer [id=%d, email=%s, firstName=%s, lastName=%s";

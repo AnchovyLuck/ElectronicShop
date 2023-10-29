@@ -1,11 +1,11 @@
-$(document).ready(function() {
-	$("a[name='linkRemoveDetail'").each(function(index) {
-		$(this).click(function() {
+$(document).ready(() => {
+	$("a[name='linkRemoveDetail'").each((index) => {
+		$(this).click(() => {
 			removeDetailSectionByIndex(index);
 		})
 	});
 });
-function addNextDetailSection() {
+addNextDetailSection = () => {
 	allDivDetails = $("[id^='divDetail']");
 	divDetailsCount = allDivDetails.length;
 
@@ -40,10 +40,6 @@ function addNextDetailSection() {
 	$("input[name='detailNames']").last().focus();
 }
 
-function removeDetailSectionById(id) {
-	$("#" + id).remove();
-}
+removeDetailSectionById = (id) => $("#" + id).remove();
 
-function removeDetailSectionByIndex(index) {
-	$("#divDetail" + index).remove();
-}
+removeDetailSectionByIndex = (index) => $("#divDetail" + index).remove();

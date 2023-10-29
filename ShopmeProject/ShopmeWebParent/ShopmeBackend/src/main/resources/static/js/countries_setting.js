@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(() => {
 	buttonLoad = $("#buttonLoadCountries");
 	dropDownCountry = $("#dropDownCountries");
 	buttonAddCountry = $("#buttonAddCountry");
@@ -8,15 +8,15 @@ $(document).ready(function() {
 	fieldCountryName = $("#fieldCountryName");
 	fieldCountryCode = $("#fieldCountryCode");
 
-	buttonLoad.click(function() {
+	buttonLoad.click(() => {
 		loadCountries();
 	});
 
-	dropDownCountry.on("change", function() {
+	dropDownCountry.on("change",() => {
 		changeFormStateToSelectedCountry();
 	});
 
-	buttonAddCountry.click(function() {
+	buttonAddCountry.click(() => {
 		if (buttonAddCountry.val() == "Add") {
 			addCountry();
 		} else {
@@ -24,11 +24,11 @@ $(document).ready(function() {
 		}
 	});
 
-	buttonUpdateCountry.click(function() {
+	buttonUpdateCountry.click(() => {
 		updateCountry();
 	});
 
-	buttonDeleteCountry.click(function() {
+	buttonDeleteCountry.click(() => {
 		deleteCountry();
 	})
 });
@@ -88,7 +88,7 @@ deleteCountry = () => {
 	$.ajax({
 		type: 'DELETE',
 		url: url,
-		beforeSend: function(xhr) {
+		beforeSend: (xhr) => {
 			xhr.setRequestHeader(csrfHeaderName, csrfValue);
 		}
 	}).done(() => {

@@ -1,18 +1,18 @@
 dropdownBrands = $("#brand");
 dropdownCategories = $("#category");
 
-$(document).ready(function() {
+$(document).ready(() => {
 	$("#shortDescription").richText();
 	$("#fullDescription").richText();
 
-	dropdownBrands.change(function() {
+	dropdownBrands.change(() => {
 		dropdownCategories.empty();
 		getCategories();
 	});
 	getCategoriesForNewForm();
 });
 
-function getCategoriesForNewForm() {
+getCategoriesForNewForm = () => {
 	catIdField = $("#categoryId");
 	editMode = false;
 	
@@ -25,25 +25,25 @@ function getCategoriesForNewForm() {
 	}
 }
 
-function getCategories() {
+getCategories = () => {
 	brandId = dropdownBrands.val();
 	url = brandModuleURL + "/" + brandId + "/categories";
 
 	$.get(url, function(responseJson) {
-		$.each(responseJson, function(index, category) {
+		$.each(responseJson, (index, category) => {
 			$("<option>").val(category.id).text(category.name).appendTo(dropdownCategories);
 		});
 	});
 }
 
-function checkUnique(form) {
+checkUnique = (form) => {
 	productId = $("#id").val();
 	productName = $("#name").val();
 	csrfValue = $("input[name='_csrf']").val();
 
 	params = { id: productId, name: productName, _csrf: csrfValue };
 
-	$.post(checkUniqueUrl, params, function(response) {
+	$.post(checkUniqueUrl, params, (response) => {
 		if (response == "OK") {
 			form.submit();
 		} else if (response == "Duplicate") {
@@ -51,7 +51,7 @@ function checkUnique(form) {
 		} else {
 			showErrorModal("Unknown response from server");
 		}
-	}).fail(function() {
+	}).fail(() => {
 		showErrorModal("Could not connect to the server");
 	});
 

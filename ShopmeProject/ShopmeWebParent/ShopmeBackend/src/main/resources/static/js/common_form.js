@@ -1,9 +1,9 @@
-$(document).ready(function() {
-	$("#buttonCancel").on("click", function() {
+$(document).ready(() => {
+	$("#buttonCancel").on("click", () => {
 		window.location = moduleURL;
 	});
 
-	$("#fileImage").change(function() {
+	$("#fileImage").change(() => {
 		if (!checkFileSize(this)) {
 			return;
 		}
@@ -11,7 +11,7 @@ $(document).ready(function() {
 	});
 });
 
-function showImageThumbnail(fileInput) {
+showImageThumbnail = (fileInput) => {
 	let file = fileInput.files[0];
 	let reader = new FileReader();
 	reader.onload = function(e) {
@@ -21,7 +21,7 @@ function showImageThumbnail(fileInput) {
 	reader.readAsDataURL(file);
 }
 
-function checkFileSize(fileInput) {
+checkFileSize = (fileInput) => {
 	fileSize = fileInput.files[0].size;
 
 	if (fileSize > MAX_FILE_SIZE) {
@@ -37,16 +37,12 @@ function checkFileSize(fileInput) {
 	return false;
 }
 
-function showModalDialog(title, message) {
+showModalDialog = (title, message) => {
 	$("#modalTitle").text(title);
 	$("#modalBody").text(message);
 	$("#modalDialog").modal("show");
 }
 
-function showErrorModal(message) {
-	showModalDialog("Error", message);
-}
+showErrorModal = (message) => showModalDialog("Error", message);
 
-function showWarningModal(message) {
-	showModalDialog("Warning", message);
-}
+showWarningModal = (message) => showModalDialog("Warning", message);

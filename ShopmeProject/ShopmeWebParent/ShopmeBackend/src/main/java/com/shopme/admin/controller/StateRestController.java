@@ -1,4 +1,4 @@
-package com.shopme.admin.restcontroller;
+package com.shopme.admin.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.shopme.admin.dto.StateDTO;
 import com.shopme.admin.repository.StateRepository;
+import com.shopme.common.dto.StateDTO;
 import com.shopme.common.entity.Country;
 import com.shopme.common.entity.State;
 

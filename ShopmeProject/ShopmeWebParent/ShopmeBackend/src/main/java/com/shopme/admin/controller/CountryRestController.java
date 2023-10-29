@@ -1,4 +1,4 @@
-package com.shopme.admin.restcontroller;
+package com.shopme.admin.controller;
 
 import java.util.List;
 

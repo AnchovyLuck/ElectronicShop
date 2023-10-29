@@ -1,4 +1,4 @@
-package com.shopme.admin.restcontroller;
+package com.shopme.admin.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;

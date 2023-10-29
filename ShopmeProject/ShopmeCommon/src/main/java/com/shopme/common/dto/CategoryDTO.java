@@ -1,14 +1,13 @@
-package com.shopme.admin.dto;
+package com.shopme.common.dto;
 
-public class StateDTO {
+public class CategoryDTO {
 	private Integer id;
-	private String name;	
+	private String name;
 	
-	public StateDTO() {
-		super();
+	public CategoryDTO() {
 	}
 
-	public StateDTO(Integer id, String name) {
+	public CategoryDTO(Integer id, String name) {
 		this.id = id;
 		this.name = name;
 	}
@@ -27,5 +26,6 @@ public class StateDTO {
 
 	public void setName(String name) {
 		this.name = name;
-	}	
+	}
+
 }

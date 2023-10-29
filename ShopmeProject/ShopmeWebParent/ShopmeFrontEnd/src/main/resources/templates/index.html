@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org">
 
-<head th:replace="~{fragments/common.html :: page_head('Shopme', 'none')}"></head>
+<head th:replace="~{fragments/common.html :: page_head(${SITE_NAME}, 'none')}"></head>
 
 <body>
 	<nav th:replace="~{fragments/navigation.html :: head_menu}"></nav>

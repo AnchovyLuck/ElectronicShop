@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<div th:fragment="content" th:remove="tag">
+
+		<div class="mb-3 row input-group text-start">
+			<label class="col-sm-3 col-form-label">Email Subject:</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" name="CUSTOMER_VERIFY_SUBJECT"
+					th:value="${CUSTOMER_VERIFY_SUBJECT}" required>
+			</div>
+		</div>
+		<div class="mb-3 row input-group text-start">
+			<label class="col-sm-3 col-form-label">Email Content:</label>
+			<div class="col-sm-9">
+				<textarea rows="5" name="CUSTOMER_VERIFY_CONTENT"
+					id="customerVerificationContent">[[${CUSTOMER_VERIFY_CONTENT}]]</textarea>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

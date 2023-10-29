@@ -56,10 +56,10 @@
 				<div th:replace="~{settings/states.html :: content}"></div>
 			</div>
 			<div class="tab-pane p-3" id="mailServer" role="tabpanel" tabindex="0">
-				<h2>Mail Server</h2>
+				<div th:replace="~{settings/mail_server.html :: content}"></div>
 			</div>
 			<div class="tab-pane p-3" id="mailTemplates" role="tabpanel" tabindex="0">
-				<h2>Mail Templates</h2>
+				<div th:replace="~{settings/mail_templates/mail_templates.html :: content}"></div>
 			</div>
 			<div class="tab-pane p-3" id="payment" role="tabpanel" tabindex="0">
 				<h2>Payment</h2>
@@ -73,6 +73,20 @@
 		contextPath = "[[@{/}]]";
 		let csrfHeaderName = "[[${_csrf.headerName}]]";
 		let csrfValue = "[[${_csrf.token}]]";
+
+		$("#smtp_auth").change((event) => {
+			event.preventDefault();
+			serverAuthentication = $("#smtp_auth");
+			if (serverAuthentication.is(':checked') == true) {
+				serverAuthentication.val('true');
+			} else {
+				serverAuthentication.val('false');
+			}
+		});
+		
+		$(document).ready(() => {
+			$("#customerVerificationContent").richText();
+		})
 	</script>
 	<script th:src="@{/js/common_form.js}"></script>
 	<script th:src="@{/js/countries_setting.js}"></script>

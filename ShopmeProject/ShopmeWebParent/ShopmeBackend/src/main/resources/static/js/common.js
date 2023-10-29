@@ -1,5 +1,5 @@
-$(document).ready(function() {
-	$("#logoutLink").on("click", function(e) {
+$(document).ready(() => {
+	$("#logoutLink").on("click",(e) => {
 		e.preventDefault();
 		document.logoutForm.submit();
 	});

@@ -28,10 +28,11 @@ import com.shopme.common.exception.UserNotFoundException;
 public class UserController {
 
 	@Autowired
-	private UserService service;
+	private UserService usersService;
 
 	@GetMapping("/users")
 	public String listFirstPage(Model model) {
+		
 		return listByPage(1, model, "firstName", "asc", null);
 	}
 	
@@ -40,7 +41,7 @@ public class UserController {
 			@Param("sortField") String sortField, @Param("sortDir") String sortDir,
 			@Param("keyword") String keyword) {
 		
-		Page<User> page = service.listByPage(pageNum, sortField, sortDir, keyword);
+		Page<User> page = usersService.listByPage(pageNum, sortField, sortDir, keyword);
 		List<User> listUsers = page.getContent();
 		
 		long startCount = (pageNum - 1) * UserService.USERS_PER_PAGE + 1;
@@ -68,7 +69,7 @@ public class UserController {
 
 	@GetMapping("/users/new")
 	public String newUser(Model model) {
-		List<Role> listRoles = service.listRoles();
+		List<Role> listRoles = usersService.listRoles();
 		User user = new User();
 		user.setEnabled(true);
 		model.addAttribute("user", user);
@@ -84,7 +85,7 @@ public class UserController {
 		if (!multipartFile.isEmpty()) {
 			String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 			user.setPhotos(fileName);
-			User savedUser = service.save(user);
+			User savedUser = usersService.save(user);
 
 			String uploadDir = "user-photos/" +savedUser.getId();
 
@@ -93,7 +94,7 @@ public class UserController {
 		} else {
 			if (user.getPhotos().isEmpty()) 
 				user.setPhotos(null);
-			service.save(user);
+			usersService.save(user);
 		}
 		redirectAttributes.addFlashAttribute("message", "The user has been saved successfully!");
 
@@ -104,8 +105,8 @@ public class UserController {
 	public String editUser(@PathVariable(name = "id") Integer id, Model model, RedirectAttributes redirectAttributes)
 			throws UserNotFoundException {
 		try {
-			User user = service.get(id);
-			List<Role> listRoles = service.listRoles();
+			User user = usersService.get(id);
+			List<Role> listRoles = usersService.listRoles();
 
 			model.addAttribute("user", user);
 			model.addAttribute("pageTitle", "Edit User (ID:" + id + ")");
@@ -122,7 +123,7 @@ public class UserController {
 	public String deleteUser(@PathVariable(name = "id") Integer id, Model model,
 			RedirectAttributes redirectAttributes) {
 		try {
-			service.delete(id);
+			usersService.delete(id);
 			redirectAttributes.addFlashAttribute("message", "The user ID " + id + " has been deleted successfully!");
 		} catch (UserNotFoundException ex) {
 			redirectAttributes.addFlashAttribute("message", ex.getMessage());
@@ -133,7 +134,7 @@ public class UserController {
 	@GetMapping("/users/{id}/enabled/{status}")
 	public String updateUserEnabledStatus(@PathVariable("id") Integer id, @PathVariable("status") boolean enabled,
 			RedirectAttributes redirectAttributes) {
-		service.updateUserEnabledStatus(id, enabled);
+		usersService.updateUserEnabledStatus(id, enabled);
 		String status = enabled ? "enabled" : "disabled";
 		String message = "The user ID " + id + " has been " + status;
 		redirectAttributes.addFlashAttribute("message", message);

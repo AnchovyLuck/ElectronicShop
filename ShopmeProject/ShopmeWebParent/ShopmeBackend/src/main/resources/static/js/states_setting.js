@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(() => {
 	buttonLoadForStates = $("#buttonLoadCountriesForStates");
 	dropDownCountryForStates = $("#dropDownCountryForStates");
 	dropDownStates = $("#dropDownStates");
@@ -9,19 +9,19 @@ $(document).ready(function() {
 	fieldStateName = $("#fieldStateName");
 	labelCountryNameState = $("#labelCountryNameState");
 
-	buttonLoadForStates.click(function() {
+	buttonLoadForStates.click(() => {
 		loadCountriesForStates();
 	});
 
-	dropDownCountryForStates.on("change", function() {
+	dropDownCountryForStates.on("change", () => {
 		loadStateForCountry();
 	});
 
-	dropDownStates.on("change", function() {
+	dropDownStates.on("change", () => {
 		changeFormStatusToSelectedState();
 	});
 
-	buttonAddState.click(function() {
+	buttonAddState.click(() => {
 		if (buttonAddState.val() == "Add") {
 			addState();
 		} else {
@@ -29,11 +29,11 @@ $(document).ready(function() {
 		}
 	});
 
-	buttonUpdateState.click(function() {
+	buttonUpdateState.click(() => {
 		updateState();
 	});
 
-	buttonDeleteState.click(function() {
+	buttonDeleteState.click(() => {
 		deleteState();
 	})
 });

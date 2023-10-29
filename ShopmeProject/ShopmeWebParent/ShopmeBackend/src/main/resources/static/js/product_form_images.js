@@ -1,25 +1,24 @@
 let extraImagesCount = 0;
 
-$(document).ready(function() {
-	$("input[name='extraImage']").each(function(index) {
+$(document).ready(() => {
+	$("input[name='extraImage']").each((index) => {
 		extraImagesCount++;
-		$(this).change(function() {
+		$(this).change(() => {
 			if (!checkFileSize(this)) {
 				return;
 			}
 			showExtraImageThumbnail(this, index);
 		});
 	});
-	$("a[name='linkRemoveExtraImage'").each(function(index) {
-		$(this).click(function() {
+	$("a[name='linkRemoveExtraImage'").each((index) => {
+		$(this).click(() => {
 			removeExtraImage(index);
 		})
 	});
 });
 
-function showExtraImageThumbnail(fileInput, index) {
+showExtraImageThumbnail = (fileInput, index) => {
 	let file = fileInput.files[0];
-	
 	fileName = file.name;
 	
 	imageNameHiddenField = $("#imageName" + index);
@@ -28,7 +27,7 @@ function showExtraImageThumbnail(fileInput, index) {
 	}
 	
 	let reader = new FileReader();
-	reader.onload = function(e) {
+	reader.onload = (e) => {
 		$("#extraThumbnail" + index).attr("src", e.target.result);
 	};
 
@@ -39,7 +38,7 @@ function showExtraImageThumbnail(fileInput, index) {
 	}
 }
 
-function addNextExtraImageSection(index) {
+addNextExtraImageSection = (index) => {
 	htmlExtraImage = `<div class="col border m-3 p-2" id="divExtraImage${index}">
 				<div id="extraImageHeader${index}"><label>Extra Image #${index + 1}:</label></div>
 				<div class="m-2">
@@ -61,6 +60,4 @@ function addNextExtraImageSection(index) {
 	extraImagesCount++;
 }
 
-function removeExtraImage(index) {
-	$("#divExtraImage" + index).remove();
-}
+removeExtraImage = (index) => $("#divExtraImage" + index).remove();

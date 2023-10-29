@@ -1,4 +1,4 @@
-package com.shopme.admin;
+package com.shopme.admin.controller;
 
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
