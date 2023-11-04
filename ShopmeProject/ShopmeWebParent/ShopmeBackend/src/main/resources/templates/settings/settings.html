@@ -73,16 +73,6 @@
 		contextPath = "[[@{/}]]";
 		let csrfHeaderName = "[[${_csrf.headerName}]]";
 		let csrfValue = "[[${_csrf.token}]]";
-
-		$("#smtp_auth").change((event) => {
-			event.preventDefault();
-			serverAuthentication = $("#smtp_auth");
-			if (serverAuthentication.is(':checked') == true) {
-				serverAuthentication.val('true');
-			} else {
-				serverAuthentication.val('false');
-			}
-		});
 		
 		$(document).ready(() => {
 			$("#customerVerificationContent").richText();

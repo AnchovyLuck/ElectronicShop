@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org/" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
-<head th:replace="~{fragments/common.html :: page_head('Products - Shopme Admin', 'none')}"></head>
+<head th:replace="~{fragments/common.html :: page_head('Products - Admin', 'none')}"></head>
 
 <body>
 	<nav th:replace="~{fragments/navigation.html :: menu}"></nav>
@@ -78,7 +78,7 @@
 					<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
 						<th>Enabled</th>
 					</th:block>
-					<th class="col-lg-1 col-md-2 col-sm-1"></th>
+					<th class="col-md-2"></th>
 				</div>
 			</thead>
 			<tbody>
@@ -115,6 +115,7 @@
 							</div>
 						</th:block>
 					</td>
+					<td></td>
 				</tr>
 			</tbody>
 		</table>

@@ -31,20 +31,18 @@
 			</div>
 			<div class="mb-3 row input-group text-start">
 				<label class="col-sm-4 col-form-label">Server Authentication Required:</label>
-				<div class="col-sm-8">
-					<select name="SMTP_SECURED" class="form-select">
-						<option value="true" th:selected="(${SMTP_SECURED} == 'true')">True</option>
-						<option value="false" th:selected="(${SMTP_SECURED} == 'false')">False</option>
-					</select>
+				<div class="col-sm-8 mt-2">
+					<div class="form-check form-switch">
+						<input class="form-check-input" name="SMTP_AUTH" type="checkbox" role="switch" th:checked="${SMTP_AUTH}" th:value="${SMTP_AUTH}">
+					</div>
 				</div>
 			</div>
 			<div class="mb-3 row input-group text-start">
 				<label class="col-sm-4 col-form-label">Server Requires Secured Connection (TLS) Required:</label>
-				<div class="col-sm-8">
-					<select name="SMTP_SECURED" class="form-select">
-						<option value="true" th:selected="(${SMTP_SECURED} == 'true')">True</option>
-						<option value="false" th:selected="(${SMTP_SECURED} == 'false')">False</option>
-					</select>
+				<div class="col-sm-8 mt-2">
+					<div class="form-check form-switch">
+						<input class="form-check-input" name="SMTP_SECURED" type="checkbox" role="switch" th:checked="${SMTP_SECURED}" th:value="${SMTP_SECURED}">
+					</div>
 				</div>
 			</div>
 			<div class="mb-3 row input-group text-start">

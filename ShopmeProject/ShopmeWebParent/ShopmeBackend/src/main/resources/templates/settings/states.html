@@ -39,19 +39,22 @@
 				</select>
 			</div>
 		</div>
-		<div class="row mt-3">
-			<label class="col-md-2 col-form-label ms-3" id="labelStateName">State Name:</label>
-			<div class="col col-md-3">
-				<input type="text" class="form-control mb-2" id="fieldStateName">
+
+		<form id="formState">
+			<div class="row mt-3">
+				<label class="col-md-2 col-form-label ms-3" id="labelStateName">State/Province Name:</label>
+				<div class="col col-md-3">
+					<input type="text" class="form-control mb-2" id="fieldStateName" required minlength="3" maxlength="45">
+				</div>
+				<div class="col-md-3">
+					<input type="button" id="buttonAddState" value="Add" class="btn btn-secondary me-2">
+					<input type="button" id="buttonUpdateState" value="Update" class="btn btn-secondary me-2"
+						disabled="disabled">
+					<input type="button" id="buttonDeleteState" value="Delete" class="btn btn-secondary"
+						disabled="disabled">
+				</div>
 			</div>
-			<div class="col-md-3">
-				<input type="button" id="buttonAddState" value="Add" class="btn btn-secondary me-2">
-				<input type="button" id="buttonUpdateState" value="Update" class="btn btn-secondary me-2"
-					disabled="disabled">
-				<input type="button" id="buttonDeleteState" value="Delete" class="btn btn-secondary"
-					disabled="disabled">
-			</div>
-		</div>
+		</form>
 	</div>
 </body>
 

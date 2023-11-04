@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head th:replace="~{fragments/common.html :: page_head('Verification Failed!', 'none')}"></head>
+
+<body>
+	<nav th:replace="~{fragments/navigation.html :: head_menu}"></nav>
+	
+	<div class="ms-4 text-center my-3">
+		<h1>Customer Registration</h1>
+		<h4>You account was already verified, or the verification code is invalid.</h4>
+	</div>
+	<div th:replace="~{fragments/navigation.html :: footer_menu}"></div>
+</body>
+
+</html>

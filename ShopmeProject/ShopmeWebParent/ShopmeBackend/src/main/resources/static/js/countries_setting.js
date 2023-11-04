@@ -12,7 +12,7 @@ $(document).ready(() => {
 		loadCountries();
 	});
 
-	dropDownCountry.on("change",() => {
+	dropDownCountry.on("change", () => {
 		changeFormStateToSelectedCountry();
 	});
 
@@ -33,7 +33,19 @@ $(document).ready(() => {
 	})
 });
 
+validateFormCountry = () => {
+	formCountry = document.getElementById("formCountry");
+	if (!formCountry.checkValidity()) {
+		formCountry.reportValidity();
+		return false;
+	}
+	return true;
+}
+
 addCountry = () => {
+	if (!validateFormCountry()) {
+		return;
+	}
 	url = contextPath + "countries/save";
 	countryName = fieldCountryName.val();
 	countryCode = fieldCountryCode.val();
@@ -56,6 +68,9 @@ addCountry = () => {
 }
 
 updateCountry = () => {
+	if (!validateFormCountry()) {
+		return;
+	}
 	url = contextPath + "countries/save";
 	countryName = fieldCountryName.val();
 	countryCode = fieldCountryCode.val();

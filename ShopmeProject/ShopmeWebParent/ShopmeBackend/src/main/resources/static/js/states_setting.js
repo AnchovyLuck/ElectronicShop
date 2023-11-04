@@ -38,7 +38,19 @@ $(document).ready(() => {
 	})
 });
 
+validateFormState = () => {
+	formState = document.getElementById("formState");
+	if (!formState.checkValidity()) {
+		formState.reportValidity();
+		return false;
+	}
+	return true;
+}
+
 addState = () => {
+	if (!validateFormState()) {
+		return;
+	}
 	url = contextPath + "states/save";
 	stateName = fieldStateName.val();
 
@@ -65,6 +77,9 @@ addState = () => {
 }
 
 updateState = () => {
+	if (!validateFormState()) {
+		return;
+	}
 	url = contextPath + "states/save";
 	stateName = fieldStateName.val();
 	stateId = dropDownStates.val();
