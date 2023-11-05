@@ -16,8 +16,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shopme.admin.CategoryPageInfo;
 import com.shopme.admin.repository.CategoryRepository;
+import com.shopme.common.dto.CategoryPageInfo;
 import com.shopme.common.entity.Category;
 import com.shopme.common.exception.CategoryNotFoundException;
 

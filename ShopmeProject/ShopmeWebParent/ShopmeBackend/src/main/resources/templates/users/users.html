@@ -13,24 +13,24 @@
 		<a th:href="@{/users/export/pdf}" class="fa-solid fa-file-pdf fa-2xl icon-dark"></a>
 	</div>
 
-	<div th:replace="~{fragments/common.html :: search_form_and_message('/users/page/1')}"></div>
+	<div th:replace="~{fragments/common.html :: search_form_and_message()}"></div>
 
 	<div class="container-fluid table-responsive-xl full_details">
 		<table class="table table-hover">
 			<thead class="table-dark">
 				<th class="hideable_column">
-				<th th:replace="~{fragments/listing.html :: column_link('/users', 'id', 'User ID', 'tag')}"></th>
+				<th th:replace="~{fragments/listing.html :: column_link('id', 'User ID', 'tag')}"></th>
 				</th>
 				<th>Photos</th>
 				<th class="hideable_column">
-				<th th:replace="~{fragments/listing.html :: column_link('/users', 'email', 'E-mail', 'tag')}"></th>
+				<th th:replace="~{fragments/listing.html :: column_link('email', 'E-mail', 'tag')}"></th>
 				</th>
-				<th th:replace="~{fragments/listing.html :: column_link('/users', 'firstName', 'First Name', 'none')}">
+				<th th:replace="~{fragments/listing.html :: column_link('firstName', 'First Name', 'none')}">
 				</th>
-				<th th:replace="~{fragments/listing.html :: column_link('/users', 'lastName', 'Last Name', 'none')}">
+				<th th:replace="~{fragments/listing.html :: column_link('lastName', 'Last Name', 'none')}">
 				</th>
 				<th>Roles</th>
-				<th th:replace="~{fragments/listing.html :: column_link('/users', 'enabled', 'Enabled', 'none')}"></th>
+				<th th:replace="~{fragments/listing.html :: column_link('enabled', 'Enabled', 'none')}"></th>
 				<th></th>
 			</thead>
 			<tbody>
@@ -39,7 +39,7 @@
 					<td class="default_image">
 						<span th:if="${user.photos == null}"><i
 								class="fa-solid fa-image-portrait fa-2xl icon-silver"></i></span>
-						<img th:if="${user.photos != null}" class="user_listing_img"
+						<img th:if="${user.photos != null}" class="listing_img"
 							th:src="@{${user.photosImagePath}}">
 					</td>
 					<td class="hideable_column">[[${user.email}]]</td>
@@ -67,7 +67,7 @@
 			<div class="col-4">
 				<span th:if="${user.photos == null}"><i
 						class="fa-solid fa-image-portrait fa-2xl icon-silver center"></i></span>
-				<img class="user_listing_img" th:if="${user.photos != null}" th:src="@{${user.photosImagePath}}">
+				<img class="listing_img" th:if="${user.photos != null}" th:src="@{${user.photosImagePath}}">
 			</div>
 			<div class="col-8">
 				<div>[[${user.fullName}]]</div>
@@ -87,12 +87,11 @@
 	</div>
 
 
-	<div th:replace="~{fragments/common.html :: pagination('/users', 'users')}"></div>
+	<div th:replace="~{fragments/common.html :: pagination('users')}"></div>
 	<div th:replace="~{fragments/modal.html :: delete_confirm_modal}"></div>
 	<div th:replace="~{fragments/common.html :: footer}"></div>
 	<script type="text/javascript">
 		moduleURL = "[[@{/users}]]";
-
 		$(document).ready(function () {
 			$(".link-delete").on("click", function (e) {
 				e.preventDefault();

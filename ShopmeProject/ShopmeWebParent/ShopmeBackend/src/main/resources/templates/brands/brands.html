@@ -13,17 +13,19 @@
 		<a th:href="@{/brands/export/pdf}" class="fa-solid fa-file-pdf fa-2xl icon-dark"></a>
 	</div>
 
-	<div th:replace="~{fragments/common.html :: search_form_and_message('/brands/page/1')}"></div>
+	<div th:replace="~{fragments/common.html :: search_form_and_message()}"></div>
 
 	<div class="container-fluid table-responsive-xl full_details">
 		<table class="table table-hover">
 			<thead class="table-dark">
 				<div class="row">
-					<th class="hideable_column">
-					<th th:replace="~{fragments/listing.html :: column_link('/brands', 'id', 'Brand ID', 'tag')}"></th>
+					<th class="hideable_column col-2">
+					<th th:replace="~{fragments/listing.html :: column_link('id', 'Brand ID', 'tag')}"></th>
 					</th>
-					<th>Logo</th>
-					<th th:replace="~{fragments/listing.html :: column_link('/brands', 'name', 'Brand Name', 'none')}">
+					<th class="col-2">Logo</th>
+					<th class="col-2">
+						<th th:replace="~{fragments/listing.html :: column_link('name', 'Brand Name', 'tag')}">
+					</th>
 					</th>
 					<th>Categories</th>
 					<th class="col-lg-1 col-md-2 col-sm-1"></th>
@@ -33,7 +35,7 @@
 				<tr th:each="brand : ${listBrands}">
 					<td class="hideable_column">[[${brand.id}]]</td>
 					<td>
-						<img th:src="@{${brand.logoPath}}" style="width: 100px;" class="img-fluid">
+						<img th:src="@{${brand.logoPath}}" style="width: 100px;" class="img-fluid listing_img">
 					</td>
 					<td>[[${brand.name}]]</td>
 					<td>
@@ -57,7 +59,7 @@
 			<div class="col-4">
 				<span th:if="${brand.logo == null}"><i
 						class="fa-solid fa-image-portrait fa-2xl icon-silver center"></i></span>
-				<img th:if="${brand.logo != null}" th:src="@{${brand.logoPath}}">
+				<img th:if="${brand.logo != null}" th:src="@{${brand.logoPath}}" class="listing_img mt-3 border border-primary-subtle">
 			</div>
 			<div class="col-8">
 				<div>[[${brand.name}]]</div>
@@ -71,12 +73,11 @@
 			</div>
 		</div>
 	</div>
-	<div th:replace="~{fragments/common.html :: pagination('/brands', 'brands')}"></div>
+	<div th:replace="~{fragments/common.html :: pagination('brands')}"></div>
 	<div th:replace="~{fragments/modal.html :: delete_confirm_modal}"></div>
 	<div th:replace="~{fragments/common.html :: footer}"></div>
 	<script type="text/javascript">
 		moduleURL = "[[@{/brands}]]";
-
 		$(document).ready(function () {
 			$(".link-delete").on("click", function (e) {
 				e.preventDefault();

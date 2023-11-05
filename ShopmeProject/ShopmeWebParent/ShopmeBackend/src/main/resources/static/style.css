@@ -24,14 +24,8 @@
 	padding: 15px 0;
 }
 
-.user_listing_img {
-	width: 100px;
-}
-
-.cat_listing_img {
-	width: 100px;
-}
-
+.listing_img,
+.cat_listing_img,
 .prod_listing_img {
 	width: 100px;
 }

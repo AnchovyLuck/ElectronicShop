@@ -59,20 +59,20 @@
 			<thead class="table-dark">
 				<div class="row">
 					<th class="hideable_column">
-					<th th:replace="~{fragments/listing.html :: column_link('/products', 'id', 'ID', 'tag')}">
+					<th th:replace="~{fragments/listing.html :: column_link('id', 'ID', 'tag')}">
 					</th>
 					</th>
 					<th>Main Image</th>
 					<th
-						th:replace="~{fragments/listing.html :: column_link('/products', 'name', 'Product Name', 'none')}">
+						th:replace="~{fragments/listing.html :: column_link('name', 'Product Name', 'none')}">
 					</th>
 					<th class="hideable_column">
-					<th th:replace="~{fragments/listing.html :: column_link('/products', 'brand', 'Brand', 'tag')}">
+					<th th:replace="~{fragments/listing.html :: column_link('brand', 'Brand', 'tag')}">
 					</th>
 					</th>
 					<th class="hideable_column">
 					<th
-						th:replace="~{fragments/listing.html :: column_link('/products', 'category', 'Category', 'tag')}">
+						th:replace="~{fragments/listing.html :: column_link('category', 'Category', 'tag')}">
 					</th>
 					</th>
 					<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
@@ -151,7 +151,7 @@
 			<div class="modal-content"></div>
 		</div>
 	</div>
-	<div th:replace="~{fragments/common.html :: pagination('/products', 'products')}"></div>
+	<div th:replace="~{fragments/common.html :: pagination('products')}"></div>
 	<div th:replace="~{fragments/common.html :: footer}"></div>
 	<script type="text/javascript">
 		moduleURL = "[[@{/products}]]";

@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.shopme.admin.CategoryPageInfo;
 import com.shopme.admin.FileUploadUtil;
 import com.shopme.admin.export.CategoryCsvExporter;
 import com.shopme.admin.export.CategoryExcelExporter;
 import com.shopme.admin.export.CategoryPdfExporter;
 import com.shopme.admin.service.CategoryService;
+import com.shopme.common.dto.CategoryPageInfo;
 import com.shopme.common.entity.Category;
 import com.shopme.common.exception.CategoryNotFoundException;
 
@@ -66,6 +66,7 @@ public class CategoryController {
 		model.addAttribute("listCategories", listCategories);
 		model.addAttribute("reverseSortDir", reverseSortDir);
 		model.addAttribute("keyword", keyword);
+		model.addAttribute("moduleURL", "/categories");
 
 		return "categories/categories";
 	}

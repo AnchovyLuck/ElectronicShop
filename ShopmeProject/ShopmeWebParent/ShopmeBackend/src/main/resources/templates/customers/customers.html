@@ -10,32 +10,32 @@
 		<a th:href="@{/customers/export/csv}" class="fa-solid fa-file-csv fa-2xl icon-dark me-3"></a>
 	</div>
 
-	<div th:replace="~{fragments/common.html :: search_form_and_message('/customers/page/1')}"></div>
+	<div th:replace="~{fragments/common.html :: search_form_and_message()}"></div>
 
 	<div class="container-fluid table-responsive-xl full_details">
 		<table class="table table-hover">
 			<thead class="table-dark">
-				<th th:replace="~{fragments/listing.html :: column_link('/customers', 'id', 'ID', 'none')}"></th>
+				<th th:replace="~{fragments/listing.html :: column_link('id', 'ID', 'none')}"></th>
 				<th
-					th:replace="~{fragments/listing.html :: column_link('/customers', 'firstName', 'First Name', 'none')}">
+					th:replace="~{fragments/listing.html :: column_link('firstName', 'First Name', 'none')}">
 				</th>
 				<th
-					th:replace="~{fragments/listing.html :: column_link('/customers', 'lastName', 'Last Name', 'none')}">
+					th:replace="~{fragments/listing.html :: column_link('lastName', 'Last Name', 'none')}">
 				</th>
 				<th class="hideable_column">
-				<th th:replace="~{fragments/listing.html :: column_link('/customers', 'email', 'E-mail', 'tag')}"></th>
+				<th th:replace="~{fragments/listing.html :: column_link('email', 'E-mail', 'tag')}"></th>
 				</th>
 				<th class="hideable_column">
-				<th th:replace="~{fragments/listing.html :: column_link('/customers', 'city', 'City', 'tag')}"></th>
+				<th th:replace="~{fragments/listing.html :: column_link('city', 'City', 'tag')}"></th>
 				</th>
 				<th class="hideable_column">
-				<th th:replace="~{fragments/listing.html :: column_link('/customers', 'state', 'State', 'tag')}"></th>
+				<th th:replace="~{fragments/listing.html :: column_link('state', 'State', 'tag')}"></th>
 				</th>
-				<th th:replace="~{fragments/listing.html :: column_link('/customers', 'country', 'Country', 'none')}">
+				<th th:replace="~{fragments/listing.html :: column_link('country', 'Country', 'none')}">
 				</th>
-				<th th:replace="~{fragments/listing.html :: column_link('/customers', 'enabled', 'Enabled', 'none')}">
+				<th th:replace="~{fragments/listing.html :: column_link('enabled', 'Enabled', 'none')}">
 				</th>
-				<th></th>
+				<th class="col-md-2"></th>
 			</thead>
 			<tbody>
 				<tr th:each="customer : ${listCustomers}">
@@ -77,6 +77,9 @@
 						th:href="@{'/customers/detail/' + ${customer.id}}">[[${customer.country.name}]]</a>
 				</div>
 				<div class="mt-2">
+					<div
+						th:replace="~{fragments/listing.html :: status(${customer.enabled}, 'customer', '/customers/' + ${customer.id})}">
+					</div>
 					<a class="fa-solid fa-file-lines fa-xl icon-green link-detail me-2"
 						th:href="@{'/customers/detail/' + ${customer.id}}">
 						<div
@@ -91,7 +94,7 @@
 	</div>
 
 
-	<div th:replace="~{fragments/common.html :: pagination('/customers', 'customers')}"></div>
+	<div th:replace="~{fragments/common.html :: pagination('customers')}"></div>
 	<div th:replace="~{fragments/modal.html :: delete_confirm_modal}"></div>
 	<div class="modal fade" id="detailModal">
 		<div class="modal-dialog modal-xl">

@@ -13,18 +13,18 @@
 		<a th:href="@{/categories/export/pdf}" class="fa-solid fa-file-pdf fa-2xl icon-dark"></a>
 	</div>
 
-	<div th:replace="~{fragments/common.html :: search_form_and_message('/categories/page/1')}"></div>
+	<div th:replace="~{fragments/common.html :: search_form_and_message()}"></div>
 
 	<div class="container-fluid table-responsive-xl full_details">
 		<table class="table table-hover">
 			<thead class="table-dark">
-				<th th:replace="~{fragments/listing.html :: column_link('/categories', 'ID', 'ID', 'none')}"></th>
+				<th th:replace="~{fragments/listing.html :: column_link('ID', 'ID', 'none')}"></th>
 				<th>Category Image</th>
 				<th
-					th:replace="~{fragments/listing.html :: column_link('/categories', 'name', 'Category Name', 'none')}">
+					th:replace="~{fragments/listing.html :: column_link('name', 'Category Name', 'none')}">
 				</th>
 				<th class="hideable_column">Alias</th>
-				<th th:replace="~{fragments/listing.html :: column_link('/categories', 'name', 'Enabled', 'none')}">
+				<th th:replace="~{fragments/listing.html :: column_link('name', 'Enabled', 'none')}">
 				</th>
 				<th></th>
 			</thead>
@@ -80,11 +80,11 @@
 
 	<div th:if="${keyword != null}" class="text-center">
 		<span>Search result does not show categories in hierarchical form</span>
-		<div th:replace="~{fragments/common.html :: pagination('/categories', 'categories')}"></div>
+		<div th:replace="~{fragments/common.html :: pagination('categories')}"></div>
 	</div>
 
 	<th:block th:unless="${keyword != null}" class="text-center">
-		<div th:replace="~{fragments/common.html :: pagination('/categories', 'top-level categories')}"></div>
+		<div th:replace="~{fragments/common.html :: pagination('top-level categories')}"></div>
 	</th:block>
 
 	<div th:replace="~{fragments/modal.html :: delete_confirm_modal}"></div>
