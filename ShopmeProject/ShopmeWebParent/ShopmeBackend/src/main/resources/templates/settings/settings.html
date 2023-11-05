@@ -69,18 +69,15 @@
 
 	<div th:replace="~{fragments/common.html :: footer}"></div>
 	<script type="text/javascript">
-		MAX_FILE_SIZE = 102400;
+		MAX_FILE_SIZE = 512000;
 		contextPath = "[[@{/}]]";
 		let csrfHeaderName = "[[${_csrf.headerName}]]";
 		let csrfValue = "[[${_csrf.token}]]";
-		
-		$(document).ready(() => {
-			$("#customerVerificationContent").richText();
-		})
 	</script>
 	<script th:src="@{/js/common_form.js}"></script>
 	<script th:src="@{/js/countries_setting.js}"></script>
 	<script th:src="@{/js/states_setting.js}"></script>
+	<script th:src="@{/js/mail_server.js}"></script>
 </body>
 
 </html>

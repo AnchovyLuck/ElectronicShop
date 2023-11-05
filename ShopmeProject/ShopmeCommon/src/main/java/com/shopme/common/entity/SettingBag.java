@@ -28,6 +28,7 @@ public class SettingBag {
 	}
 	
 	public void update(String key, String value) {
+		
 		Setting setting = get(key);
 		if (setting != null && value != null) {
 			setting.setValue(value);

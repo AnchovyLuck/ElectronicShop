@@ -35,6 +35,7 @@ public class SettingController {
 	@GetMapping("/settings")
 	public String listAll(Model model) {
 		List<Setting> listSettings = service.listAllSettings();
+
 		List<Currency> listCurrencies = currencyRepo.findAllByOrderByNameAsc();
 
 		model.addAttribute("listCurrencies", listCurrencies);
@@ -84,15 +85,12 @@ public class SettingController {
 	}
 
 	private void updateSettingValuesFromForm(HttpServletRequest request, List<Setting> listSettings) {
-		listSettings.forEach(setting -> {
+		for (Setting setting : listSettings) {
 			String value = request.getParameter(setting.getKey());
 			if (value != null) {
 				setting.setValue(value);
-			} else if (value == null) {
-				setting.setValue("false");
 			}
-
-		});
+		}
 		service.saveAll(listSettings);
 	}
 
