@@ -1,12 +1,13 @@
-$(document).ready(() => {
-	$("#buttonCancel").on("click", () => {
+$(document).ready(function() {
+	$("#buttonCancel").on("click", function() {
 		window.location = moduleURL;
 	});
 
-	$("#fileImage").change(() => {
+	$("#fileImage").change(function() {
 		if (!checkFileSize(this)) {
 			return;
 		}
+
 		showImageThumbnail(this);
 	});
 });
@@ -23,7 +24,6 @@ showImageThumbnail = (fileInput) => {
 
 checkFileSize = (fileInput) => {
 	fileSize = fileInput.files[0].size;
-
 	if (fileSize > MAX_FILE_SIZE) {
 		fileInput.setCustomValidity("You must choose an image not exceeds " + Math.round(MAX_FILE_SIZE / 1024) + " KB!");
 	} else if (MAX_FILE_SIZE >= 1048576 && fileSize > MAX_FILE_SIZE) {
@@ -37,12 +37,16 @@ checkFileSize = (fileInput) => {
 	return false;
 }
 
-showModalDialog = (title, message) => {
+function showModalDialog(title, message) {
 	$("#modalTitle").text(title);
 	$("#modalBody").text(message);
-	$("#modalDialog").modal("show");
+	$("#modalDialog").modal();
 }
 
-showErrorModal = (message) => showModalDialog("Error", message);
+function showErrorModal(message) {
+	showModalDialog("Error", message);
+}
 
-showWarningModal = (message) => showModalDialog("Warning", message);
+function showWarningModal(message) {
+	showModalDialog("Warning", message);
+}
