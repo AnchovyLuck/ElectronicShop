@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.shopme.common.entity.Setting;
 import com.shopme.service.SettingService;
+import com.zaxxer.hikari.HikariDataSource;
 
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
@@ -21,6 +22,9 @@ public class SettingFilter implements Filter {
 
 	@Autowired
 	private SettingService service;
+	
+	@Autowired
+	HikariDataSource dataSource;
 	
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -41,6 +45,10 @@ public class SettingFilter implements Filter {
 		});
 		
 		chain.doFilter(request, response);
+	}
+	
+	public void destroy() {
+		dataSource.close();
 	}
 
 }

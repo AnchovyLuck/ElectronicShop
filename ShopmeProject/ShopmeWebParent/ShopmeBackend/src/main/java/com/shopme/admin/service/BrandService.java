@@ -5,12 +5,10 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.shopme.admin.paging.PagingAndSortingHelper;
 import com.shopme.admin.repository.BrandRepository;
 import com.shopme.common.entity.Brand;
 import com.shopme.common.entity.Product;
@@ -27,17 +25,8 @@ public class BrandService {
 		return (List<Brand>) brandRepo.findAll(Sort.by("name").ascending());
 	}
 	
-	public Page<Brand> listByPage(int pageNum, String sortField, String sortDir, String keyword) {
-		Sort sort = Sort.by(sortField);
-		
-		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
-		
-		Pageable pageable = PageRequest.of(pageNum - 1, BRANDS_PER_PAGE, sort);
-		
-		if (keyword != null) {
-			return brandRepo.findAll(keyword, pageable);
-		}
-		return brandRepo.findAll(pageable);
+	public void listByPage(int pageNum, PagingAndSortingHelper helper) {
+		helper.listEntities(pageNum, BRANDS_PER_PAGE, brandRepo);
 	}
 
 	public Brand save(Brand brand) {
