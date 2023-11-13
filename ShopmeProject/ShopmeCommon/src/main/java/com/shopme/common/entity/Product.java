@@ -298,6 +298,14 @@ public class Product {
 	}
 	
 	@Transient
+	public String getShortNameForModal() {
+		if (name.length() > 30) {
+			return name.substring(0, 30).concat("...");
+		}
+		return name;
+	}
+	
+	@Transient
 	public float getDiscountPrice() {
 		if (discountPercent > 0) {
 			return price * ((100 - discountPercent) / 100);

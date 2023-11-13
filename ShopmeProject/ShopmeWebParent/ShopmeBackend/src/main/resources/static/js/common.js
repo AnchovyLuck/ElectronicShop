@@ -44,3 +44,9 @@ showDeleteConfirmModal = (link, entityName) => {
 	$("#confirmText").text("Are you sure you want to delete " + entityName + " ID " + entityId + "?");
 	$("#confirmModal").modal("show");
 }
+
+showPriceTable = () => {
+	linkDetailURL =  moduleURL + "/editPrice";
+	console.log(linkDetailURL);
+	$("#detailModal").modal("show").find(".modal-content").load(linkDetailURL);
+}

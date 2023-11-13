@@ -41,7 +41,7 @@ public class CustomerController {
 		String message = "The customer ID " + id + " has been " + status;
 		ra.addFlashAttribute("message", message);
 
-		return "redirect:/customers";
+		return "redirect:/customers/page/1?sortField=id&sortDir=asc";
 	}
 
 	@GetMapping("/customers/detail/{id}")
@@ -52,7 +52,7 @@ public class CustomerController {
 			return "customers/customer_detail_modal";
 		} catch (CustomerNotFoundException e) {
 			ra.addFlashAttribute("message", e.getMessage());
-			return "redirect:/customers";
+			return "redirect:/customers/page/1?sortField=id&sortDir=asc";
 		}
 	}
 
@@ -70,7 +70,7 @@ public class CustomerController {
 
 		} catch (CustomerNotFoundException e) {
 			ra.addFlashAttribute("message", e.getMessage());
-			return "redirect:/customers";
+			return "redirect:/customers/page/1?sortField=id&sortDir=asc";
 		}
 	}
 
@@ -82,7 +82,7 @@ public class CustomerController {
 
 		ra.addFlashAttribute("message", message);
 
-		return "redirect:/customers";
+		return "redirect:/customers/page/1?sortField=id&sortDir=asc";
 	}
 
 	@GetMapping("/customers/delete/{id}")

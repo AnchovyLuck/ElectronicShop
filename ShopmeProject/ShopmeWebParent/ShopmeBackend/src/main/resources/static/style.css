@@ -95,3 +95,24 @@ a[name="linkRemoveExtraImage"] {
 	width: 100%;
 	height: 100%;
 }
+
+.product_name_modal {
+	width: 40%;
+}
+
+.product_input_modal {
+	width: 10%;
+}
+
+.choosing_product_modal:hover {
+	box-shadow: 0 20px 20px 2px #888888;
+}
+
+.modal-dialog {
+	overflow-y: initial;
+}
+
+.modal-content {
+	height: 80vh;
+	overflow-y: auto;
+}

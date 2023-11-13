@@ -9,6 +9,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +24,7 @@ import com.shopme.admin.security.ShopmeUserDetails;
 import com.shopme.admin.service.BrandService;
 import com.shopme.admin.service.CategoryService;
 import com.shopme.admin.service.ProductService;
+import com.shopme.common.dto.ProductsListDto;
 import com.shopme.common.entity.Brand;
 import com.shopme.common.entity.Category;
 import com.shopme.common.entity.Product;
@@ -91,7 +93,7 @@ public class ProductController {
 			if (loggedUser.hasRole("Salesperson")) {
 				productService.saveProductPrice(product);
 				ra.addFlashAttribute("message", "The product has been saved successfully!");
-				return "redirect:/products";
+				return "redirect:/products/page/1?sortField=id&sortDir=asc&categoryId=0";
 			}
 		}
 
@@ -107,7 +109,7 @@ public class ProductController {
 		ProductSaveHelper.deleteExtraImagesWereRemovedOnForm(product);
 
 		ra.addFlashAttribute("message", "The product has been saved successfully!");
-		return "redirect:/products";
+		return "redirect:/products/page/1?sortField=id&sortDir=asc&categoryId=0";
 	}
 
 	@GetMapping("/products/{id}/enabled/{status}")
@@ -118,7 +120,7 @@ public class ProductController {
 		String message = "The product ID " + id + " has been " + status;
 		ra.addFlashAttribute("message", message);
 
-		return "redirect:/products";
+		return "redirect:/products/page/1?sortField=id&sortDir=asc&categoryId=0";
 	}
 
 	@GetMapping("/products/delete/{id}")
@@ -136,7 +138,7 @@ public class ProductController {
 			ra.addFlashAttribute("message", e.getMessage());
 		}
 
-		return "redirect:/products";
+		return "redirect:/products/page/1?sortField=id&sortDir=asc&categoryId=0";
 	}
 
 	@GetMapping("/products/edit/{id}")
@@ -155,7 +157,7 @@ public class ProductController {
 		} catch (ProductNotFoundException e) {
 			ra.addFlashAttribute("message", e.getMessage());
 
-			return "redirect:/products";
+			return "redirect:/products/page/1?sortField=id&sortDir=asc&categoryId=0";
 		}
 	}
 
@@ -169,7 +171,28 @@ public class ProductController {
 		} catch (ProductNotFoundException e) {
 			ra.addFlashAttribute("message", e.getMessage());
 
-			return "redirect:/products";
+			return "redirect:/products/page/1?sortField=id&sortDir=asc&categoryId=0";
 		}
+	}
+
+	@GetMapping("/products/editPrice")
+	public String viewProductPrice(Model model, RedirectAttributes ra) {
+		List<Product> products = productService.listAll();		
+		ProductsListDto productsForm = new ProductsListDto();
+		
+		products.forEach(product -> productsForm.addProduct(product));		
+		model.addAttribute("listProducts", productsForm);
+
+		return "products/product_price_modal";
+	}
+	
+	@PostMapping("/products/savePrice") 
+	public String savePrice(@ModelAttribute ProductsListDto productsForm, Model model, RedirectAttributes ra) {
+		List<Product> products = productsForm.getProducts();
+		products.forEach(product -> productService.saveProductPrice(product));
+		
+		ra.addFlashAttribute("message", "Product price has been saved successfully!");
+		
+		return "redirect:/products/page/1?sortField=id&sortDir=asc&categoryId=0";
 	}
 }

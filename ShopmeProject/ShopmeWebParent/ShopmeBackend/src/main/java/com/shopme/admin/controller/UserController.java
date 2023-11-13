@@ -73,7 +73,7 @@ public class UserController {
 		}
 		redirectAttributes.addFlashAttribute("message", "The user has been saved successfully!");
 
-		return "redirect:/users";
+		return "redirect:/users/page/1?sortField=id&sortDir=asc";
 	}
 
 	@GetMapping("/users/edit/{id}")
@@ -90,7 +90,7 @@ public class UserController {
 			return "users/user_form";
 		} catch (UserNotFoundException ex) {
 			redirectAttributes.addFlashAttribute("message", ex.getMessage());
-			return "redirect:/users";
+			return "redirect:/users/page/1?sortField=id&sortDir=asc";
 		}
 	}
 
@@ -103,7 +103,7 @@ public class UserController {
 		} catch (UserNotFoundException ex) {
 			redirectAttributes.addFlashAttribute("message", ex.getMessage());
 		}
-		return "redirect:/users";
+		return "redirect:/users/page/1?sortField=id&sortDir=asc";
 	}
 
 	@GetMapping("/users/{id}/enabled/{status}")
@@ -114,6 +114,6 @@ public class UserController {
 		String message = "The user ID " + id + " has been " + status;
 		redirectAttributes.addFlashAttribute("message", message);
 
-		return "redirect:/users";
+		return "redirect:/users/page/1?sortField=id&sortDir=asc";
 	}
 }

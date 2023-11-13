@@ -73,7 +73,7 @@ public class BrandController {
 		}
 
 		ra.addFlashAttribute("message", "The brand has been saved successfully!");
-		return "redirect:/brands";
+		return "redirect:/brands/page/1?sortField=id&sortDir=asc";
 	}
 
 	@GetMapping("/brands/edit/{id}")
@@ -89,7 +89,7 @@ public class BrandController {
 			return "brands/brand_form";
 		} catch (BrandNotFoundException ex) {
 			ra.addFlashAttribute("message", ex.getMessage());
-			return "redirect:/brands";
+			return "redirect:/brands/page/1?sortField=id&sortDir=asc";
 		}
 	}
 
@@ -105,6 +105,6 @@ public class BrandController {
 			ra.addFlashAttribute("message", ex.getMessage());
 		}
 
-		return "redirect:/brands";
+		return "redirect:/brands/page/1?sortField=id&sortDir=asc";
 	}
 }

@@ -1,0 +1,44 @@
+<div class="modal-header">
+	<h4 class="modal-title">Edit Product Price</h4>
+	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div>
+	<div class="d-flex justify-content-center m-5">
+		<form th:action="@{/products/savePrice}" method="post" th:object="${listProducts}"
+			enctype="multipart/form-data">
+			<table class="table table-bordered">
+				<thead>
+					<tr class="text-center">
+						<th class="hideable_column">ID</th>
+						<th>Main Image</th>
+						<th class="product_name_modal">Product Name</th>
+						<th>Cost</th>
+						<th>Price</th>
+						<th>Discount Percent</th>
+						<th class="text-center">
+							<input type="submit" value="Save" class="btn btn-primary me-3">
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="product, itemStat : *{products}" class="choosing_product_modal">
+						<td class="hideable_column">
+							<input th:field="*{products[__${itemStat.index}__].id}" class="form-control bg-light border border-0 text-center" th:value="${product.id}" readonly>
+						</td>
+						<td>
+							<img class="prod_listing_img" th:src="@{${product.mainImagePath}}">
+						</td>
+						<td class="d-flex flex-wrap ">[[${product.name}]]</td>
+						<td><input th:field="*{products[__${itemStat.index}__].cost}" class="form-control"
+								th:value="${product.cost}"></td>
+						<td><input th:field="*{products[__${itemStat.index}__].price}" class="form-control "
+								th:value="${product.price}"></td>
+						<td><input th:field="*{products[__${itemStat.index}__].discountPercent}" class="form-control"
+								th:value="${product.discountPercent}"></td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+</div>

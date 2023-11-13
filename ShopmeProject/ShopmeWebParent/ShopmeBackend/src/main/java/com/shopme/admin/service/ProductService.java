@@ -65,6 +65,10 @@ public class ProductService {
 
 		return repo.save(product);
 	}
+	
+	public void saveAll(List<Product> productsForm) {
+		repo.saveAll(productsForm);
+	}
 
 	public void saveProductPrice(Product productInForm) {
 		Product productInDB = repo.findById(productInForm.getId()).get();
