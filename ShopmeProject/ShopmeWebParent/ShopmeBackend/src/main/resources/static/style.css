@@ -116,3 +116,7 @@ a[name="linkRemoveExtraImage"] {
 	height: 80vh;
 	overflow-y: auto;
 }
+
+.listing-button-group > button {
+	width: 3rem;
+}

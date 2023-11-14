@@ -15,9 +15,7 @@
 						<th>Cost</th>
 						<th>Price</th>
 						<th>Discount Percent</th>
-						<th class="text-center">
-							<input type="submit" value="Save" class="btn btn-primary me-3">
-						</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -29,13 +27,15 @@
 							<img class="prod_listing_img" th:src="@{${product.mainImagePath}}">
 						</td>
 						<td class="d-flex flex-wrap ">[[${product.name}]]</td>
-						<td><input th:field="*{products[__${itemStat.index}__].cost}" class="form-control"
+						<td><input th:field="*{products[__${itemStat.index}__].cost}" class="form-control text-center"
 								th:value="${product.cost}"></td>
-						<td><input th:field="*{products[__${itemStat.index}__].price}" class="form-control "
+						<td><input th:field="*{products[__${itemStat.index}__].price}" class="form-control text-center"
 								th:value="${product.price}"></td>
-						<td><input th:field="*{products[__${itemStat.index}__].discountPercent}" class="form-control"
+						<td><input th:field="*{products[__${itemStat.index}__].discountPercent}" class="form-control text-center"
 								th:value="${product.discountPercent}"></td>
-						<td></td>
+						<td class="text-center">
+							<input type="submit" value="Save" class="btn btn-primary me-3">
+						</td>
 					</tr>
 				</tbody>
 			</table>
